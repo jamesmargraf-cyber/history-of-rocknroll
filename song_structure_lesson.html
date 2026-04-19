@@ -71,9 +71,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; f
 .songs-grid { display: flex; flex-direction: column; gap: 10px; }
 .song-row { border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; background: #fff; }
 .song-row-top { display: grid; grid-template-columns: 200px 1fr 1fr; gap: 14px; padding: 1rem 1.25rem; align-items: start; }
-.song-player-wrap { border-top: 1px solid #eee; background: #000; border-radius: 0 0 12px 12px; overflow: hidden; min-height: 200px; }
-.song-player-wrap > div { display: block; }
-.song-player-wrap iframe { width: 100% !important; height: 200px !important; display: block; border: none; }
+.song-player-wrap { border-top: 1px solid #eee; background: #000; border-radius: 0 0 12px 12px; overflow: hidden; }
+.song-player-wrap iframe { width: 100%; height: 220px; display: block; border: none; }
 .song-info h4 { font-size: 14px; font-weight: 600; }
 .song-artist { font-size: 12px; color: #888; }
 .song-year { font-size: 11px; color: #aaa; }
@@ -309,18 +308,7 @@ function showTab(id) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelector(`[onclick="showTab('${id}')"]`).classList.add('active');
   document.getElementById(`panel-${id}`).classList.add('active');
-  // Lazy-init song players when examples tab becomes visible
-  if (id === 'examples') {
-    setTimeout(() => {
-      SONGS.forEach((s, i) => {
-        const pid = 'song-player-' + i;
-        const el = document.getElementById(pid);
-        if (el && s.videoId && !songPlayers[pid]) {
-          createSongPlayer(pid, s.videoId);
-        }
-      });
-    }, 300);
-  }
+
 }
 
 function renderSectionGrid() {
@@ -493,49 +481,19 @@ function populateFormFilter() {
   document.getElementById('formFilter').innerHTML = '<option value="">All forms</option>' + forms.map(f => `<option value="${f}">${f}</option>`).join('');
 }
 
-const songPlayers = {};
-const songStopIntervals = {};
-
-function destroyAllSongPlayers() {
-  Object.keys(songPlayers).forEach(pid => {
-    try { songPlayers[pid].destroy(); } catch(e) {}
-    clearInterval(songStopIntervals[pid]);
-    delete songPlayers[pid];
-    delete songStopIntervals[pid];
-  });
-}
-
-function createSongPlayer(pid, videoId) {
-  ensureYTApi(() => {
-    if (songPlayers[pid]) { try { songPlayers[pid].destroy(); } catch(e) {} }
-    const wrap = document.getElementById(pid);
-    if (!wrap) return;
-    const w = wrap.parentElement ? wrap.parentElement.offsetWidth || 600 : 600;
-    songPlayers[pid] = new YT.Player(pid, {
-      width: w,
-      height: Math.round(w * 9 / 16),
-      videoId: videoId,
-      playerVars: { rel: 0, modestbranding: 1, playsinline: 1 },
-      events: {
-        onReady: (e) => {
-          // Resize iframe to fill container after player is ready
-          const iframe = e.target.getIframe();
-          if (iframe) {
-            iframe.style.width = '100%';
-            iframe.style.height = '200px';
-          }
-        }
-      }
-    });
-  });
-}
+// Song examples use simple iframes — no IFrame API needed
 
 function renderSongs() {
-  destroyAllSongPlayers();
   const filter = document.getElementById('formFilter').value;
   const songs = filter ? SONGS.filter(s => s.form === filter) : SONGS;
   document.getElementById('songsGrid').innerHTML = songs.map((s, i) => {
-    const pid = 'song-player-' + i;
+    const playerHTML = s.videoId
+      ? `<div class="song-player-wrap">
+           <iframe src="https://www.youtube.com/embed/${s.videoId}?rel=0&modestbranding=1"
+             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+             allowfullscreen loading="lazy" title="${s.title}"></iframe>
+         </div>`
+      : '';
     return `
     <div class="song-row">
       <div class="song-row-top">
@@ -543,11 +501,9 @@ function renderSongs() {
         <div><div class="song-form-label">Structure</div><div class="song-structure">${s.structure.map(a => chipHtml(a,true)).join('<span class="sep" style="font-size:10px;margin:0 2px;">›</span>')}</div><div style="margin-top:5px;font-size:11px;color:#aaa;">Form: ${s.form}</div></div>
         <div class="song-notes">${s.notes}</div>
       </div>
-      <div class="song-player-wrap"><div id="${pid}"></div></div>
+      ${playerHTML}
     </div>`;
   }).join('');
-
-  // Players will be initialized when the examples tab is clicked
 }
 
 function populateActivitySong() {
