@@ -1,0 +1,974 @@
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Admin — Song Structure Lesson</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; color: #1a1a1a; background: #f5f4f0; height: 100vh; overflow: hidden; }
+
+.header { background: #1a1a1a; color: #fff; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+.header h1 { font-size: 16px; font-weight: 500; }
+.header p { font-size: 12px; color: #888; margin-top: 2px; }
+.header-btns { display: flex; gap: 8px; align-items: center; }
+.hbtn { padding: 7px 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; }
+.hbtn-white { background: #fff; color: #1a1a1a; }
+.hbtn-white:hover { background: #eee; }
+.hbtn-blue { background: #2a5298; color: #fff; }
+.hbtn-blue:hover { background: #1e3d72; }
+.hbtn-red { background: #c8372d; color: #fff; }
+.hbtn-red:hover { background: #a02820; }
+
+.layout { display: grid; grid-template-columns: 320px 1fr; height: calc(100vh - 58px); }
+
+.sidebar { background: #fff; border-right: 1px solid #e0e0e0; overflow-y: auto; }
+.sidebar-header { padding: 10px 14px; border-bottom: 1px solid #eee; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #999; }
+
+.section-group { border-bottom: 1px solid #eee; }
+.section-heading { padding: 10px 14px; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; user-select: none; }
+.section-heading:hover { background: #fafafa; }
+.section-heading-left { display: flex; align-items: center; gap: 8px; }
+.pill { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+.add-video-btn { font-size: 10px; padding: 2px 8px; border: 1px solid #ddd; border-radius: 10px; background: #f5f5f5; color: #555; cursor: pointer; }
+.add-video-btn:hover { background: #e8e8e8; color: #1a1a1a; }
+
+.video-item-row { display: flex; align-items: stretch; border-top: 1px solid #f0f0f0; }
+.video-item { flex: 1; padding: 8px 14px 8px 36px; cursor: pointer; transition: background 0.1s; }
+.video-item:hover { background: #f5f5f5; }
+.video-item.active { background: #eff6ff; border-left: 3px solid #2a5298; padding-left: 33px; }
+.video-item-title { font-size: 13px; font-weight: 500; }
+.video-item-meta { font-size: 11px; color: #888; margin-top: 2px; display: flex; gap: 10px; }
+.time-badge { background: #f0f0f0; padding: 1px 6px; border-radius: 10px; font-size: 10px; color: #555; }
+.del-btn { padding: 0 12px; background: none; border: none; color: #ddd; cursor: pointer; font-size: 14px; flex-shrink: 0; }
+.del-btn:hover { color: #c8372d; background: #fff5f5; }
+.empty-section { padding: 8px 14px 8px 36px; font-size: 11px; color: #bbb; font-style: italic; }
+
+.main { overflow-y: auto; padding: 1.5rem; }
+.empty-state { text-align: center; padding: 4rem 2rem; color: #aaa; }
+.empty-state p { font-size: 15px; margin-bottom: 8px; }
+.empty-state small { font-size: 13px; }
+
+.editor-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; }
+.editor-top { padding: 1rem 1.25rem; border-bottom: 1px solid #eee; }
+.editor-top h2 { font-size: 16px; font-weight: 600; margin-bottom: 2px; }
+.editor-top .section-label { font-size: 12px; color: #888; }
+
+.preview-wrap { position: relative; background: #000; aspect-ratio: 16/9; }
+.preview-wrap > div { width: 100%; height: 100%; }
+
+.controls { padding: 1.25rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.full-row { grid-column: 1 / -1; }
+.controls label { display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #999; margin-bottom: 6px; }
+.controls input[type="text"], .controls input[type="number"] { width: 100%; padding: 7px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; font-family: inherit; }
+.controls input[type="number"] { width: 70px; font-family: monospace; }
+.time-row { display: flex; align-items: center; gap: 8px; }
+.time-row span { color: #999; font-size: 12px; white-space: nowrap; }
+.time-row button { padding: 7px 12px; border: 1px solid #ddd; border-radius: 6px; background: #f5f5f5; font-size: 12px; cursor: pointer; white-space: nowrap; }
+.time-row button:hover { background: #eee; }
+
+.tip-box { background: #fafafa; border: 1px solid #eee; border-radius: 8px; padding: 10px 14px; margin: 0 1.25rem 1.25rem; font-size: 13px; color: #555; line-height: 1.5; }
+.tip-box strong { font-weight: 600; color: #1a1a1a; }
+
+.action-row { padding: 0 1.25rem 1.25rem; display: flex; gap: 10px; align-items: center; }
+.btn-preview { background: #1a1a1a; color: #fff; border: none; padding: 9px 20px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.btn-preview:hover { background: #333; }
+.btn-save { background: #fff; color: #1a1a1a; border: 1px solid #ccc; padding: 9px 20px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.btn-save:hover { background: #f5f5f5; }
+.saved-indicator { font-size: 11px; color: #1D9E75; font-weight: 500; opacity: 0; transition: opacity 0.3s; }
+.saved-indicator.show { opacity: 1; }
+</style>
+<script type="text/javascript" id="www-widgetapi-script" src="https://www.youtube.com/s/player/4b0d80ee/www-widgetapi.vflset/www-widgetapi.js" async=""></script><script id="yt-api-script" src="https://www.youtube.com/iframe_api"></script></head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>Video Admin — Song Structure Lesson</h1>
+    <p>Edit video IDs and timestamps · Export to update lesson</p>
+  </div>
+  <div class="header-btns">
+    <button class="hbtn hbtn-red" onclick="resetToDefaults()">Reset defaults</button>
+    <button class="hbtn hbtn-white" onclick="exportLesson()">Export lesson HTML</button>
+    <button class="hbtn hbtn-blue" onclick="exportAdmin()">Export admin HTML</button>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="sidebar">
+    <div class="sidebar-header">Sections &amp; Videos</div>
+    <div id="sidebarList">
+    <div class="section-group">
+      <div class="section-heading">
+        <div class="section-heading-left">
+          <span class="pill" style="background:#B5D4F4;color:#0C447C;">In</span>
+          Intro
+        </div>
+        <button class="add-video-btn" onclick="addVideo(0)">+ Add</button>
+      </div>
+      
+          <div class="video-item-row">
+            <div class="video-item " onclick="selectVideo(0, 0)">
+              <div class="video-item-title">Baba O'Riley</div>
+              <div class="video-item-meta">
+                <span>The Who (1978)</span>
+                <span class="time-badge">0:00 – 1:15</span>
+              </div>
+            </div>
+            <button class="del-btn" onclick="deleteVideo(event,0,0)" title="Remove">✕</button>
+          </div>
+          <div class="video-item-row">
+            <div class="video-item " onclick="selectVideo(0, 1)">
+              <div class="video-item-title">Johnny B. Goode</div>
+              <div class="video-item-meta">
+                <span>Chuck Berry (1958)</span>
+                <span class="time-badge">0:00 – 0:18</span>
+              </div>
+            </div>
+            <button class="del-btn" onclick="deleteVideo(event,0,1)" title="Remove">✕</button>
+          </div>
+          <div class="video-item-row">
+            <div class="video-item " onclick="selectVideo(0, 2)">
+              <div class="video-item-title">Smells Like Teen Spirit</div>
+              <div class="video-item-meta">
+                <span>Nirvana (1991)</span>
+                <span class="time-badge">0:00 – 0:25</span>
+              </div>
+            </div>
+            <button class="del-btn" onclick="deleteVideo(event,0,2)" title="Remove">✕</button>
+          </div>
+    </div>
+    <div class="section-group">
+      <div class="section-heading">
+        <div class="section-heading-left">
+          <span class="pill" style="background:#9FE1CB;color:#085041;">V</span>
+          Verse
+        </div>
+        <button class="add-video-btn" onclick="addVideo(1)">+ Add</button>
+      </div>
+      
+          <div class="video-item-row">
+            <div class="video-item " onclick="selectVideo(1, 0)">
+              <div class="video-item-title">Johnny B. Goode</div>
+              <div class="video-item-meta">
+                <span>Chuck Berry (1958)</span>
+                <span class="time-badge">0:17 – 0:35</span>
+              </div>
+            </div>
+            <button class="del-btn" onclick="deleteVideo(event,1,0)" title="Remove">✕</button>
+          </div>
+          <div class="video-item-row">
+            <div class="video-item " onclick="selectVideo(1, 1)">
+              <div class="video-item-title">Yesterday</div>
+              <div class="video-item-meta">
+                <span>The Beatles (1965)</span>
+                <span class="time-badge">0:05 – 0:22</span>
+              </div>
+            </div>
+            <button class="del-btn" onclick="deleteVideo(event,1,1)" title="Remove">✕</button>
+          </div>
+          <div class="video-item-row">
+            <div class="video-item " onclick="selectVideo(1, 2)">
+              <div class="video-item-title">Smells Like Teen Spirit</div>
+              <div class="video-item-meta">
+                <span>Nirvana (1991)</span>
+                <span class="time-badge">0:25 – 0:42</span>
+              </div>
+            </div>
+            <button class="del-btn" onclick="deleteVideo(event,1,2)" title="Remove">✕</button>
+          </div>
+    </div>
+    <div class="section-group">
+      <div class="section-heading">
+        <div class="section-heading-left">
+          <span class="pill" style="background:#FAC775;color:#633806;">Pre</span>
+          Pre-chorus
+        </div>
+        <button class="add-video-btn" onclick="addVideo(2)">+ Add</button>
+      </div>
+      
+          <div class="video-item-row">
+            <div class="video-item " onclick="selectVideo(2, 0)">
+              <div class="video-item-title">Smells Like Teen Spirit</div>
+              <div class="video-item-meta">
+                <span>Nirvana (1991)</span>
+                <span class="time-badge">0:42 – 0:58</span>
+              </div>
+            </div>
+            <button class="del-btn" onclick="deleteVideo(event,2,0)" title="Remove">✕</button>
+          </div>
+          <div class="video-item-row">
+            <div class="video-item " onclick="selectVideo(2, 1)">
+              <div class="video-item-title">Don't Stop Believin'</div>
+              <div class="video-item-meta">
+                <span>Journey (1981)</span>
+                <span class="time-badge">3:53 – 4:05</span>
+              </div>
+            </div>
+            <button class="del-btn" onclick="deleteVideo(event,2,1)" title="Remove">✕</button>
+          </div>
+    </div>
+    <div class="section-group">
+      <div class="section-heading">
+        <div class="section-heading-left">
+          <span class="pill" style="background:#F4C0D1;color:#72243E;">Ch</span>
+          Chorus
+        </div>
+        <button class="add-video-btn" onclick="addVideo(3)">+ Add</button>
+      </div>
+      
+          <div class="video-item-row">
+            <div class="video-item " onclick="selectVideo(3, 0)">
+              <div class="video-item-title">Smells Like Teen Spirit</div>
+              <div class="video-item-meta">
+                <span>Nirvana (1991)</span>
+                <span class="time-badge">0:58 – 1:24</span>
+              </div>
+            </div>
+            <button class="del-btn" onclick="deleteVideo(event,3,0)" title="Remove">✕</button>
+          </div>
+          <div class="video-item-row">
+            <div class="video-item " onclick="selectVideo(3, 1)">
+              <div class="video-item-title">Don't Stop Believin'</div>
+              <div class="video-item-meta">
+                <span>Journey (1981)</span>
+                <span class="time-badge">3:22 – 4:05</span>
+              </div>
+            </div>
+            <button class="del-btn" onclick="deleteVideo(event,3,1)" title="Remove">✕</button>
+          </div>
+          <div class="video-item-row">
+            <div class="video-item " onclick="selectVideo(3, 2)">
+              <div class="video-item-title">Johnny B. Goode</div>
+              <div class="video-item-meta">
+                <span>Chuck Berry (1958)</span>
+                <span class="time-badge">0:34 – 0:50</span>
+              </div>
+            </div>
+            <button class="del-btn" onclick="deleteVideo(event,3,2)" title="Remove">✕</button>
+          </div>
+    </div>
+    <div class="section-group">
+      <div class="section-heading">
+        <div class="section-heading-left">
+          <span class="pill" style="background:#CECBF6;color:#3C3489;">Br</span>
+          Bridge
+        </div>
+        <button class="add-video-btn" onclick="addVideo(4)">+ Add</button>
+      </div>
+      
+          <div class="video-item-row">
+            <div class="video-item " onclick="selectVideo(4, 0)">
+              <div class="video-item-title">Everlong</div>
+              <div class="video-item-meta">
+                <span>Foo Fighters (1997)</span>
+                <span class="time-badge">3:06 – 3:27</span>
+              </div>
+            </div>
+            <button class="del-btn" onclick="deleteVideo(event,4,0)" title="Remove">✕</button>
+          </div>
+    </div>
+    <div class="section-group">
+      <div class="section-heading">
+        <div class="section-heading-left">
+          <span class="pill" style="background:#F5C4B3;color:#712B13;">Sol</span>
+          Solo / Interlude
+        </div>
+        <button class="add-video-btn" onclick="addVideo(5)">+ Add</button>
+      </div>
+      
+          <div class="video-item-row">
+            <div class="video-item " onclick="selectVideo(5, 0)">
+              <div class="video-item-title">Johnny B. Goode</div>
+              <div class="video-item-meta">
+                <span>Chuck Berry (1958)</span>
+                <span class="time-badge">1:25 – 2:01</span>
+              </div>
+            </div>
+            <button class="del-btn" onclick="deleteVideo(event,5,0)" title="Remove">✕</button>
+          </div>
+          <div class="video-item-row">
+            <div class="video-item " onclick="selectVideo(5, 1)">
+              <div class="video-item-title">Smells Like Teen Spirit</div>
+              <div class="video-item-meta">
+                <span>Nirvana (1991)</span>
+                <span class="time-badge">2:45 – 3:10</span>
+              </div>
+            </div>
+            <button class="del-btn" onclick="deleteVideo(event,5,1)" title="Remove">✕</button>
+          </div>
+    </div>
+    <div class="section-group">
+      <div class="section-heading">
+        <div class="section-heading-left">
+          <span class="pill" style="background:#D3D1C7;color:#444441;">Out</span>
+          Outro
+        </div>
+        <button class="add-video-btn" onclick="addVideo(6)">+ Add</button>
+      </div>
+      
+          <div class="video-item-row">
+            <div class="video-item " onclick="selectVideo(6, 0)">
+              <div class="video-item-title">Yesterday</div>
+              <div class="video-item-meta">
+                <span>The Beatles (1965)</span>
+                <span class="time-badge">1:54 – 2:04</span>
+              </div>
+            </div>
+            <button class="del-btn" onclick="deleteVideo(event,6,0)" title="Remove">✕</button>
+          </div>
+          <div class="video-item-row">
+            <div class="video-item " onclick="selectVideo(6, 1)">
+              <div class="video-item-title">Don't Stop Believin'</div>
+              <div class="video-item-meta">
+                <span>Journey (1981)</span>
+                <span class="time-badge">3:40 – 4:15</span>
+              </div>
+            </div>
+            <button class="del-btn" onclick="deleteVideo(event,6,1)" title="Remove">✕</button>
+          </div>
+          <div class="video-item-row">
+            <div class="video-item " onclick="selectVideo(6, 2)">
+              <div class="video-item-title">Hey Jude</div>
+              <div class="video-item-meta">
+                <span>The Beatles (1968)</span>
+                <span class="time-badge">4:00 – 7:55</span>
+              </div>
+            </div>
+            <button class="del-btn" onclick="deleteVideo(event,6,2)" title="Remove">✕</button>
+          </div>
+    </div>
+    <div class="section-group">
+      <div class="section-heading">
+        <div class="section-heading-left">
+          <span class="pill" style="background:#C0DD97;color:#27500A;">Hook</span>
+          Hook
+        </div>
+        <button class="add-video-btn" onclick="addVideo(7)">+ Add</button>
+      </div>
+      
+          <div class="video-item-row">
+            <div class="video-item active" onclick="selectVideo(7, 0)">
+              <div class="video-item-title">Take On Me</div>
+              <div class="video-item-meta">
+                <span>a-ha</span>
+                <span class="time-badge">0:20 – 0:37</span>
+              </div>
+            </div>
+            <button class="del-btn" onclick="deleteVideo(event,7,0)" title="Remove">✕</button>
+          </div>
+    </div></div>
+  </div>
+  <div class="main" id="mainPanel">
+    <div class="editor-card">
+      <div class="editor-top">
+        <h2>New Video</h2>
+        <div class="section-label">
+          <span class="pill" style="background:#C0DD97;color:#27500A;margin-right:6px;">Hook</span>
+          Hook section · 
+        </div>
+      </div>
+
+      <div class="preview-wrap">
+        <iframe id="previewPlayerDiv" frameborder="0" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" title="a-ha - Take On Me (Official Video) [4K]" width="100%" height="100%" src="https://www.youtube.com/embed/?start=0&amp;rel=0&amp;modestbranding=1&amp;playsinline=1&amp;enablejsapi=1&amp;origin=https%3A%2F%2Fjamesmargraf-cyber.github.io&amp;widgetid=8&amp;forigin=https%3A%2F%2Fjamesmargraf-cyber.github.io%2Fhistory-of-rocknroll%2Fvideo_admin.html&amp;aoriginsup=1&amp;gporigin=https%3A%2F%2Fjamesmargraf-cyber.github.io%2Fhistory-of-rocknroll%2F&amp;vf=1"></iframe>
+      </div>
+
+      <div class="controls">
+        <div class="full-row">
+          <label>Title</label>
+          <input type="text" id="inputTitle" value="New Video" placeholder="Song title">
+        </div>
+        <div class="full-row">
+          <label>Artist <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#bbb;">— include year e.g. "The Beatles (1965)"</span></label>
+          <input type="text" id="inputArtist" value="" placeholder="Artist (year)">
+        </div>
+        <div class="full-row">
+          <label>YouTube Video ID <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#bbb;">(the part after v= in the URL)</span></label>
+          <input type="text" id="inputId" value="" placeholder="e.g. hTWKbfoikeg">
+        </div>
+        <div>
+          <label>Start time (seconds)</label>
+          <div class="time-row">
+            <input type="number" id="inputStart" value="0" min="0" placeholder="0">
+            <span>= 0:20</span>
+            <button onclick="grabCurrentTime('start')">⊙ Grab time</button>
+          </div>
+        </div>
+        <div>
+          <label>End time (seconds)</label>
+          <div class="time-row">
+            <input type="number" id="inputEnd" value="" min="0" placeholder="0">
+            <span>= 0:37</span>
+            <button onclick="grabCurrentTime('end')">⊙ Grab time</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <strong>How to set timestamps:</strong> Click <em>▶ Preview clip</em> to load the video. Play it, pause at the exact moment the section starts, then click <strong>⊙ Grab time</strong> next to Start. Do the same for the end. Then click <em>Save</em>.
+      </div>
+
+      <div class="action-row">
+        <button class="btn-preview" onclick="reloadPreview()">▶ Preview clip</button>
+        <button class="btn-save" onclick="saveVideo()">Save</button>
+        <span class="saved-indicator" id="savedIndicator">✓ Saved</span>
+      </div>
+    </div></div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const SECTIONS = [
+  {
+    "id": "intro",
+    "label": "Intro",
+    "abbr": "In",
+    "bg": "#B5D4F4",
+    "text": "#0C447C",
+    "videos": [
+      {
+        "id": "Gu9HhYv0C7E",
+        "start": 0,
+        "end": 75,
+        "title": "Baba O'Riley",
+        "artist": "The Who (1978)"
+      },
+      {
+        "id": "Y-9Y4CCIWnM",
+        "start": 0,
+        "end": 18,
+        "title": "Johnny B. Goode",
+        "artist": "Chuck Berry (1958)"
+      },
+      {
+        "id": "hTWKbfoikeg",
+        "start": 0,
+        "end": 25,
+        "title": "Smells Like Teen Spirit",
+        "artist": "Nirvana (1991)"
+      }
+    ]
+  },
+  {
+    "id": "verse",
+    "label": "Verse",
+    "abbr": "V",
+    "bg": "#9FE1CB",
+    "text": "#085041",
+    "videos": [
+      {
+        "id": "Y-9Y4CCIWnM",
+        "start": 17,
+        "end": 35,
+        "title": "Johnny B. Goode",
+        "artist": "Chuck Berry (1958)"
+      },
+      {
+        "id": "NrgmdOz227I",
+        "start": 5,
+        "end": 22,
+        "title": "Yesterday",
+        "artist": "The Beatles (1965)"
+      },
+      {
+        "id": "hTWKbfoikeg",
+        "start": 25,
+        "end": 42,
+        "title": "Smells Like Teen Spirit",
+        "artist": "Nirvana (1991)"
+      }
+    ]
+  },
+  {
+    "id": "pre-chorus",
+    "label": "Pre-chorus",
+    "abbr": "Pre",
+    "bg": "#FAC775",
+    "text": "#633806",
+    "videos": [
+      {
+        "id": "hTWKbfoikeg",
+        "start": 42,
+        "end": 58,
+        "title": "Smells Like Teen Spirit",
+        "artist": "Nirvana (1991)"
+      },
+      {
+        "id": "1k8craCGpgs",
+        "start": 233,
+        "end": 245,
+        "title": "Don't Stop Believin'",
+        "artist": "Journey (1981)"
+      }
+    ]
+  },
+  {
+    "id": "chorus",
+    "label": "Chorus",
+    "abbr": "Ch",
+    "bg": "#F4C0D1",
+    "text": "#72243E",
+    "videos": [
+      {
+        "id": "hTWKbfoikeg",
+        "start": 58,
+        "end": 84,
+        "title": "Smells Like Teen Spirit",
+        "artist": "Nirvana (1991)"
+      },
+      {
+        "id": "1k8craCGpgs",
+        "start": 202,
+        "end": 245,
+        "title": "Don't Stop Believin'",
+        "artist": "Journey (1981)"
+      },
+      {
+        "id": "Y-9Y4CCIWnM",
+        "start": 34,
+        "end": 50,
+        "title": "Johnny B. Goode",
+        "artist": "Chuck Berry (1958)"
+      }
+    ]
+  },
+  {
+    "id": "bridge",
+    "label": "Bridge",
+    "abbr": "Br",
+    "bg": "#CECBF6",
+    "text": "#3C3489",
+    "videos": [
+      {
+        "id": "eBG7P-K-r1Y",
+        "start": 186,
+        "end": 207,
+        "title": "Everlong",
+        "artist": "Foo Fighters (1997)"
+      }
+    ]
+  },
+  {
+    "id": "solo",
+    "label": "Solo / Interlude",
+    "abbr": "Sol",
+    "bg": "#F5C4B3",
+    "text": "#712B13",
+    "videos": [
+      {
+        "id": "Y-9Y4CCIWnM",
+        "start": 85,
+        "end": 121,
+        "title": "Johnny B. Goode",
+        "artist": "Chuck Berry (1958)"
+      },
+      {
+        "id": "hTWKbfoikeg",
+        "start": 165,
+        "end": 190,
+        "title": "Smells Like Teen Spirit",
+        "artist": "Nirvana (1991)"
+      }
+    ]
+  },
+  {
+    "id": "outro",
+    "label": "Outro",
+    "abbr": "Out",
+    "bg": "#D3D1C7",
+    "text": "#444441",
+    "videos": [
+      {
+        "id": "NrgmdOz227I",
+        "start": 114,
+        "end": 124,
+        "title": "Yesterday",
+        "artist": "The Beatles (1965)"
+      },
+      {
+        "id": "1k8craCGpgs",
+        "start": 220,
+        "end": 255,
+        "title": "Don't Stop Believin'",
+        "artist": "Journey (1981)"
+      },
+      {
+        "id": "A_MjCqQoLLA",
+        "start": 240,
+        "end": 475,
+        "title": "Hey Jude",
+        "artist": "The Beatles (1968)"
+      }
+    ]
+  },
+  {
+    "id": "hook",
+    "label": "Hook",
+    "abbr": "Hook",
+    "bg": "#C0DD97",
+    "text": "#27500A",
+    "videos": [
+      {
+        "id": "djV11Xbc914",
+        "start": 20,
+        "end": 37,
+        "title": "Take On Me",
+        "artist": "a-ha"
+      }
+    ]
+  }
+];
+
+const STORAGE_KEY = 'rock_video_admin_sections';
+
+// ── STORAGE ───────────────────────────────────────────────────────────────────
+function persistSections() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(SECTIONS)); } catch(e) {}
+}
+
+function loadPersistedSections() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+    const parsed = JSON.parse(saved);
+    parsed.forEach(savedSec => {
+      const match = SECTIONS.find(s => s.id === savedSec.id);
+      if (match) match.videos = savedSec.videos;
+    });
+  } catch(e) {}
+}
+
+function resetToDefaults() {
+  if (!confirm('Reset all timestamps and video IDs to defaults? This cannot be undone.')) return;
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  location.reload();
+}
+
+// ── COLORS ────────────────────────────────────────────────────────────────────
+function getColor(abbr) {
+  const s = SECTIONS.find(x => x.abbr === abbr);
+  if (s) return { bg: s.bg, text: s.text };
+  const extras = {
+    'Int': { bg:'#FDE68A', text:'#78350F' },
+    'A':   { bg:'#E9D5FF', text:'#4C1D95' },
+    'B':   { bg:'#BFDBFE', text:'#1E3A8A' },
+    'C':   { bg:'#BBF7D0', text:'#065F46' },
+    'D':   { bg:'#FED7AA', text:'#7C2D12' },
+    'E':   { bg:'#FECACA', text:'#7F1D1D' },
+  };
+  return extras[abbr] || { bg:'#D3D1C7', text:'#444441' };
+}
+
+function fmtTime(s) {
+  if (s == null || s === '') return '--:--';
+  const secs = parseInt(s);
+  return Math.floor(secs/60) + ':' + (secs%60).toString().padStart(2,'0');
+}
+
+// ── SIDEBAR ───────────────────────────────────────────────────────────────────
+let activeSection = null;
+let activeVideoIndex = null;
+
+function renderSidebar() {
+  document.getElementById('sidebarList').innerHTML = SECTIONS.map((sec, si) => `
+    <div class="section-group">
+      <div class="section-heading">
+        <div class="section-heading-left">
+          <span class="pill" style="background:${sec.bg};color:${sec.text};">${sec.abbr}</span>
+          ${sec.label}
+        </div>
+        <button class="add-video-btn" onclick="addVideo(${si})">+ Add</button>
+      </div>
+      ${sec.videos.length === 0
+        ? '<div class="empty-section">No examples yet — click + Add</div>'
+        : sec.videos.map((v, vi) => `
+          <div class="video-item-row">
+            <div class="video-item ${activeSection===si && activeVideoIndex===vi ? 'active' : ''}"
+                 onclick="selectVideo(${si}, ${vi})">
+              <div class="video-item-title">${v.title}</div>
+              <div class="video-item-meta">
+                <span>${v.artist}</span>
+                <span class="time-badge">${fmtTime(v.start)} – ${fmtTime(v.end)}</span>
+              </div>
+            </div>
+            <button class="del-btn" onclick="deleteVideo(event,${si},${vi})" title="Remove">✕</button>
+          </div>`).join('')
+      }
+    </div>`).join('');
+}
+
+function selectVideo(si, vi) {
+  activeSection = si;
+  activeVideoIndex = vi;
+  renderSidebar();
+  renderEditor();
+}
+
+function addVideo(si) {
+  SECTIONS[si].videos.push({ id:'', start:0, end:0, title:'New Video', artist:'' });
+  activeSection = si;
+  activeVideoIndex = SECTIONS[si].videos.length - 1;
+  persistSections();
+  renderSidebar();
+  renderEditor();
+}
+
+function deleteVideo(e, si, vi) {
+  e.stopPropagation();
+  if (!confirm('Remove "' + SECTIONS[si].videos[vi].title + '" from ' + SECTIONS[si].label + '?')) return;
+  SECTIONS[si].videos.splice(vi, 1);
+  if (activeSection === si && activeVideoIndex === vi) {
+    activeSection = null; activeVideoIndex = null;
+    destroyPreview();
+    document.getElementById('mainPanel').innerHTML = '<div class="empty-state"><p>Select a video from the sidebar</p><small>Click any video to edit its ID and timestamps</small></div>';
+  } else if (activeSection === si && activeVideoIndex > vi) {
+    activeVideoIndex--;
+  }
+  persistSections();
+  renderSidebar();
+}
+
+// ── YOUTUBE IFRAME API ────────────────────────────────────────────────────────
+let previewPlayer = null;
+let stopInterval = null;
+
+window.onYouTubeIframeAPIReady = function() {
+  window.ytApiReady = true;
+  if (window.ytPending) { window.ytPending(); window.ytPending = null; }
+};
+
+function ensureYTApi(cb) {
+  if (window.ytApiReady) { cb(); return; }
+  window.ytPending = cb;
+  if (!document.getElementById('yt-api-script')) {
+    const s = document.createElement('script');
+    s.id = 'yt-api-script';
+    s.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(s);
+  }
+}
+
+function destroyPreview() {
+  clearInterval(stopInterval); stopInterval = null;
+  if (previewPlayer) { try { previewPlayer.destroy(); } catch(e) {} previewPlayer = null; }
+}
+
+function createPreviewPlayer(videoId, startSec, endSec) {
+  destroyPreview();
+  ensureYTApi(() => {
+    previewPlayer = new YT.Player('previewPlayerDiv', {
+      width: '100%', height: '100%',
+      videoId: videoId,
+      playerVars: { start: startSec, rel: 0, modestbranding: 1, playsinline: 1 },
+      events: {
+        onStateChange: (e) => {
+          if (e.data === YT.PlayerState.PLAYING) {
+            clearInterval(stopInterval);
+            stopInterval = setInterval(() => {
+              if (!previewPlayer) return;
+              const cur = previewPlayer.getCurrentTime();
+              const end = parseInt(document.getElementById('inputEnd')?.value) || 0;
+              if (end && cur >= end) {
+                previewPlayer.pauseVideo();
+                previewPlayer.seekTo(parseInt(document.getElementById('inputStart')?.value) || 0, true);
+                clearInterval(stopInterval);
+              }
+            }, 300);
+          }
+          if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
+            clearInterval(stopInterval);
+          }
+        }
+      }
+    });
+  });
+}
+
+function grabCurrentTime(field) {
+  if (!previewPlayer) return;
+  try {
+    const t = Math.floor(previewPlayer.getCurrentTime());
+    SECTIONS[activeSection].videos[activeVideoIndex][field] = t;
+    const inputId = field === 'start' ? 'inputStart' : 'inputEnd';
+    document.getElementById(inputId).value = t;
+    const span = document.querySelector('#' + inputId + ' + span');
+    if (span) span.textContent = '= ' + fmtTime(t);
+  } catch(e) {}
+}
+
+function reloadPreview() {
+  const id = document.getElementById('inputId').value.trim();
+  const start = parseInt(document.getElementById('inputStart').value) || 0;
+  const end = parseInt(document.getElementById('inputEnd').value) || 0;
+  SECTIONS[activeSection].videos[activeVideoIndex].id = id;
+  SECTIONS[activeSection].videos[activeVideoIndex].start = start;
+  SECTIONS[activeSection].videos[activeVideoIndex].end = end;
+  if (previewPlayer) {
+    try { previewPlayer.loadVideoById({ videoId: id, startSeconds: start }); }
+    catch(e) { createPreviewPlayer(id, start, end); }
+  } else {
+    createPreviewPlayer(id, start, end);
+  }
+}
+
+// ── EDITOR ────────────────────────────────────────────────────────────────────
+function renderEditor() {
+  const sec = SECTIONS[activeSection];
+  const v = sec.videos[activeVideoIndex];
+  destroyPreview();
+
+  document.getElementById('mainPanel').innerHTML = `
+    <div class="editor-card">
+      <div class="editor-top">
+        <h2>${v.title || 'New Video'}</h2>
+        <div class="section-label">
+          <span class="pill" style="background:${sec.bg};color:${sec.text};margin-right:6px;">${sec.abbr}</span>
+          ${sec.label} section · ${v.artist}
+        </div>
+      </div>
+
+      <div class="preview-wrap">
+        <div id="previewPlayerDiv"></div>
+      </div>
+
+      <div class="controls">
+        <div class="full-row">
+          <label>Title</label>
+          <input type="text" id="inputTitle" value="${(v.title||'').replace(/"/g,'&quot;')}" placeholder="Song title">
+        </div>
+        <div class="full-row">
+          <label>Artist <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#bbb;">— include year e.g. "The Beatles (1965)"</span></label>
+          <input type="text" id="inputArtist" value="${(v.artist||'').replace(/"/g,'&quot;')}" placeholder="Artist (year)">
+        </div>
+        <div class="full-row">
+          <label>YouTube Video ID <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#bbb;">(the part after v= in the URL)</span></label>
+          <input type="text" id="inputId" value="${v.id}" placeholder="e.g. hTWKbfoikeg">
+        </div>
+        <div>
+          <label>Start time (seconds)</label>
+          <div class="time-row">
+            <input type="number" id="inputStart" value="${v.start}" min="0" placeholder="0">
+            <span>= ${fmtTime(v.start)}</span>
+            <button onclick="grabCurrentTime('start')">⊙ Grab time</button>
+          </div>
+        </div>
+        <div>
+          <label>End time (seconds)</label>
+          <div class="time-row">
+            <input type="number" id="inputEnd" value="${v.end||''}" min="0" placeholder="0">
+            <span>= ${fmtTime(v.end)}</span>
+            <button onclick="grabCurrentTime('end')">⊙ Grab time</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <strong>How to set timestamps:</strong> Click <em>▶ Preview clip</em> to load the video. Play it, pause at the exact moment the section starts, then click <strong>⊙ Grab time</strong> next to Start. Do the same for the end. Then click <em>Save</em>.
+      </div>
+
+      <div class="action-row">
+        <button class="btn-preview" onclick="reloadPreview()">▶ Preview clip</button>
+        <button class="btn-save" onclick="saveVideo()">Save</button>
+        <span class="saved-indicator" id="savedIndicator">✓ Saved</span>
+      </div>
+    </div>`;
+
+  createPreviewPlayer(v.id, v.start, v.end);
+}
+
+function saveVideo() {
+  const v = SECTIONS[activeSection].videos[activeVideoIndex];
+  v.title = document.getElementById('inputTitle').value.trim() || 'Untitled';
+  v.artist = document.getElementById('inputArtist').value.trim();
+  v.id = document.getElementById('inputId').value.trim();
+  v.start = parseInt(document.getElementById('inputStart').value) || 0;
+  v.end = parseInt(document.getElementById('inputEnd').value) || 0;
+  persistSections();
+  renderSidebar();
+  const ind = document.getElementById('savedIndicator');
+  if (ind) { ind.classList.add('show'); setTimeout(() => ind.classList.remove('show'), 2000); }
+}
+
+// ── EXPORT ────────────────────────────────────────────────────────────────────
+function downloadFile(html, filename) {
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportLesson() { downloadFile(buildLessonHTML(), 'song_structure_lesson.html'); }
+function exportAdmin() { downloadFile(buildAdminHTML(), 'video_admin.html'); }
+
+function buildAdminHTML() {
+  const sectionsJS = JSON.stringify(SECTIONS, null, 2);
+  // Replace the SECTIONS data in this file's source
+  const src = document.documentElement.outerHTML;
+  const updated = src.replace(
+    /const SECTIONS = \[[\s\S]*?\];\n\nconst STORAGE_KEY/,
+    'const SECTIONS = ' + sectionsJS + ';\n\nconst STORAGE_KEY'
+  );
+  return updated;
+}
+
+function buildLessonHTML() {
+  // Outputs updated SECTIONS data for paste into song_structure_lesson.html
+  const TIPS = {
+    'intro': {
+      "Baba O'Riley": "The synthesizer loop runs over a minute before any lyric. Notice how it locks you into a hypnotic rhythmic cycle — that loop IS the intro.",
+      "Johnny B. Goode": "Four bars of guitar riff, then the band enters. In under ten seconds you know the key, tempo, feel, and genre.",
+      "Smells Like Teen Spirit": "The riff plays quietly, then loud — the intro itself demonstrates the loud/quiet dynamic that defines the whole song."
+    },
+    'verse': {
+      "Johnny B. Goode": "Each verse tells a chapter of Johnny's story. The melody stays the same over the 12-bar cycle — only the words change.",
+      "Yesterday": "Opens directly into the verse — no intro at all. The sparse guitar and strings keep all focus on the lyric.",
+      "Smells Like Teen Spirit": "The verse is hushed and restrained — deliberately holding back energy to set up the contrast to come."
+    },
+    'pre-chorus': {
+      "Smells Like Teen Spirit": "The pre-chorus ('Hello, hello...') shifts the dynamic upward. Short, but it makes the chorus explode by comparison.",
+      "Don't Stop Believin'": "After two and a half minutes of verses, the pre-chorus arrives — you can feel the song gathering itself before the payoff."
+    },
+    'chorus': {
+      "Smells Like Teen Spirit": "The shift from pre-chorus to chorus is one of the most visceral moments in 90s rock — full band, distortion cranked, Cobain at full volume.",
+      "Don't Stop Believin'": "The chorus doesn't arrive until nearly four minutes. The entire journey through the verses makes this payoff feel enormous.",
+      "Johnny B. Goode": "In blues-based rock the 'chorus' is sometimes just the title lyric punched in over the turnaround — simpler, but just as effective."
+    },
+    'bridge': {},
+    'solo': {
+      "Johnny B. Goode": "The guitar solo IS the emotional peak — no vocal needed. This is the 12-bar blues form doing its essential work.",
+      "Smells Like Teen Spirit": "The solo is deliberately anti-virtuosic — repetitive and almost disinterested. That restraint is itself a statement."
+    },
+    'outro': {
+      "Yesterday": "A hard stop on the final chord — no fade, no tag. It ends abruptly, leaving the lyric's weight still resonating.",
+      "Don't Stop Believin'": "The song fades on a repeated chorus — suggesting the story goes on. The characters never quite resolve."
+    },
+    'hook': {
+      "Hey Jude": "The 'Na na na' tag runs over four minutes — longer than the entire verse-chorus section. Repetition as ecstatic release."
+    },
+  };
+
+  const sectionsJS = SECTIONS.map(sec => {
+    const videosJS = sec.videos.map(v => {
+      const tip = (TIPS[sec.id] && TIPS[sec.id][v.title]) || '';
+      return `      { id:'${v.id}', start:${v.start}, end:${v.end||0}, title:'${v.title.replace(/'/g,"\\'")}', artist:'${v.artist.replace(/'/g,"\\'")}', tip:"${tip.replace(/"/g,'\\"')}" }`;
+    }).join(',\n');
+    return `  { id:'${sec.id}', label:'${sec.label}', abbr:'${sec.abbr}', bg:'${sec.bg}', text:'${sec.text}',\n    tagline:'', purpose:'', length:'', texture:'', whatToListen:'',\n    videos:[\n${videosJS}\n    ]\n  }`;
+  }).join(',\n');
+
+  return `<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Video Data Export</title>
+<style>body{font-family:monospace;padding:2rem;background:#f5f4f0;}pre{background:#fff;border:1px solid #ddd;border-radius:8px;padding:1.5rem;overflow:auto;font-size:12px;line-height:1.6;}h2{margin-bottom:1rem;font-size:16px;font-family:sans-serif;}p{margin-bottom:1rem;font-size:13px;color:#666;font-family:sans-serif;}</style>
+</head><body>
+<h2>Video Data Export — History of Rock 'n' Roll</h2>
+<p>Copy the SECTIONS array below and paste it into <strong>song_structure_lesson.html</strong> to replace the existing SECTIONS constant.</p>
+<pre>const SECTIONS = [
+${sectionsJS}
+];</pre>
+</body></html>`;
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadPersistedSections();
+renderSidebar();
+</script>
+
+
+<div data-lastpass-root="" style="position: absolute !important; top: 0px !important; left: 0px !important; height: 0px !important; width: 0px !important; display: initial !important;"></div></body></html>
