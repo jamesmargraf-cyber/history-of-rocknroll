@@ -6,336 +6,134 @@
 <title>Video Admin — Song Structure Lesson</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; color: #1a1a1a; background: #f5f4f0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; color: #1a1a1a; background: #f5f4f0; height: 100vh; overflow: hidden; }
 
 .header { background: #1a1a1a; color: #fff; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
 .header h1 { font-size: 16px; font-weight: 500; }
 .header p { font-size: 12px; color: #888; margin-top: 2px; }
-.export-btn { padding: 8px 20px; background: #fff; color: #1a1a1a; border: none; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; }
-.export-btn:hover { background: #eee; }
+.header-btns { display: flex; gap: 8px; align-items: center; }
+.hbtn { padding: 7px 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; }
+.hbtn-white { background: #fff; color: #1a1a1a; }
+.hbtn-white:hover { background: #eee; }
+.hbtn-blue { background: #2a5298; color: #fff; }
+.hbtn-blue:hover { background: #1e3d72; }
+.hbtn-red { background: #c8372d; color: #fff; }
+.hbtn-red:hover { background: #a02820; }
 
-.layout { display: grid; grid-template-columns: 340px 1fr; height: calc(100vh - 60px); }
+.layout { display: grid; grid-template-columns: 320px 1fr; height: calc(100vh - 58px); }
 
 .sidebar { background: #fff; border-right: 1px solid #e0e0e0; overflow-y: auto; }
-.sidebar-header { padding: 1rem; border-bottom: 1px solid #eee; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #999; }
+.sidebar-header { padding: 10px 14px; border-bottom: 1px solid #eee; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #999; }
 
 .section-group { border-bottom: 1px solid #eee; }
-.section-heading { padding: 10px 14px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; cursor: default; user-select: none; justify-content: space-between; }
+.section-heading { padding: 10px 14px; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; user-select: none; }
 .section-heading:hover { background: #fafafa; }
-.add-video-btn { font-size: 10px; padding: 2px 8px; border: 1px solid #ddd; border-radius: 10px; background: #f5f5f5; color: #666; cursor: pointer; font-weight: 500; white-space: nowrap; }
-.add-video-btn:hover { background: #e8e8e8; color: #1a1a1a; }
-.video-item-row { display: flex; align-items: stretch; }
-.video-item-row .video-item { flex: 1; }
-.del-video-btn { padding: 0 10px; background: none; border: none; border-top: 1px solid #f0f0f0; color: #ddd; cursor: pointer; font-size: 13px; }
-.del-video-btn:hover { color: #c8372d; background: #fff5f5; }
+.section-heading-left { display: flex; align-items: center; gap: 8px; }
 .pill { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+.add-video-btn { font-size: 10px; padding: 2px 8px; border: 1px solid #ddd; border-radius: 10px; background: #f5f5f5; color: #555; cursor: pointer; }
+.add-video-btn:hover { background: #e8e8e8; color: #1a1a1a; }
 
-.video-item { padding: 8px 14px 8px 36px; cursor: pointer; border-top: 1px solid #f0f0f0; transition: background 0.1s; }
+.video-item-row { display: flex; align-items: stretch; border-top: 1px solid #f0f0f0; }
+.video-item { flex: 1; padding: 8px 14px 8px 36px; cursor: pointer; transition: background 0.1s; }
 .video-item:hover { background: #f5f5f5; }
-.video-item.active { background: #eff6ff; border-left: 3px solid #3b82f6; padding-left: 33px; }
+.video-item.active { background: #eff6ff; border-left: 3px solid #2a5298; padding-left: 33px; }
 .video-item-title { font-size: 13px; font-weight: 500; }
 .video-item-meta { font-size: 11px; color: #888; margin-top: 2px; display: flex; gap: 10px; }
 .time-badge { background: #f0f0f0; padding: 1px 6px; border-radius: 10px; font-size: 10px; color: #555; }
+.del-btn { padding: 0 12px; background: none; border: none; color: #ddd; cursor: pointer; font-size: 14px; flex-shrink: 0; }
+.del-btn:hover { color: #c8372d; background: #fff5f5; }
+.empty-section { padding: 8px 14px 8px 36px; font-size: 11px; color: #bbb; font-style: italic; }
 
 .main { overflow-y: auto; padding: 1.5rem; }
-
-.editor-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; }
-.editor-top { padding: 1rem 1.25rem; border-bottom: 1px solid #eee; }
-.editor-top h2 { font-size: 16px; font-weight: 600; margin-bottom: 2px; }
-.editor-top .section-label { font-size: 12px; color: #888; }
-
-.preview-wrap { position: relative; background: #000; }
-.preview-wrap iframe { width: 100%; aspect-ratio: 16/9; display: block; border: none; }
-
-.controls { padding: 1.25rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.control-group label { display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #999; margin-bottom: 6px; }
-.time-input-row { display: flex; align-items: center; gap: 8px; }
-.time-input-row input { width: 70px; padding: 7px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: monospace; }
-.time-input-row span { color: #999; font-size: 12px; }
-.time-input-row button { padding: 7px 12px; border: 1px solid #ddd; border-radius: 6px; background: #f5f5f5; font-size: 12px; cursor: pointer; white-space: nowrap; }
-.time-input-row button:hover { background: #eee; }
-
-.video-id-row { grid-column: 1 / -1; }
-.video-id-row label { display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #999; margin-bottom: 6px; }
-.video-id-row input { width: 100%; padding: 7px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; font-family: monospace; }
-
-.action-row { padding: 0 1.25rem 1.25rem; display: flex; gap: 10px; }
-.action-row button { padding: 9px 20px; border-radius: 6px; font-size: 13px; cursor: pointer; font-weight: 500; }
-.btn-preview { background: #1a1a1a; color: #fff; border: none; }
-.btn-preview:hover { background: #333; }
-.btn-save { background: #fff; color: #1a1a1a; border: 1px solid #ccc; }
-.btn-save:hover { background: #f5f5f5; }
-
-.tip-box { background: #fafafa; border: 1px solid #eee; border-radius: 8px; padding: 10px 14px; margin: 0 1.25rem 1.25rem; font-size: 13px; color: #555; line-height: 1.5; }
-.tip-box strong { font-weight: 600; color: #1a1a1a; }
-
 .empty-state { text-align: center; padding: 4rem 2rem; color: #aaa; }
 .empty-state p { font-size: 15px; margin-bottom: 8px; }
 .empty-state small { font-size: 13px; }
 
-.saved-indicator { display: inline-block; font-size: 11px; color: #1D9E75; font-weight: 500; margin-left: 10px; opacity: 0; transition: opacity 0.3s; }
-.saved-indicator.show { opacity: 1; }
+.editor-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; }
+.editor-top { padding: 1rem 1.25rem; border-bottom: 1px solid #eee; }
+.editor-top h2 { font-size: 16px; font-weight: 600; margin-bottom: 2px; }
+.editor-top .section-label { font-size: 12px; color: #888; }
 
-.export-panel { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 1.25rem; }
-.export-panel h3 { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
-.export-panel p { font-size: 13px; color: #666; margin-bottom: 1rem; line-height: 1.5; }
-.export-panel textarea { width: 100%; height: 200px; font-family: monospace; font-size: 11px; border: 1px solid #ddd; border-radius: 6px; padding: 10px; resize: vertical; background: #fafafa; }
+.preview-wrap { position: relative; background: #000; aspect-ratio: 16/9; }
+.preview-wrap > div { width: 100%; height: 100%; }
+
+.controls { padding: 1.25rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.full-row { grid-column: 1 / -1; }
+.controls label { display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #999; margin-bottom: 6px; }
+.controls input[type="text"], .controls input[type="number"] { width: 100%; padding: 7px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; font-family: inherit; }
+.controls input[type="number"] { width: 70px; font-family: monospace; }
+.time-row { display: flex; align-items: center; gap: 8px; }
+.time-row span { color: #999; font-size: 12px; white-space: nowrap; }
+.time-row button { padding: 7px 12px; border: 1px solid #ddd; border-radius: 6px; background: #f5f5f5; font-size: 12px; cursor: pointer; white-space: nowrap; }
+.time-row button:hover { background: #eee; }
+
+.tip-box { background: #fafafa; border: 1px solid #eee; border-radius: 8px; padding: 10px 14px; margin: 0 1.25rem 1.25rem; font-size: 13px; color: #555; line-height: 1.5; }
+.tip-box strong { font-weight: 600; color: #1a1a1a; }
+
+.action-row { padding: 0 1.25rem 1.25rem; display: flex; gap: 10px; align-items: center; }
+.btn-preview { background: #1a1a1a; color: #fff; border: none; padding: 9px 20px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.btn-preview:hover { background: #333; }
+.btn-save { background: #fff; color: #1a1a1a; border: 1px solid #ccc; padding: 9px 20px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.btn-save:hover { background: #f5f5f5; }
+.saved-indicator { font-size: 11px; color: #1D9E75; font-weight: 500; opacity: 0; transition: opacity 0.3s; }
+.saved-indicator.show { opacity: 1; }
 </style>
 </head>
 <body>
 
-
 <div class="header">
   <div>
     <h1>Video Admin — Song Structure Lesson</h1>
-    <p>Edit video IDs and timestamps, then export the updated lesson file</p>
+    <p>Edit video IDs and timestamps · Export to update lesson</p>
   </div>
-  <div style="display:flex;gap:8px;align-items:center;"><button class="export-btn" onclick="resetToDefaults()" style="background:#c8372d;color:#fff;">Reset defaults</button><button class="export-btn" onclick="exportLesson()">Export lesson HTML</button><button class="export-btn" onclick="exportAdmin()" style="background:#2a5298;color:#fff;">Export admin HTML</button></div>
+  <div class="header-btns">
+    <button class="hbtn hbtn-red" onclick="resetToDefaults()">Reset defaults</button>
+    <button class="hbtn hbtn-white" onclick="exportLesson()">Export lesson HTML</button>
+    <button class="hbtn hbtn-blue" onclick="exportAdmin()">Export admin HTML</button>
+  </div>
 </div>
 
 <div class="layout">
   <div class="sidebar">
     <div class="sidebar-header">Sections &amp; Videos</div>
     <div id="sidebarList"></div>
-      
-        <div class="video-item " id="item-0-0" onclick="selectVideo(0, 0)">
-          <div class="video-item-title">Baba O'Riley</div>
-          <div class="video-item-meta">
-            <span>The Who (1978)</span>
-            <span class="time-badge">0:00 – 1:15</span>
-          </div>
-        </div>
-      
-        <div class="video-item " id="item-0-1" onclick="selectVideo(0, 1)">
-          <div class="video-item-title">Johnny B. Goode</div>
-          <div class="video-item-meta">
-            <span>Chuck Berry (1958)</span>
-            <span class="time-badge">0:00 – 0:18</span>
-          </div>
-        </div>
-      
-        <div class="video-item " id="item-0-2" onclick="selectVideo(0, 2)">
-          <div class="video-item-title">Smells Like Teen Spirit</div>
-          <div class="video-item-meta">
-            <span>Nirvana (1991)</span>
-            <span class="time-badge">0:00 – 0:25</span>
-          </div>
-        </div>
-      
-    </div>
-  
-    <div class="section-group">
-      <div class="section-heading">
-        <span class="pill" style="background:#9FE1CB;color:#085041;">V</span>
-        Verse
-      </div>
-      
-        <div class="video-item " id="item-1-0" onclick="selectVideo(1, 0)">
-          <div class="video-item-title">Johnny B. Goode</div>
-          <div class="video-item-meta">
-            <span>Chuck Berry (1958)</span>
-            <span class="time-badge">0:17 – 0:35</span>
-          </div>
-        </div>
-      
-        <div class="video-item " id="item-1-1" onclick="selectVideo(1, 1)">
-          <div class="video-item-title">Yesterday</div>
-          <div class="video-item-meta">
-            <span>The Beatles (1965)</span>
-            <span class="time-badge">0:05 – 0:22</span>
-          </div>
-        </div>
-      
-        <div class="video-item " id="item-1-2" onclick="selectVideo(1, 2)">
-          <div class="video-item-title">Smells Like Teen Spirit</div>
-          <div class="video-item-meta">
-            <span>Nirvana (1991)</span>
-            <span class="time-badge">0:25 – 0:42</span>
-          </div>
-        </div>
-      
-    </div>
-  
-    <div class="section-group">
-      <div class="section-heading">
-        <span class="pill" style="background:#FAC775;color:#633806;">Pre</span>
-        Pre-chorus
-      </div>
-      
-        <div class="video-item " id="item-2-0" onclick="selectVideo(2, 0)">
-          <div class="video-item-title">Smells Like Teen Spirit</div>
-          <div class="video-item-meta">
-            <span>Nirvana (1991)</span>
-            <span class="time-badge">0:42 – 0:58</span>
-          </div>
-        </div>
-      
-        <div class="video-item " id="item-2-1" onclick="selectVideo(2, 1)">
-          <div class="video-item-title">Don't Stop Believin'</div>
-          <div class="video-item-meta">
-            <span>Journey (1981)</span>
-            <span class="time-badge">3:53 – 4:05</span>
-          </div>
-        </div>
-      
-    </div>
-  
-    <div class="section-group">
-      <div class="section-heading">
-        <span class="pill" style="background:#F4C0D1;color:#72243E;">Ch</span>
-        Chorus
-      </div>
-      
-        <div class="video-item " id="item-3-0" onclick="selectVideo(3, 0)">
-          <div class="video-item-title">Smells Like Teen Spirit</div>
-          <div class="video-item-meta">
-            <span>Nirvana (1991)</span>
-            <span class="time-badge">0:58 – 1:24</span>
-          </div>
-        </div>
-      
-        <div class="video-item " id="item-3-1" onclick="selectVideo(3, 1)">
-          <div class="video-item-title">Don't Stop Believin'</div>
-          <div class="video-item-meta">
-            <span>Journey (1981)</span>
-            <span class="time-badge">3:22 – 4:05</span>
-          </div>
-        </div>
-      
-        <div class="video-item " id="item-3-2" onclick="selectVideo(3, 2)">
-          <div class="video-item-title">Johnny B. Goode</div>
-          <div class="video-item-meta">
-            <span>Chuck Berry (1958)</span>
-            <span class="time-badge">0:34 – 0:50</span>
-          </div>
-        </div>
-      
-    </div>
-  
-    <div class="section-group">
-      <div class="section-heading">
-        <span class="pill" style="background:#CECBF6;color:#3C3489;">Br</span>
-        Bridge
-      </div>
-      
-        <div class="video-item " id="item-4-0" onclick="selectVideo(4, 0)">
-          <div class="video-item-title">Yesterday</div>
-          <div class="video-item-meta">
-            <span>The Beatles (1965)</span>
-            <span class="time-badge">0:47 – 1:10</span>
-          </div>
-        </div>
-      
-        <div class="video-item " id="item-4-1" onclick="selectVideo(4, 1)">
-          <div class="video-item-title">Smells Like Teen Spirit</div>
-          <div class="video-item-meta">
-            <span>Nirvana (1991)</span>
-            <span class="time-badge">3:38 – 4:08</span>
-          </div>
-        </div>
-      
-    </div>
-  
-    <div class="section-group">
-      <div class="section-heading">
-        <span class="pill" style="background:#F5C4B3;color:#712B13;">Sol</span>
-        Solo / Interlude
-      </div>
-      
-        <div class="video-item " id="item-5-0" onclick="selectVideo(5, 0)">
-          <div class="video-item-title">Johnny B. Goode</div>
-          <div class="video-item-meta">
-            <span>Chuck Berry (1958)</span>
-            <span class="time-badge">1:25 – 2:01</span>
-          </div>
-        </div>
-      
-        <div class="video-item " id="item-5-1" onclick="selectVideo(5, 1)">
-          <div class="video-item-title">Smells Like Teen Spirit</div>
-          <div class="video-item-meta">
-            <span>Nirvana (1991)</span>
-            <span class="time-badge">2:45 – 3:10</span>
-          </div>
-        </div>
-      
-    </div>
-  
-    <div class="section-group">
-      <div class="section-heading">
-        <span class="pill" style="background:#D3D1C7;color:#444441;">Out</span>
-        Outro
-      </div>
-      
-        <div class="video-item " id="item-6-0" onclick="selectVideo(6, 0)">
-          <div class="video-item-title">Yesterday</div>
-          <div class="video-item-meta">
-            <span>The Beatles (1965)</span>
-            <span class="time-badge">1:54 – 2:04</span>
-          </div>
-        </div>
-      
-        <div class="video-item " id="item-6-1" onclick="selectVideo(6, 1)">
-          <div class="video-item-title">Don't Stop Believin'</div>
-          <div class="video-item-meta">
-            <span>Journey (1981)</span>
-            <span class="time-badge">3:40 – 4:15</span>
-          </div>
-        </div>
-      
-    </div>
-  
-    <div class="section-group">
-      <div class="section-heading">
-        <span class="pill" style="background:#C0DD97;color:#27500A;">Tag</span>
-        Tag / Hook
-      </div>
-      
-        <div class="video-item active" id="item-7-0" onclick="selectVideo(7, 0)">
-          <div class="video-item-title">Hey Jude</div>
-          <div class="video-item-meta">
-            <span>The Beatles (1968)</span>
-            <span class="time-badge">3:08 – 4:00</span>
-          </div>
-        </div>
-      
+  </div>
+  <div class="main" id="mainPanel">
+    <div class="empty-state">
+      <p>Select a video from the sidebar</p>
+      <small>Click any video to edit its ID and timestamps</small>
     </div>
   </div>
-  </div>
-
-  <div class="main" id="mainPanel"><div class="empty-state"><p>Select a video from the sidebar</p><small>Click any video to edit its ID and timestamps</small></div></div>
 </div>
 
 <script>
-// ── DATA ─────────────────────────────────────────────────────────────────────
-// This mirrors the SECTIONS data from song_structure_lesson.html.
-// Edit video IDs and timestamps here, then export.
-
+// ── DATA ──────────────────────────────────────────────────────────────────────
 const SECTIONS = [
   { id:'intro', label:'Intro', abbr:'In', bg:'#B5D4F4', text:'#0C447C',
     videos:[
-      { id:'Gu9HhYv0C7E', start:0, end:70, title:"Baba O'Riley", artist:'The Who (1978)' },
-      { id:'Y-9Y4CCIWnM', start:0, end:20, title:'Johnny B. Goode', artist:'Chuck Berry (1958)' },
+      { id:'Gu9HhYv0C7E', start:0, end:75, title:"Baba O'Riley", artist:'The Who (1978)' },
+      { id:'Y-9Y4CCIWnM', start:0, end:18, title:'Johnny B. Goode', artist:'Chuck Berry (1958)' },
       { id:'hTWKbfoikeg', start:0, end:25, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)' },
     ]
   },
   { id:'verse', label:'Verse', abbr:'V', bg:'#9FE1CB', text:'#085041',
     videos:[
-      { id:'Y-9Y4CCIWnM', start:9, end:45, title:'Johnny B. Goode', artist:'Chuck Berry (1958)' },
-      { id:'NrgmdOz227I', start:0, end:47, title:'Yesterday', artist:'The Beatles (1965)' },
-      { id:'hTWKbfoikeg', start:25, end:60, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)' },
+      { id:'Y-9Y4CCIWnM', start:9, end:34, title:'Johnny B. Goode', artist:'Chuck Berry (1958)' },
+      { id:'NrgmdOz227I', start:5, end:22, title:'Yesterday', artist:'The Beatles (1965)' },
+      { id:'hTWKbfoikeg', start:25, end:42, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)' },
     ]
   },
   { id:'pre-chorus', label:'Pre-chorus', abbr:'Pre', bg:'#FAC775', text:'#633806',
     videos:[
-      { id:'hTWKbfoikeg', start:50, end:65, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)' },
-      { id:'-j2EgFx129w', start:148, end:168, title:"Don't Stop Believin'", artist:'Journey (1981)' },
+      { id:'hTWKbfoikeg', start:42, end:58, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)' },
+      { id:'-j2EgFx129w', start:233, end:245, title:"Don't Stop Believin'", artist:'Journey (1981)' },
     ]
   },
   { id:'chorus', label:'Chorus', abbr:'Ch', bg:'#F4C0D1', text:'#72243E',
     videos:[
-      { id:'hTWKbfoikeg', start:61, end:100, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)' },
-      { id:'-j2EgFx129w', start:166, end:200, title:"Don't Stop Believin'", artist:'Journey (1981)' },
-      { id:'Y-9Y4CCIWnM', start:50, end:75, title:'Johnny B. Goode', artist:'Chuck Berry (1958)' },
+      { id:'hTWKbfoikeg', start:58, end:84, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)' },
+      { id:'-j2EgFx129w', start:202, end:240, title:"Don't Stop Believin'", artist:'Journey (1981)' },
+      { id:'Y-9Y4CCIWnM', start:34, end:50, title:'Johnny B. Goode', artist:'Chuck Berry (1958)' },
     ]
   },
   { id:'bridge', label:'Bridge', abbr:'Br', bg:'#CECBF6', text:'#3C3489',
@@ -343,13 +141,13 @@ const SECTIONS = [
   },
   { id:'solo', label:'Solo / Interlude', abbr:'Sol', bg:'#F5C4B3', text:'#712B13',
     videos:[
-      { id:'Y-9Y4CCIWnM', start:84, end:115, title:'Johnny B. Goode', artist:'Chuck Berry (1958)' },
-      { id:'hTWKbfoikeg', start:218, end:248, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)' },
+      { id:'Y-9Y4CCIWnM', start:85, end:121, title:'Johnny B. Goode', artist:'Chuck Berry (1958)' },
+      { id:'hTWKbfoikeg', start:165, end:190, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)' },
     ]
   },
   { id:'outro', label:'Outro', abbr:'Out', bg:'#D3D1C7', text:'#444441',
     videos:[
-      { id:'NrgmdOz227I', start:110, end:130, title:'Yesterday', artist:'The Beatles (1965)' },
+      { id:'NrgmdOz227I', start:114, end:124, title:'Yesterday', artist:'The Beatles (1965)' },
       { id:'-j2EgFx129w', start:220, end:255, title:"Don't Stop Believin'", artist:'Journey (1981)' },
     ]
   },
@@ -360,43 +158,82 @@ const SECTIONS = [
   },
 ];
 
-let activeSection = null;
-let activeVideoIndex = null;
+const STORAGE_KEY = 'rock_video_admin_sections';
+
+// ── STORAGE ───────────────────────────────────────────────────────────────────
+function persistSections() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(SECTIONS)); } catch(e) {}
+}
+
+function loadPersistedSections() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+    const parsed = JSON.parse(saved);
+    parsed.forEach(savedSec => {
+      const match = SECTIONS.find(s => s.id === savedSec.id);
+      if (match) match.videos = savedSec.videos;
+    });
+  } catch(e) {}
+}
+
+function resetToDefaults() {
+  if (!confirm('Reset all timestamps and video IDs to defaults? This cannot be undone.')) return;
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  location.reload();
+}
+
+// ── COLORS ────────────────────────────────────────────────────────────────────
+function getColor(abbr) {
+  const s = SECTIONS.find(x => x.abbr === abbr);
+  if (s) return { bg: s.bg, text: s.text };
+  const extras = {
+    'Int': { bg:'#FDE68A', text:'#78350F' },
+    'A':   { bg:'#E9D5FF', text:'#4C1D95' },
+    'B':   { bg:'#BFDBFE', text:'#1E3A8A' },
+    'C':   { bg:'#BBF7D0', text:'#065F46' },
+    'D':   { bg:'#FED7AA', text:'#7C2D12' },
+    'E':   { bg:'#FECACA', text:'#7F1D1D' },
+  };
+  return extras[abbr] || { bg:'#D3D1C7', text:'#444441' };
+}
 
 function fmtTime(s) {
   if (s == null || s === '') return '--:--';
   const secs = parseInt(s);
-  return `${Math.floor(secs/60)}:${(secs%60).toString().padStart(2,'0')}`;
+  return Math.floor(secs/60) + ':' + (secs%60).toString().padStart(2,'0');
 }
 
+// ── SIDEBAR ───────────────────────────────────────────────────────────────────
+let activeSection = null;
+let activeVideoIndex = null;
+
 function renderSidebar() {
-  const list = document.getElementById('sidebarList');
-  list.innerHTML = SECTIONS.map((sec, si) => `
+  document.getElementById('sidebarList').innerHTML = SECTIONS.map((sec, si) => `
     <div class="section-group">
       <div class="section-heading">
-        <div style="display:flex;align-items:center;gap:8px;">
+        <div class="section-heading-left">
           <span class="pill" style="background:${sec.bg};color:${sec.text};">${sec.abbr}</span>
           ${sec.label}
         </div>
         <button class="add-video-btn" onclick="addVideo(${si})">+ Add</button>
       </div>
-      ${sec.videos.length === 0 ? `<div style="padding:8px 14px 8px 36px;font-size:11px;color:#bbb;font-style:italic;">No examples yet — click + Add</div>` : ''}
-      ${sec.videos.map((v, vi) => `
-        <div class="video-item-row">
-          <div class="video-item ${activeSection===si && activeVideoIndex===vi ? 'active' : ''}"
-               id="item-${si}-${vi}"
-               onclick="selectVideo(${si}, ${vi})">
-            <div class="video-item-title">${v.title}</div>
-            <div class="video-item-meta">
-              <span>${v.artist}</span>
-              <span class="time-badge">${fmtTime(v.start)} – ${fmtTime(v.end)}</span>
+      ${sec.videos.length === 0
+        ? '<div class="empty-section">No examples yet — click + Add</div>'
+        : sec.videos.map((v, vi) => `
+          <div class="video-item-row">
+            <div class="video-item ${activeSection===si && activeVideoIndex===vi ? 'active' : ''}"
+                 onclick="selectVideo(${si}, ${vi})">
+              <div class="video-item-title">${v.title}</div>
+              <div class="video-item-meta">
+                <span>${v.artist}</span>
+                <span class="time-badge">${fmtTime(v.start)} – ${fmtTime(v.end)}</span>
+              </div>
             </div>
-          </div>
-          <button class="del-video-btn" onclick="deleteVideo(event,${si},${vi})" title="Remove this video">✕</button>
-        </div>
-      `).join('')}
-    </div>
-  `).join('');
+            <button class="del-btn" onclick="deleteVideo(event,${si},${vi})" title="Remove">✕</button>
+          </div>`).join('')
+      }
+    </div>`).join('');
 }
 
 function selectVideo(si, vi) {
@@ -407,8 +244,7 @@ function selectVideo(si, vi) {
 }
 
 function addVideo(si) {
-  const newVideo = { id:'', start:0, end:0, title:'New Video', artist:'' };
-  SECTIONS[si].videos.push(newVideo);
+  SECTIONS[si].videos.push({ id:'', start:0, end:0, title:'New Video', artist:'' });
   activeSection = si;
   activeVideoIndex = SECTIONS[si].videos.length - 1;
   persistSections();
@@ -418,12 +254,10 @@ function addVideo(si) {
 
 function deleteVideo(e, si, vi) {
   e.stopPropagation();
-  const v = SECTIONS[si].videos[vi];
-  if (!confirm('Remove "' + v.title + '" from ' + SECTIONS[si].label + '?')) return;
+  if (!confirm('Remove "' + SECTIONS[si].videos[vi].title + '" from ' + SECTIONS[si].label + '?')) return;
   SECTIONS[si].videos.splice(vi, 1);
   if (activeSection === si && activeVideoIndex === vi) {
-    activeSection = null;
-    activeVideoIndex = null;
+    activeSection = null; activeVideoIndex = null;
     destroyPreview();
     document.getElementById('mainPanel').innerHTML = '<div class="empty-state"><p>Select a video from the sidebar</p><small>Click any video to edit its ID and timestamps</small></div>';
   } else if (activeSection === si && activeVideoIndex > vi) {
@@ -433,7 +267,7 @@ function deleteVideo(e, si, vi) {
   renderSidebar();
 }
 
-// ── YouTube IFrame API ────────────────────────────────────────────────────────
+// ── YOUTUBE IFRAME API ────────────────────────────────────────────────────────
 let previewPlayer = null;
 let stopInterval = null;
 
@@ -454,20 +288,15 @@ function ensureYTApi(cb) {
 }
 
 function destroyPreview() {
-  clearInterval(stopInterval);
-  stopInterval = null;
-  if (previewPlayer) {
-    try { previewPlayer.destroy(); } catch(e) {}
-    previewPlayer = null;
-  }
+  clearInterval(stopInterval); stopInterval = null;
+  if (previewPlayer) { try { previewPlayer.destroy(); } catch(e) {} previewPlayer = null; }
 }
 
 function createPreviewPlayer(videoId, startSec, endSec) {
   destroyPreview();
   ensureYTApi(() => {
     previewPlayer = new YT.Player('previewPlayerDiv', {
-      width: '100%',
-      height: '100%',
+      width: '100%', height: '100%',
       videoId: videoId,
       playerVars: { start: startSec, rel: 0, modestbranding: 1, playsinline: 1 },
       events: {
@@ -477,10 +306,10 @@ function createPreviewPlayer(videoId, startSec, endSec) {
             stopInterval = setInterval(() => {
               if (!previewPlayer) return;
               const cur = previewPlayer.getCurrentTime();
-              const end = parseInt(document.getElementById('inputEnd').value) || 0;
+              const end = parseInt(document.getElementById('inputEnd')?.value) || 0;
               if (end && cur >= end) {
                 previewPlayer.pauseVideo();
-                previewPlayer.seekTo(parseInt(document.getElementById('inputStart').value) || 0, true);
+                previewPlayer.seekTo(parseInt(document.getElementById('inputStart')?.value) || 0, true);
                 clearInterval(stopInterval);
               }
             }, 300);
@@ -501,7 +330,7 @@ function grabCurrentTime(field) {
     SECTIONS[activeSection].videos[activeVideoIndex][field] = t;
     const inputId = field === 'start' ? 'inputStart' : 'inputEnd';
     document.getElementById(inputId).value = t;
-    const span = document.querySelector(`#${inputId} + span`);
+    const span = document.querySelector('#' + inputId + ' + span');
     if (span) span.textContent = '= ' + fmtTime(t);
   } catch(e) {}
 }
@@ -514,120 +343,76 @@ function reloadPreview() {
   SECTIONS[activeSection].videos[activeVideoIndex].start = start;
   SECTIONS[activeSection].videos[activeVideoIndex].end = end;
   if (previewPlayer) {
-    try {
-      previewPlayer.loadVideoById({ videoId: id, startSeconds: start });
-    } catch(e) {
-      createPreviewPlayer(id, start, end);
-    }
+    try { previewPlayer.loadVideoById({ videoId: id, startSeconds: start }); }
+    catch(e) { createPreviewPlayer(id, start, end); }
   } else {
     createPreviewPlayer(id, start, end);
   }
 }
 
+// ── EDITOR ────────────────────────────────────────────────────────────────────
 function renderEditor() {
   const sec = SECTIONS[activeSection];
   const v = sec.videos[activeVideoIndex];
-  const main = document.getElementById('mainPanel');
-
   destroyPreview();
 
-  main.innerHTML = `
+  document.getElementById('mainPanel').innerHTML = `
     <div class="editor-card">
       <div class="editor-top">
-        <h2>${v.title}</h2>
+        <h2>${v.title || 'New Video'}</h2>
         <div class="section-label">
           <span class="pill" style="background:${sec.bg};color:${sec.text};margin-right:6px;">${sec.abbr}</span>
           ${sec.label} section · ${v.artist}
         </div>
       </div>
 
-      <div class="preview-wrap" style="position:relative;background:#000;aspect-ratio:16/9;">
-        <div id="previewPlayerDiv" style="width:100%;height:100%;"></div>
+      <div class="preview-wrap">
+        <div id="previewPlayerDiv"></div>
       </div>
 
       <div class="controls">
-        <div class="video-id-row">
+        <div class="full-row">
           <label>Title</label>
-          <input type="text" id="inputTitle" value="${v.title.replace(/"/g,'&quot;')}" placeholder="Song title">
+          <input type="text" id="inputTitle" value="${(v.title||'').replace(/"/g,'&quot;')}" placeholder="Song title">
         </div>
-        <div class="video-id-row">
-          <label>Artist</label>
-          <input type="text" id="inputArtist" value="${v.artist.replace(/"/g,'&quot;')}" placeholder="Artist (year)">
+        <div class="full-row">
+          <label>Artist <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#bbb;">— include year e.g. "The Beatles (1965)"</span></label>
+          <input type="text" id="inputArtist" value="${(v.artist||'').replace(/"/g,'&quot;')}" placeholder="Artist (year)">
         </div>
-        <div class="video-id-row">
-          <label>YouTube Video ID <span style="font-weight:400;text-transform:none;letter-spacing:0;">(the part after v= in the URL)</span></label>
+        <div class="full-row">
+          <label>YouTube Video ID <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#bbb;">(the part after v= in the URL)</span></label>
           <input type="text" id="inputId" value="${v.id}" placeholder="e.g. hTWKbfoikeg">
         </div>
-
         <div>
           <label>Start time (seconds)</label>
-          <div class="time-input-row">
+          <div class="time-row">
             <input type="number" id="inputStart" value="${v.start}" min="0" placeholder="0">
             <span>= ${fmtTime(v.start)}</span>
-            <button onclick="grabCurrentTime('start')" title="Pause the video at the right moment, then click this">⊙ Grab time</button>
+            <button onclick="grabCurrentTime('start')">⊙ Grab time</button>
           </div>
         </div>
-
         <div>
           <label>End time (seconds)</label>
-          <div class="time-input-row">
-            <input type="number" id="inputEnd" value="${v.end || ''}" min="0" placeholder="0">
+          <div class="time-row">
+            <input type="number" id="inputEnd" value="${v.end||''}" min="0" placeholder="0">
             <span>= ${fmtTime(v.end)}</span>
-            <button onclick="grabCurrentTime('end')" title="Pause the video at the right moment, then click this">⊙ Grab time</button>
+            <button onclick="grabCurrentTime('end')">⊙ Grab time</button>
           </div>
         </div>
       </div>
 
       <div class="tip-box">
-        <strong>How to set timestamps:</strong> Click <em>Preview</em> to load the video. Play it, pause at the exact moment where the section starts, then click <strong>⊙ Grab time</strong> next to Start. Do the same for the end of the section. Then click <em>Save</em>.
+        <strong>How to set timestamps:</strong> Click <em>▶ Preview clip</em> to load the video. Play it, pause at the exact moment the section starts, then click <strong>⊙ Grab time</strong> next to Start. Do the same for the end. Then click <em>Save</em>.
       </div>
 
       <div class="action-row">
         <button class="btn-preview" onclick="reloadPreview()">▶ Preview clip</button>
-        <button class="btn-save" onclick="saveVideo()">Save <span id="savedIndicator" class="saved-indicator">✓ Saved</span></button>
+        <button class="btn-save" onclick="saveVideo()">Save</button>
+        <span class="saved-indicator" id="savedIndicator">✓ Saved</span>
       </div>
-    </div>
-  `;
+    </div>`;
 
-  // Auto-load the player
   createPreviewPlayer(v.id, v.start, v.end);
-}
-
-function updateField(field, value) {
-  SECTIONS[activeSection].videos[activeVideoIndex][field] = value;
-  if (field === 'start') {
-    const el = document.querySelector('#inputStart + span');
-    if (el) el.textContent = '= ' + fmtTime(value);
-  }
-  if (field === 'end') {
-    const el = document.querySelector('#inputEnd + span');
-    if (el) el.textContent = '= ' + fmtTime(value);
-  }
-}
-
-const STORAGE_KEY = 'rock_video_admin_sections';
-
-function persistSections() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(SECTIONS)); } catch(e) {}
-}
-
-function loadPersistedSections() {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (!saved) return;
-    const parsed = JSON.parse(saved);
-    // Full replace — preserves adds/deletes, not just timestamp edits
-    parsed.forEach((savedSec, si) => {
-      const match = SECTIONS.find(s => s.id === savedSec.id);
-      if (match) match.videos = savedSec.videos;
-    });
-  } catch(e) {}
-}
-
-function resetToDefaults() {
-  if (!confirm('Reset all timestamps and video IDs to defaults? This cannot be undone.')) return;
-  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
-  location.reload();
 }
 
 function saveVideo() {
@@ -642,87 +427,32 @@ function saveVideo() {
   const ind = document.getElementById('savedIndicator');
   if (ind) { ind.classList.add('show'); setTimeout(() => ind.classList.remove('show'), 2000); }
 }
-function exportLesson() {
-  const html = buildLessonHTML();
-  downloadFile(html, 'song_structure_lesson.html');
-}
 
-function exportAdmin() {
-  const html = buildAdminHTML();
-  downloadFile(html, 'video_admin.html');
-}
-
+// ── EXPORT ────────────────────────────────────────────────────────────────────
 function downloadFile(html, filename) {
   const blob = new Blob([html], { type: 'text/html' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  a.click();
+  a.href = url; a.download = filename; a.click();
   URL.revokeObjectURL(url);
 }
 
+function exportLesson() { downloadFile(buildLessonHTML(), 'song_structure_lesson.html'); }
+function exportAdmin() { downloadFile(buildAdminHTML(), 'video_admin.html'); }
+
 function buildAdminHTML() {
-  // Serialize current SECTIONS data with updated values as hardcoded defaults
-  const sectionsJS = SECTIONS.map(sec => {
-    const videosJS = sec.videos.map(v =>
-      `      { id:'${v.id}', start:${v.start}, end:${v.end||0}, title:'${v.title.replace(/'/g,"\\'")}', artist:'${v.artist.replace(/'/g,"\\'")}' }`
-    ).join(',\n');
-    return `  { id:'${sec.id}', label:'${sec.label}', abbr:'${sec.abbr}', bg:'${sec.bg}', text:'${sec.text}',\n    videos:[\n${videosJS}\n    ]\n  }`;
-  }).join(',\n');
-
-  // Read the current file's full source and replace the SECTIONS block
-  // Since we can't read the file, we rebuild the admin from a template with updated data
-  return buildAdminTemplate(sectionsJS);
-}
-
-function buildAdminTemplate(sectionsJS) {
-  // Captures all the non-data parts of this file and injects updated SECTIONS
-  // We store the full admin template as a string with a placeholder for SECTIONS data
-  const style = document.querySelector('style').outerHTML;
-  const bodyContent = document.body.innerHTML
-    // Remove the rendered sidebar/panel content — will be regenerated on load
-    .replace(/<div id="sidebarList">[\s\S]*?<\/div>/, '<div id="sidebarList"></div>')
-    .replace(/<div class="main" id="mainPanel">[\s\S]*?<\/div>(?=\s*<\/div>\s*<script)/, '<div class="main" id="mainPanel"><div class="empty-state"><p>Select a video from the sidebar</p><small>Click any video to edit its ID and timestamps</small></div></div>');
-
-  // Get all scripts except the inline one (we'll rebuild it)
-  const scriptContent = Array.from(document.scripts)
-    .filter(s => !s.src)
-    .map(s => s.textContent)[0] || '';
-
-  // Replace the SECTIONS const block with updated data
-  const updatedScript = scriptContent.replace(
-    /const SECTIONS = \[[\s\S]*?\];(\s*\/\/ ── YouTube)/,
-    `const SECTIONS = [\n${sectionsJS}\n];\n$1`
+  const sectionsJS = JSON.stringify(SECTIONS, null, 2);
+  // Replace the SECTIONS data in this file's source
+  const src = document.documentElement.outerHTML;
+  const updated = src.replace(
+    /const SECTIONS = \[[\s\S]*?\];\n\nconst STORAGE_KEY/,
+    'const SECTIONS = ' + sectionsJS + ';\n\nconst STORAGE_KEY'
   );
-
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Video Admin — Song Structure Lesson</title>
-${style}
-</head>
-<body>
-${bodyContent}
-<script>
-${updatedScript}
-<\/script>
-</body>
-</html>`;
+  return updated;
 }
 
 function buildLessonHTML() {
-  // Generate the video data entries for each section
-  function videoEntries(videos) {
-    return videos.map(v =>
-      `      { id:'${v.id}', start:${v.start}, title:'${v.title.replace(/'/g,"\\'")}', artist:'${v.artist.replace(/'/g,"\\'")}', tip:'' }`
-    ).join(',\n');
-  }
-
-  // Tips are stored separately — we keep the original tips by matching on title+section
-  // For the export we merge back with the original tip data
+  // Outputs updated SECTIONS data for paste into song_structure_lesson.html
   const TIPS = {
     'intro': {
       "Baba O'Riley": "The synthesizer loop runs over a minute before any lyric. Notice how it locks you into a hypnotic rhythmic cycle — that loop IS the intro.",
@@ -740,13 +470,10 @@ function buildLessonHTML() {
     },
     'chorus': {
       "Smells Like Teen Spirit": "The shift from pre-chorus to chorus is one of the most visceral moments in 90s rock — full band, distortion cranked, Cobain at full volume.",
-      "Don't Stop Believin'": "The chorus doesn't arrive until about 2:50. The entire journey through the verses makes this payoff feel enormous.",
+      "Don't Stop Believin'": "The chorus doesn't arrive until nearly four minutes. The entire journey through the verses makes this payoff feel enormous.",
       "Johnny B. Goode": "In blues-based rock the 'chorus' is sometimes just the title lyric punched in over the turnaround — simpler, but just as effective."
     },
-    'bridge': {
-      "Yesterday": "The bridge shifts to minor-leaning harmony and a violin counter-melody. In a two-minute song this contrast does enormous emotional work.",
-      "Smells Like Teen Spirit": "The stripped-down, almost spoken section breaks the verse-chorus pattern before the final explosive chorus."
-    },
+    'bridge': {},
     'solo': {
       "Johnny B. Goode": "The guitar solo IS the emotional peak — no vocal needed. This is the 12-bar blues form doing its essential work.",
       "Smells Like Teen Spirit": "The solo is deliberately anti-virtuosic — repetitive and almost disinterested. That restraint is itself a statement."
@@ -755,1143 +482,34 @@ function buildLessonHTML() {
       "Yesterday": "A hard stop on the final chord — no fade, no tag. It ends abruptly, leaving the lyric's weight still resonating.",
       "Don't Stop Believin'": "The song fades on a repeated chorus — suggesting the story goes on. The characters never quite resolve."
     },
-    'tag': {
+    'hook': {
       "Hey Jude": "The 'Na na na' tag runs over four minutes — longer than the entire verse-chorus section. Repetition as ecstatic release."
-    }
+    },
   };
 
   const sectionsJS = SECTIONS.map(sec => {
-    const videoJS = sec.videos.map(v => {
+    const videosJS = sec.videos.map(v => {
       const tip = (TIPS[sec.id] && TIPS[sec.id][v.title]) || '';
-      return `      { id:'${v.id}', start:${v.start}, title:'${v.title.replace(/'/g,"\\'")}', artist:'${v.artist.replace(/'/g,"\\'")}', tip:"${tip.replace(/"/g,'\\"')}" }`;
+      return `      { id:'${v.id}', start:${v.start}, end:${v.end||0}, title:'${v.title.replace(/'/g,"\\'")}', artist:'${v.artist.replace(/'/g,"\\'")}', tip:"${tip.replace(/"/g,'\\"')}" }`;
     }).join(',\n');
-    return `  { id:'${sec.id}', label:'${sec.label}', abbr:'${sec.abbr}', bg:'${sec.bg}', text:'${sec.text}',
-    tagline:'',
-    purpose:'',
-    length:'',
-    texture:'',
-    whatToListen:'',
-    videos:[\n${videoJS}\n    ]
-  }`;
+    return `  { id:'${sec.id}', label:'${sec.label}', abbr:'${sec.abbr}', bg:'${sec.bg}', text:'${sec.text}',\n    tagline:'', purpose:'', length:'', texture:'', whatToListen:'',\n    videos:[\n${videosJS}\n    ]\n  }`;
   }).join(',\n');
 
   return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Song Structure — History of Rock 'n' Roll</title>
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 15px; color: #1a1a1a; line-height: 1.6; background: #f5f4f0; }
-.page-header { background: #1a1a1a; color: #fff; padding: 1.5rem 2rem; }
-.page-header h1 { font-size: 20px; font-weight: 500; }
-.page-header p { font-size: 13px; color: #999; margin-top: 3px; }
-.lesson { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
-.tabs { display: flex; gap: 2px; margin-bottom: 1.5rem; border-bottom: 1px solid #ddd; flex-wrap: wrap; }
-.tab { padding: 8px 18px; font-size: 14px; font-weight: 500; border: none; background: none; cursor: pointer; color: #666; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s; }
-.tab.active { color: #1a1a1a; border-bottom-color: #1a1a1a; }
-.tab:hover:not(.active) { color: #1a1a1a; }
-.panel { display: none; }
-.panel.active { display: block; }
-.section-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; margin-bottom: 1.25rem; }
-.section-btn { border: 1.5px solid transparent; border-radius: 12px; padding: 10px 12px; cursor: pointer; background: #fff; text-align: left; transition: border-color 0.15s, box-shadow 0.15s; }
-.section-btn:hover { box-shadow: 0 1px 6px rgba(0,0,0,0.1); }
-.section-btn.active { border-width: 2px; }
-.pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 10px; border-radius: 20px; margin-bottom: 6px; }
-.section-btn h3 { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
-.section-btn .tagline { font-size: 11px; color: #666; line-height: 1.4; }
-.detail-panel { border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; background: #fff; }
-.detail-header { padding: 1rem 1.25rem 0.9rem; border-bottom: 1px solid #eee; }
-.detail-header h2 { font-size: 18px; font-weight: 600; margin-bottom: 5px; }
-.detail-header .purpose { font-size: 14px; color: #444; }
-.detail-meta { display: flex; gap: 1.5rem; padding: 0.9rem 1.25rem; border-bottom: 1px solid #eee; flex-wrap: wrap; background: #fafafa; }
-.meta-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #999; margin-bottom: 3px; }
-.meta-value { font-size: 13px; color: #555; }
-.examples-section { padding: 1.25rem; }
-.examples-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #999; margin-bottom: 14px; }
-.video-list { display: flex; flex-direction: column; gap: 18px; }
-.video-item { display: grid; grid-template-columns: 240px 1fr; gap: 16px; align-items: start; }
-.video-item iframe { width: 240px; height: 135px; border: none; border-radius: 8px; display: block; }
-.video-info h4 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
-.video-artist { font-size: 12px; color: #888; margin-bottom: 6px; }
-.listen-tip { font-size: 13px; color: #555; line-height: 1.55; }
-.timestamp-badge { display: inline-block; font-size: 11px; padding: 2px 9px; border-radius: 20px; background: #f0f0f0; color: #666; border: 1px solid #e0e0e0; margin-bottom: 7px; }
-.placeholder { padding: 2.5rem 1.25rem; color: #aaa; font-size: 14px; font-style: italic; text-align: center; }
-.forms-list { display: flex; flex-direction: column; gap: 12px; }
-.form-row { border: 1px solid #e0e0e0; border-radius: 12px; padding: 1rem 1.25rem; background: #fff; }
-.form-row h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
-.formula { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; align-items: center; }
-.block-chip { padding: 4px 11px; border-radius: 14px; font-size: 12px; font-weight: 600; white-space: nowrap; }
-.sep { font-size: 11px; color: #bbb; }
-.form-notes { font-size: 12px; color: #888; margin-top: 5px; font-style: italic; }
-.form-examples { font-size: 13px; color: #555; margin-top: 5px; }
-.filter-row { margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
-.filter-row label { font-size: 13px; color: #666; }
-.filter-row select { font-size: 13px; padding: 5px 10px; border: 1px solid #ddd; border-radius: 6px; background: #fff; }
-.songs-grid { display: flex; flex-direction: column; gap: 10px; }
-.song-row { display: grid; grid-template-columns: 140px 1fr 1fr; gap: 14px; border: 1px solid #e0e0e0; border-radius: 12px; padding: 1rem 1.25rem; background: #fff; align-items: start; }
-.song-info h4 { font-size: 14px; font-weight: 600; }
-.song-artist { font-size: 12px; color: #888; }
-.song-year { font-size: 11px; color: #aaa; }
-.song-form-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #aaa; margin-bottom: 5px; }
-.song-structure { display: flex; flex-wrap: wrap; gap: 4px; }
-.small-chip { padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-.song-notes { font-size: 12px; color: #666; line-height: 1.55; }
-.activity-intro { font-size: 14px; color: #555; margin-bottom: 1.25rem; line-height: 1.6; }
-.song-select-row { display: flex; align-items: center; gap: 12px; margin-bottom: 1.25rem; flex-wrap: wrap; }
-.song-select-row label { font-size: 13px; color: #666; }
-.song-select-row select { font-size: 14px; padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; }
-.palette-label { font-size: 11px; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
-.palette { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 1.25rem; }
-.drag-chip { padding: 7px 15px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: grab; user-select: none; border: none; }
-.drag-chip:active { cursor: grabbing; transform: scale(0.95); }
-.timeline-wrap { border: 1px solid #e0e0e0; border-radius: 12px; padding: 1rem; background: #fafafa; margin-bottom: 1rem; }
-.timeline-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.timeline-track { position: relative; height: 56px; background: #fff; border-radius: 8px; border: 1px solid #e0e0e0; overflow: hidden; }
-.timeline-track.drag-over { border-style: dashed; border-color: #999; }
-.placed-block { position: absolute; top: 6px; height: 44px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; cursor: grab; user-select: none; }
-.placed-block .remove-x { position: absolute; top: 2px; right: 4px; font-size: 10px; cursor: pointer; opacity: 0.6; }
-.placed-block .remove-x:hover { opacity: 1; }
-.resize-handle { position: absolute; right: 0; top: 0; bottom: 0; width: 8px; cursor: ew-resize; }
-.form-readout { font-size: 14px; margin-bottom: 1rem; min-height: 24px; }
-.form-string { font-weight: 600; }
-.form-empty { color: #aaa; font-style: italic; }
-.activity-footer { display: flex; gap: 10px; flex-wrap: wrap; }
-.activity-footer button { font-size: 13px; padding: 8px 18px; cursor: pointer; border: 1px solid #ccc; border-radius: 8px; background: #fff; }
-.activity-footer button:hover { background: #f0f0f0; }
-.check-box { border: 1px solid #e0e0e0; border-radius: 12px; padding: 1rem 1.25rem; background: #fff; margin-top: 1rem; font-size: 13px; display: none; line-height: 1.6; }
-.check-box.visible { display: block; }
-.correct { color: #1D9E75; font-weight: 600; }
-.incorrect { color: #D85A30; font-weight: 600; }
-@media (max-width: 600px) {
-  .video-item { grid-template-columns: 1fr; }
-  .video-item iframe { width: 100%; height: 200px; }
-  .song-row { grid-template-columns: 1fr; }
-}
-</style>
-</head>
-<body>
-<div class="page-header">
-  <h1>Song Structure</h1>
-  <p>History of Rock 'n' Roll</p>
-</div>
-<div class="lesson">
-<div class="tabs">
-  <button class="tab active" onclick="showTab('sections')">Song sections</button>
-  <button class="tab" onclick="showTab('forms')">Common forms</button>
-  <button class="tab" onclick="showTab('examples')">Song examples</button>
-  <button class="tab" onclick="showTab('activity')">Build a form</button>
-</div>
-<div id="panel-sections" class="panel active">
-  <div class="section-grid" id="sectionGrid"></div>
-  <div class="detail-panel" id="detailPanel">
-    <div class="placeholder">Click a section above to explore its definition and hear examples.</div>
-  </div>
-</div>
-<div id="panel-forms" class="panel">
-  <div class="forms-list" id="formsList"></div>
-</div>
-<div id="panel-examples" class="panel">
-  <div class="filter-row">
-    <label>Filter by form:</label>
-    <select id="formFilter" onchange="renderSongs()"></select>
-  </div>
-  <div class="songs-grid" id="songsGrid"></div>
-</div>
-<div id="panel-activity" class="panel">
-  <p class="activity-intro">Choose a song, then drag section blocks onto the timeline to map its form. Try to match the real structure — then check your answer.</p>
-  <div class="song-select-row">
-    <label>Song:</label>
-    <select id="activitySong" onchange="loadActivitySong()"></select>
-    <button onclick="clearTimeline()">Clear</button>
-  </div>
-  <div class="palette-label">Section palette</div>
-  <div class="palette" id="activityPalette"></div>
-  <div class="timeline-wrap">
-    <div class="timeline-header">
-      <span style="font-size:13px;font-weight:600;color:#555;">Timeline</span>
-      <span style="font-size:12px;color:#aaa;">Drop sections here — drag right edge to resize</span>
-    </div>
-    <div class="timeline-track" id="timelineTrack"></div>
-  </div>
-  <div class="form-readout" id="formReadout"><span class="form-empty">Your form will appear here as you build it.</span></div>
-  <div class="activity-footer">
-    <button onclick="checkAnswer()">Check my answer</button>
-    <button onclick="revealAnswer()">Reveal answer</button>
-  </div>
-  <div class="check-box" id="checkBox"></div>
-</div>
-</div>
-<script>
-const SECTIONS = [
+<html><head><meta charset="UTF-8"><title>Video Data Export</title>
+<style>body{font-family:monospace;padding:2rem;background:#f5f4f0;}pre{background:#fff;border:1px solid #ddd;border-radius:8px;padding:1.5rem;overflow:auto;font-size:12px;line-height:1.6;}h2{margin-bottom:1rem;font-size:16px;font-family:sans-serif;}p{margin-bottom:1rem;font-size:13px;color:#666;font-family:sans-serif;}</style>
+</head><body>
+<h2>Video Data Export — History of Rock 'n' Roll</h2>
+<p>Copy the SECTIONS array below and paste it into <strong>song_structure_lesson.html</strong> to replace the existing SECTIONS constant.</p>
+<pre>const SECTIONS = [
 ${sectionsJS}
-];
-const FORMS = [
-  { name:'Simple verse form', formula:['V','V','V','V'], notes:'The oldest form in popular music — no chorus, no break. Each verse carries the whole weight of the song.', examples:'"House of the Rising Sun" (Animals), "The Times They Are A-Changin\\'" (Dylan)' },
-  { name:'Verse-chorus form', formula:['V','Ch','V','Ch','V','Ch'], notes:'The backbone of rock and pop. Verse builds story, chorus delivers the payoff.', examples:'"Smells Like Teen Spirit", "Born to Run", "Good Riddance"' },
-  { name:'Verse-chorus with bridge', formula:['V','Ch','V','Ch','Br','Ch'], notes:'Adds contrast before the final chorus. The bridge creates relief and makes the last chorus feel like a release.', examples:'"Yesterday", "Let It Be", "Don\\'t Stop Believin\\'"' },
-  { name:'32-bar AABA', formula:['A','A','B','A'], notes:'Classic pre-rock form inherited from jazz. A = 8-bar verse, B = contrasting bridge.', examples:'"I Got You (I Feel Good)", "Love Me Tender", early Chuck Berry' },
-  { name:'Extended intro form', formula:['In','In','V','Ch','V','Ch','Sol','Ch','Out'], notes:'Songs where the intro is an event in itself. Common in arena rock and psychedelia.', examples:'"Baba O\\'Riley", "Hotel California", "Stairway to Heaven"' },
-  { name:'Through-composed / suite', formula:['A','B','C','D','E'], notes:'Little to no repetition — each section is new material.', examples:'"Bohemian Rhapsody", "A Day in the Life", "Happiness Is a Warm Gun"' },
-  { name:'12-bar blues form', formula:['I','IV','I','I','IV','IV','I','I','V','IV','I','V'], notes:'The harmonic and formal DNA of rock. A 12-bar cycle of three chords (I-IV-V) that repeats continuously.', examples:'"Johnny B. Goode", "Hound Dog", "La Grange", "Pride and Joy"' },
-];
-const SONGS = [
-  { title:'Johnny B. Goode', artist:'Chuck Berry', year:'1958', form:'12-bar blues', structure:['In','V','Sol','V','V','Sol','Out'], notes:'Every verse follows the 12-bar blues cycle. The guitar solo IS the form.' },
-  { title:'Like a Rolling Stone', artist:'Bob Dylan', year:'1965', form:'Verse-chorus form', structure:['V','V','Ch','V','Ch','V','Ch'], notes:'Long narrative verses build to a devastating chorus. No bridge.' },
-  { title:"Baba O'Riley", artist:'The Who', year:'1971', form:'Extended intro form', structure:['In','In','V','V','Ch','Sol','Out'], notes:'The iconic synth loop intro runs over a minute before any lyric.' },
-  { title:'Bohemian Rhapsody', artist:'Queen', year:'1975', form:'Through-composed / suite', structure:['In','V','V','Br','Sol','Out'], notes:'Five distinct sections with almost no internal repetition.' },
-  { title:"Don't Stop Believin'", artist:'Journey', year:'1981', form:'Verse-chorus with bridge', structure:['In','V','V','Pre','Ch','V','Ch','Sol','Ch'], notes:'No chorus for almost three minutes. The delayed payoff is the structure.' },
-  { title:'Smells Like Teen Spirit', artist:'Nirvana', year:'1991', form:'Verse-chorus form', structure:['In','V','Pre','Ch','V','Pre','Ch','Sol','V','Pre','Ch','Out'], notes:'Classic loud-quiet dynamic. The pre-chorus makes the chorus hit harder.' },
-  { title:'Yesterday', artist:'The Beatles', year:'1965', form:'32-bar AABA', structure:['A','A','B','A','A','B','A'], notes:'A perfect specimen of Tin Pan Alley form adapted to the rock era.' },
-  { title:'Fade Into You', artist:'Mazzy Star', year:'1993', form:'Verse-chorus form', structure:['In','V','Ch','V','Ch','Out'], notes:'Minimal structure mirrors the lyrical theme. The form IS the feeling.' },
-];
-function getColor(abbr) {
-  const s = SECTIONS.find(x => x.abbr === abbr);
-  if (s) return { bg: s.bg, text: s.text };
-  const extras = {
-    'Int': { bg:'#FDE68A', text:'#78350F' },
-    'A':   { bg:'#E9D5FF', text:'#4C1D95' },
-    'B':   { bg:'#BFDBFE', text:'#1E3A8A' },
-    'C':   { bg:'#BBF7D0', text:'#065F46' },
-    'D':   { bg:'#FED7AA', text:'#7C2D12' },
-    'E':   { bg:'#FECACA', text:'#7F1D1D' },
-  };
-  return extras[abbr] || { bg:'#D3D1C7', text:'#444441' };
-}
-function chipHtml(abbr, small) {
-  const c = getColor(abbr);
-  return '<span class="' + (small?'small-chip':'block-chip') + '" style="background:' + c.bg + ';color:' + c.text + ';">' + abbr + '</span>';
-}
-function fmtTime(s) { return Math.floor(s/60) + ':' + (s%60).toString().padStart(2,'0'); }
-function showTab(id) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelector('[onclick="showTab(\\'' + id + '\\')"]').classList.add('active');
-  document.getElementById('panel-' + id).classList.add('active');
-}
-function renderSectionGrid() {
-  document.getElementById('sectionGrid').innerHTML = SECTIONS.map(s =>
-    '<button class="section-btn" id="btn-' + s.id + '" onclick="showSection(\\'' + s.id + '\\')">' +
-    '<span class="pill" style="background:' + s.bg + ';color:' + s.text + ';">' + s.abbr + '</span>' +
-    '<h3>' + s.label + '</h3>' +
-    '<p class="tagline">' + (s.tagline||'') + '</p></button>'
-  ).join('');
-}
-function showSection(id) {
-  const s = SECTIONS.find(x => x.id === id);
-  if (!s) return;
-  document.querySelectorAll('.section-btn').forEach(b => { b.classList.remove('active'); b.style.borderColor = 'transparent'; });
-  const btn = document.getElementById('btn-' + id);
-  btn.classList.add('active'); btn.style.borderColor = s.bg;
-  document.getElementById('detailPanel').innerHTML =
-    '<div class="detail-header" style="border-left:4px solid ' + s.bg + ';">' +
-    '<span class="pill" style="background:' + s.bg + ';color:' + s.text + ';margin-bottom:8px;">' + s.abbr + '</span>' +
-    '<h2>' + s.label + '</h2><p class="purpose">' + (s.purpose||'') + '</p></div>' +
-    '<div class="detail-meta">' +
-    '<div><div class="meta-label">Typical length</div><div class="meta-value">' + (s.length||'') + '</div></div>' +
-    '<div><div class="meta-label">Texture</div><div class="meta-value">' + (s.texture||'') + '</div></div>' +
-    '<div style="flex:1;min-width:180px;"><div class="meta-label">What to listen for</div><div class="meta-value">' + (s.whatToListen||'') + '</div></div></div>' +
-    '<div class="examples-section"><div class="examples-label">Hear it in action</div><div class="video-list">' +
-    s.videos.map(v =>
-      '<div class="video-item">' +
-      '<iframe src="https://www.youtube.com/embed/' + v.id + '?start=' + v.start + '&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>' +
-      '<div class="video-info"><h4>' + v.title + '</h4><p class="video-artist">' + v.artist + '</p>' +
-      '<span class="timestamp-badge">Starts at ' + fmtTime(v.start) + '</span>' +
-      '<p class="listen-tip">' + (v.tip||'') + '</p></div></div>'
-    ).join('') +
-    '</div></div>';
-}
-function renderForms() {
-  document.getElementById('formsList').innerHTML = FORMS.map(f =>
-    '<div class="form-row"><h3>' + f.name + '</h3>' +
-    '<div class="formula">' + f.formula.map((a,i) => chipHtml(a) + (i < f.formula.length-1 ? '<span class="sep">→</span>' : '')).join('') + '</div>' +
-    '<div class="form-examples"><strong>Examples:</strong> ' + f.examples + '</div>' +
-    '<div class="form-notes">' + f.notes + '</div></div>'
-  ).join('');
-}
-function populateFormFilter() {
-  const forms = [...new Set(SONGS.map(s => s.form))];
-  document.getElementById('formFilter').innerHTML = '<option value="">All forms</option>' + forms.map(f => '<option value="' + f + '">' + f + '</option>').join('');
-}
-function renderSongs() {
-  const filter = document.getElementById('formFilter').value;
-  const songs = filter ? SONGS.filter(s => s.form === filter) : SONGS;
-  document.getElementById('songsGrid').innerHTML = songs.map(s =>
-    '<div class="song-row"><div class="song-info"><h4>' + s.title + '</h4><div class="song-artist">' + s.artist + '</div><div class="song-year">' + s.year + '</div></div>' +
-    '<div><div class="song-form-label">Structure</div><div class="song-structure">' + s.structure.map(a => chipHtml(a,true)).join('<span class="sep" style="font-size:10px;margin:0 2px;">›</span>') + '</div><div style="margin-top:5px;font-size:11px;color:#aaa;">Form: ' + s.form + '</div></div>' +
-    '<div class="song-notes">' + s.notes + '</div></div>'
-  ).join('');
-}
-function populateActivitySong() {
-  document.getElementById('activitySong').innerHTML = SONGS.map((s,i) => '<option value="' + i + '">' + s.title + ' — ' + s.artist + '</option>').join('');
-}
-function renderActivityPalette() {
-  const abbrs = ['In','V','Pre','Ch','Br','Sol','Int','Out','A','B','C','D','E'];
-  document.getElementById('activityPalette').innerHTML = abbrs.map(abbr => {
-    const c = getColor(abbr);
-    return '<span class="drag-chip" draggable="true" data-abbr="' + abbr + '" style="background:' + c.bg + ';color:' + c.text + ';" ondragstart="startChipDrag(event,\\'' + abbr + '\\')">' + abbr + '</span>';
-  }).join('');
-}
-let timeline = [], resizingBlock = null, resizeStartX = 0, resizeStartW = 0, trackWidth = 0;
-function loadActivitySong() { clearTimeline(); }
-function startChipDrag(e, abbr) { e.dataTransfer.setData('text/plain', abbr); }
-function setupTrackDrop() {
-  const t = document.getElementById('timelineTrack');
-  t.addEventListener('dragover', e => { e.preventDefault(); t.classList.add('drag-over'); });
-  t.addEventListener('dragleave', () => t.classList.remove('drag-over'));
-  t.addEventListener('drop', e => {
-    e.preventDefault(); t.classList.remove('drag-over');
-    const abbr = e.dataTransfer.getData('text/plain');
-    if (!abbr) return;
-    const rect = t.getBoundingClientRect();
-    const xPct = (e.clientX - rect.left) / rect.width;
-    const w = 0.15;
-    timeline.push({ abbr, left: Math.min(Math.max(0, xPct - w/2), 1 - w), width: w, id: Date.now() });
-    renderTimeline();
-  });
-}
-function renderTimeline() {
-  const t = document.getElementById('timelineTrack');
-  t.querySelectorAll('.placed-block').forEach(b => b.remove());
-  timeline.forEach(block => {
-    const c = getColor(block.abbr);
-    const el = document.createElement('div');
-    el.className = 'placed-block';
-    el.style.cssText = 'left:' + (block.left*100) + '%;width:' + (block.width*100) + '%;background:' + c.bg + ';color:' + c.text + ';';
-    el.innerHTML = block.abbr + '<span class="remove-x" onclick="removeBlock(' + block.id + ')">✕</span><span class="resize-handle" onmousedown="startResize(event,' + block.id + ')"></span>';
-    t.appendChild(el);
-  });
-  updateFormReadout();
-}
-function removeBlock(id) { timeline = timeline.filter(b => b.id !== id); renderTimeline(); }
-function startResize(e, id) {
-  e.preventDefault(); e.stopPropagation();
-  const block = timeline.find(b => b.id === id); if (!block) return;
-  resizingBlock = id; resizeStartX = e.clientX; resizeStartW = block.width;
-  trackWidth = document.getElementById('timelineTrack').getBoundingClientRect().width;
-  window.addEventListener('mousemove', doResize);
-  window.addEventListener('mouseup', stopResize);
-}
-function doResize(e) {
-  if (!resizingBlock) return;
-  const block = timeline.find(b => b.id === resizingBlock); if (!block) return;
-  block.width = Math.max(0.06, Math.min(1 - block.left, resizeStartW + (e.clientX - resizeStartX) / trackWidth));
-  renderTimeline();
-}
-function stopResize() { resizingBlock = null; window.removeEventListener('mousemove', doResize); window.removeEventListener('mouseup', stopResize); }
-function updateFormReadout() {
-  const sorted = [...timeline].sort((a,b) => a.left - b.left);
-  const str = sorted.map(b => b.abbr).join(' → ');
-  document.getElementById('formReadout').innerHTML = str ? '<span class="form-string">' + str + '</span>' : '<span class="form-empty">Your form will appear here as you build it.</span>';
-}
-function clearTimeline() { timeline = []; renderTimeline(); document.getElementById('checkBox').classList.remove('visible'); }
-function checkAnswer() {
-  const song = SONGS[parseInt(document.getElementById('activitySong').value)];
-  const sorted = [...timeline].sort((a,b) => a.left - b.left);
-  const box = document.getElementById('checkBox');
-  box.classList.add('visible');
-  box.innerHTML = sorted.map(b => b.abbr).join('-') === song.structure.join('-')
-    ? '<span class="correct">Great match!</span> You correctly identified the structure of "' + song.title + '." ' + song.notes
-    : '<span class="incorrect">Not quite.</span> The actual form is: <strong>' + song.structure.join(' → ') + '</strong><br><br>' + song.notes;
-}
-function revealAnswer() {
-  const song = SONGS[parseInt(document.getElementById('activitySong').value)];
-  timeline = song.structure.map((abbr,i) => ({ abbr, left: i/song.structure.length, width: 0.9/song.structure.length, id: Date.now()+i }));
-  renderTimeline();
-  document.getElementById('checkBox').classList.remove('visible');
-}
-renderSectionGrid(); renderForms(); populateFormFilter(); renderSongs(); populateActivitySong(); renderActivityPalette(); setupTrackDrop();
-<\/script>
-</body>
-</html>`;
+];</pre>
+</body></html>`;
 }
 
+// ── INIT ──────────────────────────────────────────────────────────────────────
 loadPersistedSections();
 renderSidebar();
-</script>
-
-
-
-<script>
-
-// ── DATA ─────────────────────────────────────────────────────────────────────
-// This mirrors the SECTIONS data from song_structure_lesson.html.
-// Edit video IDs and timestamps here, then export.
-
-const SECTIONS = [
-  { id:'intro', label:'Intro', abbr:'In', bg:'#B5D4F4', text:'#0C447C',
-    videos:[
-      { id:'Gu9HhYv0C7E', start:0, end:70, title:"Baba O'Riley", artist:'The Who (1978)' },
-      { id:'Y-9Y4CCIWnM', start:0, end:20, title:'Johnny B. Goode', artist:'Chuck Berry (1958)' },
-      { id:'hTWKbfoikeg', start:0, end:25, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)' },
-    ]
-  },
-  { id:'verse', label:'Verse', abbr:'V', bg:'#9FE1CB', text:'#085041',
-    videos:[
-      { id:'Y-9Y4CCIWnM', start:9, end:45, title:'Johnny B. Goode', artist:'Chuck Berry (1958)' },
-      { id:'NrgmdOz227I', start:0, end:47, title:'Yesterday', artist:'The Beatles (1965)' },
-      { id:'hTWKbfoikeg', start:25, end:60, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)' },
-    ]
-  },
-  { id:'pre-chorus', label:'Pre-chorus', abbr:'Pre', bg:'#FAC775', text:'#633806',
-    videos:[
-      { id:'hTWKbfoikeg', start:50, end:65, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)' },
-      { id:'-j2EgFx129w', start:148, end:168, title:"Don't Stop Believin'", artist:'Journey (1981)' },
-    ]
-  },
-  { id:'chorus', label:'Chorus', abbr:'Ch', bg:'#F4C0D1', text:'#72243E',
-    videos:[
-      { id:'hTWKbfoikeg', start:61, end:100, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)' },
-      { id:'-j2EgFx129w', start:166, end:200, title:"Don't Stop Believin'", artist:'Journey (1981)' },
-      { id:'Y-9Y4CCIWnM', start:50, end:75, title:'Johnny B. Goode', artist:'Chuck Berry (1958)' },
-    ]
-  },
-  { id:'bridge', label:'Bridge', abbr:'Br', bg:'#CECBF6', text:'#3C3489',
-    videos:[]
-  },
-  { id:'solo', label:'Solo / Interlude', abbr:'Sol', bg:'#F5C4B3', text:'#712B13',
-    videos:[
-      { id:'Y-9Y4CCIWnM', start:84, end:115, title:'Johnny B. Goode', artist:'Chuck Berry (1958)' },
-      { id:'hTWKbfoikeg', start:218, end:248, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)' },
-    ]
-  },
-  { id:'outro', label:'Outro', abbr:'Out', bg:'#D3D1C7', text:'#444441',
-    videos:[
-      { id:'NrgmdOz227I', start:110, end:130, title:'Yesterday', artist:'The Beatles (1965)' },
-      { id:'-j2EgFx129w', start:220, end:255, title:"Don't Stop Believin'", artist:'Journey (1981)' },
-    ]
-  },
-  { id:'hook', label:'Hook', abbr:'Hook', bg:'#C0DD97', text:'#27500A',
-    videos:[
-      { id:'rIbMbXjbW98', start:188, end:240, title:'Hey Jude', artist:'The Beatles (1968)' },
-    ]
-  },
-];
-
-let activeSection = null;
-let activeVideoIndex = null;
-
-function fmtTime(s) {
-  if (s == null || s === '') return '--:--';
-  const secs = parseInt(s);
-  return `${Math.floor(secs/60)}:${(secs%60).toString().padStart(2,'0')}`;
-}
-
-function renderSidebar() {
-  const list = document.getElementById('sidebarList');
-  list.innerHTML = SECTIONS.map((sec, si) => `
-    <div class="section-group">
-      <div class="section-heading">
-        <div style="display:flex;align-items:center;gap:8px;">
-          <span class="pill" style="background:${sec.bg};color:${sec.text};">${sec.abbr}</span>
-          ${sec.label}
-        </div>
-        <button class="add-video-btn" onclick="addVideo(${si})">+ Add</button>
-      </div>
-      ${sec.videos.length === 0 ? `<div style="padding:8px 14px 8px 36px;font-size:11px;color:#bbb;font-style:italic;">No examples yet — click + Add</div>` : ''}
-      ${sec.videos.map((v, vi) => `
-        <div class="video-item-row">
-          <div class="video-item ${activeSection===si && activeVideoIndex===vi ? 'active' : ''}"
-               id="item-${si}-${vi}"
-               onclick="selectVideo(${si}, ${vi})">
-            <div class="video-item-title">${v.title}</div>
-            <div class="video-item-meta">
-              <span>${v.artist}</span>
-              <span class="time-badge">${fmtTime(v.start)} – ${fmtTime(v.end)}</span>
-            </div>
-          </div>
-          <button class="del-video-btn" onclick="deleteVideo(event,${si},${vi})" title="Remove this video">✕</button>
-        </div>
-      `).join('')}
-    </div>
-  `).join('');
-}
-
-function selectVideo(si, vi) {
-  activeSection = si;
-  activeVideoIndex = vi;
-  renderSidebar();
-  renderEditor();
-}
-
-// ── YouTube IFrame API ────────────────────────────────────────────────────────
-let previewPlayer = null;
-let stopInterval = null;
-
-window.onYouTubeIframeAPIReady = function() {
-  window.ytApiReady = true;
-  if (window.ytPending) { window.ytPending(); window.ytPending = null; }
-};
-
-function ensureYTApi(cb) {
-  if (window.ytApiReady) { cb(); return; }
-  window.ytPending = cb;
-  if (!document.getElementById('yt-api-script')) {
-    const s = document.createElement('script');
-    s.id = 'yt-api-script';
-    s.src = 'https://www.youtube.com/iframe_api';
-    document.head.appendChild(s);
-  }
-}
-
-function destroyPreview() {
-  clearInterval(stopInterval);
-  stopInterval = null;
-  if (previewPlayer) {
-    try { previewPlayer.destroy(); } catch(e) {}
-    previewPlayer = null;
-  }
-}
-
-function createPreviewPlayer(videoId, startSec, endSec) {
-  destroyPreview();
-  ensureYTApi(() => {
-    previewPlayer = new YT.Player('previewPlayerDiv', {
-      width: '100%',
-      height: '100%',
-      videoId: videoId,
-      playerVars: { start: startSec, rel: 0, modestbranding: 1, playsinline: 1 },
-      events: {
-        onStateChange: (e) => {
-          if (e.data === YT.PlayerState.PLAYING) {
-            clearInterval(stopInterval);
-            stopInterval = setInterval(() => {
-              if (!previewPlayer) return;
-              const cur = previewPlayer.getCurrentTime();
-              const end = parseInt(document.getElementById('inputEnd').value) || 0;
-              if (end && cur >= end) {
-                previewPlayer.pauseVideo();
-                previewPlayer.seekTo(parseInt(document.getElementById('inputStart').value) || 0, true);
-                clearInterval(stopInterval);
-              }
-            }, 300);
-          }
-          if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
-            clearInterval(stopInterval);
-          }
-        }
-      }
-    });
-  });
-}
-
-function grabCurrentTime(field) {
-  if (!previewPlayer) return;
-  try {
-    const t = Math.floor(previewPlayer.getCurrentTime());
-    SECTIONS[activeSection].videos[activeVideoIndex][field] = t;
-    const inputId = field === 'start' ? 'inputStart' : 'inputEnd';
-    document.getElementById(inputId).value = t;
-    const span = document.querySelector(`#${inputId} + span`);
-    if (span) span.textContent = '= ' + fmtTime(t);
-  } catch(e) {}
-}
-
-function reloadPreview() {
-  const id = document.getElementById('inputId').value.trim();
-  const start = parseInt(document.getElementById('inputStart').value) || 0;
-  const end = parseInt(document.getElementById('inputEnd').value) || 0;
-  SECTIONS[activeSection].videos[activeVideoIndex].id = id;
-  SECTIONS[activeSection].videos[activeVideoIndex].start = start;
-  SECTIONS[activeSection].videos[activeVideoIndex].end = end;
-  if (previewPlayer) {
-    try {
-      previewPlayer.loadVideoById({ videoId: id, startSeconds: start });
-    } catch(e) {
-      createPreviewPlayer(id, start, end);
-    }
-  } else {
-    createPreviewPlayer(id, start, end);
-  }
-}
-
-function renderEditor() {
-  const sec = SECTIONS[activeSection];
-  const v = sec.videos[activeVideoIndex];
-  const main = document.getElementById('mainPanel');
-
-  destroyPreview();
-
-  main.innerHTML = `
-    <div class="editor-card">
-      <div class="editor-top">
-        <h2>${v.title}</h2>
-        <div class="section-label">
-          <span class="pill" style="background:${sec.bg};color:${sec.text};margin-right:6px;">${sec.abbr}</span>
-          ${sec.label} section · ${v.artist}
-        </div>
-      </div>
-
-      <div class="preview-wrap" style="position:relative;background:#000;aspect-ratio:16/9;">
-        <div id="previewPlayerDiv" style="width:100%;height:100%;"></div>
-      </div>
-
-      <div class="controls">
-        <div class="video-id-row">
-          <label>Title</label>
-          <input type="text" id="inputTitle" value="${v.title.replace(/"/g,'&quot;')}" placeholder="Song title">
-        </div>
-        <div class="video-id-row">
-          <label>Artist</label>
-          <input type="text" id="inputArtist" value="${v.artist.replace(/"/g,'&quot;')}" placeholder="Artist (year)">
-        </div>
-        <div class="video-id-row">
-          <label>YouTube Video ID <span style="font-weight:400;text-transform:none;letter-spacing:0;">(the part after v= in the URL)</span></label>
-          <input type="text" id="inputId" value="${v.id}" placeholder="e.g. hTWKbfoikeg">
-        </div>
-
-        <div>
-          <label>Start time (seconds)</label>
-          <div class="time-input-row">
-            <input type="number" id="inputStart" value="${v.start}" min="0" placeholder="0">
-            <span>= ${fmtTime(v.start)}</span>
-            <button onclick="grabCurrentTime('start')" title="Pause the video at the right moment, then click this">⊙ Grab time</button>
-          </div>
-        </div>
-
-        <div>
-          <label>End time (seconds)</label>
-          <div class="time-input-row">
-            <input type="number" id="inputEnd" value="${v.end || ''}" min="0" placeholder="0">
-            <span>= ${fmtTime(v.end)}</span>
-            <button onclick="grabCurrentTime('end')" title="Pause the video at the right moment, then click this">⊙ Grab time</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="tip-box">
-        <strong>How to set timestamps:</strong> Click <em>Preview</em> to load the video. Play it, pause at the exact moment where the section starts, then click <strong>⊙ Grab time</strong> next to Start. Do the same for the end of the section. Then click <em>Save</em>.
-      </div>
-
-      <div class="action-row">
-        <button class="btn-preview" onclick="reloadPreview()">▶ Preview clip</button>
-        <button class="btn-save" onclick="saveVideo()">Save <span id="savedIndicator" class="saved-indicator">✓ Saved</span></button>
-      </div>
-    </div>
-  `;
-
-  // Auto-load the player
-  createPreviewPlayer(v.id, v.start, v.end);
-}
-
-function updateField(field, value) {
-  SECTIONS[activeSection].videos[activeVideoIndex][field] = value;
-  if (field === 'start') {
-    const el = document.querySelector('#inputStart + span');
-    if (el) el.textContent = '= ' + fmtTime(value);
-  }
-  if (field === 'end') {
-    const el = document.querySelector('#inputEnd + span');
-    if (el) el.textContent = '= ' + fmtTime(value);
-  }
-}
-
-const STORAGE_KEY = 'rock_video_admin_sections';
-
-function persistSections() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(SECTIONS)); } catch(e) {}
-}
-
-function loadPersistedSections() {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (!saved) return;
-    const parsed = JSON.parse(saved);
-    // Full replace — preserves adds/deletes, not just timestamp edits
-    parsed.forEach((savedSec, si) => {
-      const match = SECTIONS.find(s => s.id === savedSec.id);
-      if (match) match.videos = savedSec.videos;
-    });
-  } catch(e) {}
-}
-
-function resetToDefaults() {
-  if (!confirm('Reset all timestamps and video IDs to defaults? This cannot be undone.')) return;
-  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
-  location.reload();
-}
-
-function saveVideo() {
-  const v = SECTIONS[activeSection].videos[activeVideoIndex];
-  v.title = document.getElementById('inputTitle').value.trim() || 'Untitled';
-  v.artist = document.getElementById('inputArtist').value.trim();
-  v.id = document.getElementById('inputId').value.trim();
-  v.start = parseInt(document.getElementById('inputStart').value) || 0;
-  v.end = parseInt(document.getElementById('inputEnd').value) || 0;
-  persistSections();
-  renderSidebar();
-  const ind = document.getElementById('savedIndicator');
-  if (ind) { ind.classList.add('show'); setTimeout(() => ind.classList.remove('show'), 2000); }
-}
-function exportLesson() {
-  const html = buildLessonHTML();
-  downloadFile(html, 'song_structure_lesson.html');
-}
-
-function exportAdmin() {
-  const html = buildAdminHTML();
-  downloadFile(html, 'video_admin.html');
-}
-
-function downloadFile(html, filename) {
-  const blob = new Blob([html], { type: 'text/html' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-function buildAdminHTML() {
-  // Serialize current SECTIONS data with updated values as hardcoded defaults
-  const sectionsJS = SECTIONS.map(sec => {
-    const videosJS = sec.videos.map(v =>
-      `      { id:'${v.id}', start:${v.start}, end:${v.end||0}, title:'${v.title.replace(/'/g,"\\'")}', artist:'${v.artist.replace(/'/g,"\\'")}' }`
-    ).join(',\n');
-    return `  { id:'${sec.id}', label:'${sec.label}', abbr:'${sec.abbr}', bg:'${sec.bg}', text:'${sec.text}',\n    videos:[\n${videosJS}\n    ]\n  }`;
-  }).join(',\n');
-
-  // Read the current file's full source and replace the SECTIONS block
-  // Since we can't read the file, we rebuild the admin from a template with updated data
-  return buildAdminTemplate(sectionsJS);
-}
-
-function buildAdminTemplate(sectionsJS) {
-  // Captures all the non-data parts of this file and injects updated SECTIONS
-  // We store the full admin template as a string with a placeholder for SECTIONS data
-  const style = document.querySelector('style').outerHTML;
-  const bodyContent = document.body.innerHTML
-    // Remove the rendered sidebar/panel content — will be regenerated on load
-    .replace(/<div id="sidebarList">[\s\S]*?<\/div>/, '<div id="sidebarList"></div>')
-    .replace(/<div class="main" id="mainPanel">[\s\S]*?<\/div>(?=\s*<\/div>\s*<script)/, '<div class="main" id="mainPanel"><div class="empty-state"><p>Select a video from the sidebar</p><small>Click any video to edit its ID and timestamps</small></div></div>');
-
-  // Get all scripts except the inline one (we'll rebuild it)
-  const scriptContent = Array.from(document.scripts)
-    .filter(s => !s.src)
-    .map(s => s.textContent)[0] || '';
-
-  // Replace the SECTIONS const block with updated data
-  const updatedScript = scriptContent.replace(
-    /const SECTIONS = \[[\s\S]*?\];(\s*\/\/ ── YouTube)/,
-    `const SECTIONS = [\n${sectionsJS}\n];\n$1`
-  );
-
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Video Admin — Song Structure Lesson</title>
-${style}
-</head>
-<body>
-${bodyContent}
-<script>
-${updatedScript}
-<\/script>
-</body>
-</html>`;
-}
-
-function buildLessonHTML() {
-  // Generate the video data entries for each section
-  function videoEntries(videos) {
-    return videos.map(v =>
-      `      { id:'${v.id}', start:${v.start}, title:'${v.title.replace(/'/g,"\\'")}', artist:'${v.artist.replace(/'/g,"\\'")}', tip:'' }`
-    ).join(',\n');
-  }
-
-  // Tips are stored separately — we keep the original tips by matching on title+section
-  // For the export we merge back with the original tip data
-  const TIPS = {
-    'intro': {
-      "Baba O'Riley": "The synthesizer loop runs over a minute before any lyric. Notice how it locks you into a hypnotic rhythmic cycle — that loop IS the intro.",
-      "Johnny B. Goode": "Four bars of guitar riff, then the band enters. In under ten seconds you know the key, tempo, feel, and genre.",
-      "Smells Like Teen Spirit": "The riff plays quietly, then loud — the intro itself demonstrates the loud/quiet dynamic that defines the whole song."
-    },
-    'verse': {
-      "Johnny B. Goode": "Each verse tells a chapter of Johnny's story. The melody stays the same over the 12-bar cycle — only the words change.",
-      "Yesterday": "Opens directly into the verse — no intro at all. The sparse guitar and strings keep all focus on the lyric.",
-      "Smells Like Teen Spirit": "The verse is hushed and restrained — deliberately holding back energy to set up the contrast to come."
-    },
-    'pre-chorus': {
-      "Smells Like Teen Spirit": "The pre-chorus ('Hello, hello...') shifts the dynamic upward. Short, but it makes the chorus explode by comparison.",
-      "Don't Stop Believin'": "After two and a half minutes of verses, the pre-chorus arrives — you can feel the song gathering itself before the payoff."
-    },
-    'chorus': {
-      "Smells Like Teen Spirit": "The shift from pre-chorus to chorus is one of the most visceral moments in 90s rock — full band, distortion cranked, Cobain at full volume.",
-      "Don't Stop Believin'": "The chorus doesn't arrive until about 2:50. The entire journey through the verses makes this payoff feel enormous.",
-      "Johnny B. Goode": "In blues-based rock the 'chorus' is sometimes just the title lyric punched in over the turnaround — simpler, but just as effective."
-    },
-    'bridge': {
-      "Yesterday": "The bridge shifts to minor-leaning harmony and a violin counter-melody. In a two-minute song this contrast does enormous emotional work.",
-      "Smells Like Teen Spirit": "The stripped-down, almost spoken section breaks the verse-chorus pattern before the final explosive chorus."
-    },
-    'solo': {
-      "Johnny B. Goode": "The guitar solo IS the emotional peak — no vocal needed. This is the 12-bar blues form doing its essential work.",
-      "Smells Like Teen Spirit": "The solo is deliberately anti-virtuosic — repetitive and almost disinterested. That restraint is itself a statement."
-    },
-    'outro': {
-      "Yesterday": "A hard stop on the final chord — no fade, no tag. It ends abruptly, leaving the lyric's weight still resonating.",
-      "Don't Stop Believin'": "The song fades on a repeated chorus — suggesting the story goes on. The characters never quite resolve."
-    },
-    'tag': {
-      "Hey Jude": "The 'Na na na' tag runs over four minutes — longer than the entire verse-chorus section. Repetition as ecstatic release."
-    }
-  };
-
-  const sectionsJS = SECTIONS.map(sec => {
-    const videoJS = sec.videos.map(v => {
-      const tip = (TIPS[sec.id] && TIPS[sec.id][v.title]) || '';
-      return `      { id:'${v.id}', start:${v.start}, title:'${v.title.replace(/'/g,"\\'")}', artist:'${v.artist.replace(/'/g,"\\'")}', tip:"${tip.replace(/"/g,'\\"')}" }`;
-    }).join(',\n');
-    return `  { id:'${sec.id}', label:'${sec.label}', abbr:'${sec.abbr}', bg:'${sec.bg}', text:'${sec.text}',
-    tagline:'',
-    purpose:'',
-    length:'',
-    texture:'',
-    whatToListen:'',
-    videos:[\n${videoJS}\n    ]
-  }`;
-  }).join(',\n');
-
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Song Structure — History of Rock 'n' Roll</title>
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 15px; color: #1a1a1a; line-height: 1.6; background: #f5f4f0; }
-.page-header { background: #1a1a1a; color: #fff; padding: 1.5rem 2rem; }
-.page-header h1 { font-size: 20px; font-weight: 500; }
-.page-header p { font-size: 13px; color: #999; margin-top: 3px; }
-.lesson { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
-.tabs { display: flex; gap: 2px; margin-bottom: 1.5rem; border-bottom: 1px solid #ddd; flex-wrap: wrap; }
-.tab { padding: 8px 18px; font-size: 14px; font-weight: 500; border: none; background: none; cursor: pointer; color: #666; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s; }
-.tab.active { color: #1a1a1a; border-bottom-color: #1a1a1a; }
-.tab:hover:not(.active) { color: #1a1a1a; }
-.panel { display: none; }
-.panel.active { display: block; }
-.section-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; margin-bottom: 1.25rem; }
-.section-btn { border: 1.5px solid transparent; border-radius: 12px; padding: 10px 12px; cursor: pointer; background: #fff; text-align: left; transition: border-color 0.15s, box-shadow 0.15s; }
-.section-btn:hover { box-shadow: 0 1px 6px rgba(0,0,0,0.1); }
-.section-btn.active { border-width: 2px; }
-.pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 10px; border-radius: 20px; margin-bottom: 6px; }
-.section-btn h3 { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
-.section-btn .tagline { font-size: 11px; color: #666; line-height: 1.4; }
-.detail-panel { border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; background: #fff; }
-.detail-header { padding: 1rem 1.25rem 0.9rem; border-bottom: 1px solid #eee; }
-.detail-header h2 { font-size: 18px; font-weight: 600; margin-bottom: 5px; }
-.detail-header .purpose { font-size: 14px; color: #444; }
-.detail-meta { display: flex; gap: 1.5rem; padding: 0.9rem 1.25rem; border-bottom: 1px solid #eee; flex-wrap: wrap; background: #fafafa; }
-.meta-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #999; margin-bottom: 3px; }
-.meta-value { font-size: 13px; color: #555; }
-.examples-section { padding: 1.25rem; }
-.examples-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #999; margin-bottom: 14px; }
-.video-list { display: flex; flex-direction: column; gap: 18px; }
-.video-item { display: grid; grid-template-columns: 240px 1fr; gap: 16px; align-items: start; }
-.video-item iframe { width: 240px; height: 135px; border: none; border-radius: 8px; display: block; }
-.video-info h4 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
-.video-artist { font-size: 12px; color: #888; margin-bottom: 6px; }
-.listen-tip { font-size: 13px; color: #555; line-height: 1.55; }
-.timestamp-badge { display: inline-block; font-size: 11px; padding: 2px 9px; border-radius: 20px; background: #f0f0f0; color: #666; border: 1px solid #e0e0e0; margin-bottom: 7px; }
-.placeholder { padding: 2.5rem 1.25rem; color: #aaa; font-size: 14px; font-style: italic; text-align: center; }
-.forms-list { display: flex; flex-direction: column; gap: 12px; }
-.form-row { border: 1px solid #e0e0e0; border-radius: 12px; padding: 1rem 1.25rem; background: #fff; }
-.form-row h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
-.formula { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; align-items: center; }
-.block-chip { padding: 4px 11px; border-radius: 14px; font-size: 12px; font-weight: 600; white-space: nowrap; }
-.sep { font-size: 11px; color: #bbb; }
-.form-notes { font-size: 12px; color: #888; margin-top: 5px; font-style: italic; }
-.form-examples { font-size: 13px; color: #555; margin-top: 5px; }
-.filter-row { margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
-.filter-row label { font-size: 13px; color: #666; }
-.filter-row select { font-size: 13px; padding: 5px 10px; border: 1px solid #ddd; border-radius: 6px; background: #fff; }
-.songs-grid { display: flex; flex-direction: column; gap: 10px; }
-.song-row { display: grid; grid-template-columns: 140px 1fr 1fr; gap: 14px; border: 1px solid #e0e0e0; border-radius: 12px; padding: 1rem 1.25rem; background: #fff; align-items: start; }
-.song-info h4 { font-size: 14px; font-weight: 600; }
-.song-artist { font-size: 12px; color: #888; }
-.song-year { font-size: 11px; color: #aaa; }
-.song-form-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #aaa; margin-bottom: 5px; }
-.song-structure { display: flex; flex-wrap: wrap; gap: 4px; }
-.small-chip { padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-.song-notes { font-size: 12px; color: #666; line-height: 1.55; }
-.activity-intro { font-size: 14px; color: #555; margin-bottom: 1.25rem; line-height: 1.6; }
-.song-select-row { display: flex; align-items: center; gap: 12px; margin-bottom: 1.25rem; flex-wrap: wrap; }
-.song-select-row label { font-size: 13px; color: #666; }
-.song-select-row select { font-size: 14px; padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; }
-.palette-label { font-size: 11px; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
-.palette { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 1.25rem; }
-.drag-chip { padding: 7px 15px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: grab; user-select: none; border: none; }
-.drag-chip:active { cursor: grabbing; transform: scale(0.95); }
-.timeline-wrap { border: 1px solid #e0e0e0; border-radius: 12px; padding: 1rem; background: #fafafa; margin-bottom: 1rem; }
-.timeline-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.timeline-track { position: relative; height: 56px; background: #fff; border-radius: 8px; border: 1px solid #e0e0e0; overflow: hidden; }
-.timeline-track.drag-over { border-style: dashed; border-color: #999; }
-.placed-block { position: absolute; top: 6px; height: 44px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; cursor: grab; user-select: none; }
-.placed-block .remove-x { position: absolute; top: 2px; right: 4px; font-size: 10px; cursor: pointer; opacity: 0.6; }
-.placed-block .remove-x:hover { opacity: 1; }
-.resize-handle { position: absolute; right: 0; top: 0; bottom: 0; width: 8px; cursor: ew-resize; }
-.form-readout { font-size: 14px; margin-bottom: 1rem; min-height: 24px; }
-.form-string { font-weight: 600; }
-.form-empty { color: #aaa; font-style: italic; }
-.activity-footer { display: flex; gap: 10px; flex-wrap: wrap; }
-.activity-footer button { font-size: 13px; padding: 8px 18px; cursor: pointer; border: 1px solid #ccc; border-radius: 8px; background: #fff; }
-.activity-footer button:hover { background: #f0f0f0; }
-.check-box { border: 1px solid #e0e0e0; border-radius: 12px; padding: 1rem 1.25rem; background: #fff; margin-top: 1rem; font-size: 13px; display: none; line-height: 1.6; }
-.check-box.visible { display: block; }
-.correct { color: #1D9E75; font-weight: 600; }
-.incorrect { color: #D85A30; font-weight: 600; }
-@media (max-width: 600px) {
-  .video-item { grid-template-columns: 1fr; }
-  .video-item iframe { width: 100%; height: 200px; }
-  .song-row { grid-template-columns: 1fr; }
-}
-</style>
-</head>
-<body>
-<div class="page-header">
-  <h1>Song Structure</h1>
-  <p>History of Rock 'n' Roll</p>
-</div>
-<div class="lesson">
-<div class="tabs">
-  <button class="tab active" onclick="showTab('sections')">Song sections</button>
-  <button class="tab" onclick="showTab('forms')">Common forms</button>
-  <button class="tab" onclick="showTab('examples')">Song examples</button>
-  <button class="tab" onclick="showTab('activity')">Build a form</button>
-</div>
-<div id="panel-sections" class="panel active">
-  <div class="section-grid" id="sectionGrid"></div>
-  <div class="detail-panel" id="detailPanel">
-    <div class="placeholder">Click a section above to explore its definition and hear examples.</div>
-  </div>
-</div>
-<div id="panel-forms" class="panel">
-  <div class="forms-list" id="formsList"></div>
-</div>
-<div id="panel-examples" class="panel">
-  <div class="filter-row">
-    <label>Filter by form:</label>
-    <select id="formFilter" onchange="renderSongs()"></select>
-  </div>
-  <div class="songs-grid" id="songsGrid"></div>
-</div>
-<div id="panel-activity" class="panel">
-  <p class="activity-intro">Choose a song, then drag section blocks onto the timeline to map its form. Try to match the real structure — then check your answer.</p>
-  <div class="song-select-row">
-    <label>Song:</label>
-    <select id="activitySong" onchange="loadActivitySong()"></select>
-    <button onclick="clearTimeline()">Clear</button>
-  </div>
-  <div class="palette-label">Section palette</div>
-  <div class="palette" id="activityPalette"></div>
-  <div class="timeline-wrap">
-    <div class="timeline-header">
-      <span style="font-size:13px;font-weight:600;color:#555;">Timeline</span>
-      <span style="font-size:12px;color:#aaa;">Drop sections here — drag right edge to resize</span>
-    </div>
-    <div class="timeline-track" id="timelineTrack"></div>
-  </div>
-  <div class="form-readout" id="formReadout"><span class="form-empty">Your form will appear here as you build it.</span></div>
-  <div class="activity-footer">
-    <button onclick="checkAnswer()">Check my answer</button>
-    <button onclick="revealAnswer()">Reveal answer</button>
-  </div>
-  <div class="check-box" id="checkBox"></div>
-</div>
-</div>
-<script>
-const SECTIONS = [
-${sectionsJS}
-];
-const FORMS = [
-  { name:'Simple verse form', formula:['V','V','V','V'], notes:'The oldest form in popular music — no chorus, no break. Each verse carries the whole weight of the song.', examples:'"House of the Rising Sun" (Animals), "The Times They Are A-Changin\\'" (Dylan)' },
-  { name:'Verse-chorus form', formula:['V','Ch','V','Ch','V','Ch'], notes:'The backbone of rock and pop. Verse builds story, chorus delivers the payoff.', examples:'"Smells Like Teen Spirit", "Born to Run", "Good Riddance"' },
-  { name:'Verse-chorus with bridge', formula:['V','Ch','V','Ch','Br','Ch'], notes:'Adds contrast before the final chorus. The bridge creates relief and makes the last chorus feel like a release.', examples:'"Yesterday", "Let It Be", "Don\\'t Stop Believin\\'"' },
-  { name:'32-bar AABA', formula:['A','A','B','A'], notes:'Classic pre-rock form inherited from jazz. A = 8-bar verse, B = contrasting bridge.', examples:'"I Got You (I Feel Good)", "Love Me Tender", early Chuck Berry' },
-  { name:'Extended intro form', formula:['In','In','V','Ch','V','Ch','Sol','Ch','Out'], notes:'Songs where the intro is an event in itself. Common in arena rock and psychedelia.', examples:'"Baba O\\'Riley", "Hotel California", "Stairway to Heaven"' },
-  { name:'Through-composed / suite', formula:['A','B','C','D','E'], notes:'Little to no repetition — each section is new material.', examples:'"Bohemian Rhapsody", "A Day in the Life", "Happiness Is a Warm Gun"' },
-  { name:'12-bar blues form', formula:['I','IV','I','I','IV','IV','I','I','V','IV','I','V'], notes:'The harmonic and formal DNA of rock. A 12-bar cycle of three chords (I-IV-V) that repeats continuously.', examples:'"Johnny B. Goode", "Hound Dog", "La Grange", "Pride and Joy"' },
-];
-const SONGS = [
-  { title:'Johnny B. Goode', artist:'Chuck Berry', year:'1958', form:'12-bar blues', structure:['In','V','Sol','V','V','Sol','Out'], notes:'Every verse follows the 12-bar blues cycle. The guitar solo IS the form.' },
-  { title:'Like a Rolling Stone', artist:'Bob Dylan', year:'1965', form:'Verse-chorus form', structure:['V','V','Ch','V','Ch','V','Ch'], notes:'Long narrative verses build to a devastating chorus. No bridge.' },
-  { title:"Baba O'Riley", artist:'The Who', year:'1971', form:'Extended intro form', structure:['In','In','V','V','Ch','Sol','Out'], notes:'The iconic synth loop intro runs over a minute before any lyric.' },
-  { title:'Bohemian Rhapsody', artist:'Queen', year:'1975', form:'Through-composed / suite', structure:['In','V','V','Br','Sol','Out'], notes:'Five distinct sections with almost no internal repetition.' },
-  { title:"Don't Stop Believin'", artist:'Journey', year:'1981', form:'Verse-chorus with bridge', structure:['In','V','V','Pre','Ch','V','Ch','Sol','Ch'], notes:'No chorus for almost three minutes. The delayed payoff is the structure.' },
-  { title:'Smells Like Teen Spirit', artist:'Nirvana', year:'1991', form:'Verse-chorus form', structure:['In','V','Pre','Ch','V','Pre','Ch','Sol','V','Pre','Ch','Out'], notes:'Classic loud-quiet dynamic. The pre-chorus makes the chorus hit harder.' },
-  { title:'Yesterday', artist:'The Beatles', year:'1965', form:'32-bar AABA', structure:['A','A','B','A','A','B','A'], notes:'A perfect specimen of Tin Pan Alley form adapted to the rock era.' },
-  { title:'Fade Into You', artist:'Mazzy Star', year:'1993', form:'Verse-chorus form', structure:['In','V','Ch','V','Ch','Out'], notes:'Minimal structure mirrors the lyrical theme. The form IS the feeling.' },
-];
-function getColor(abbr) {
-  const s = SECTIONS.find(x => x.abbr === abbr);
-  if (s) return { bg: s.bg, text: s.text };
-  const extras = {
-    'Int': { bg:'#FDE68A', text:'#78350F' },
-    'A':   { bg:'#E9D5FF', text:'#4C1D95' },
-    'B':   { bg:'#BFDBFE', text:'#1E3A8A' },
-    'C':   { bg:'#BBF7D0', text:'#065F46' },
-    'D':   { bg:'#FED7AA', text:'#7C2D12' },
-    'E':   { bg:'#FECACA', text:'#7F1D1D' },
-  };
-  return extras[abbr] || { bg:'#D3D1C7', text:'#444441' };
-}
-function chipHtml(abbr, small) {
-  const c = getColor(abbr);
-  return '<span class="' + (small?'small-chip':'block-chip') + '" style="background:' + c.bg + ';color:' + c.text + ';">' + abbr + '</span>';
-}
-function fmtTime(s) { return Math.floor(s/60) + ':' + (s%60).toString().padStart(2,'0'); }
-function showTab(id) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelector('[onclick="showTab(\\'' + id + '\\')"]').classList.add('active');
-  document.getElementById('panel-' + id).classList.add('active');
-}
-function renderSectionGrid() {
-  document.getElementById('sectionGrid').innerHTML = SECTIONS.map(s =>
-    '<button class="section-btn" id="btn-' + s.id + '" onclick="showSection(\\'' + s.id + '\\')">' +
-    '<span class="pill" style="background:' + s.bg + ';color:' + s.text + ';">' + s.abbr + '</span>' +
-    '<h3>' + s.label + '</h3>' +
-    '<p class="tagline">' + (s.tagline||'') + '</p></button>'
-  ).join('');
-}
-function showSection(id) {
-  const s = SECTIONS.find(x => x.id === id);
-  if (!s) return;
-  document.querySelectorAll('.section-btn').forEach(b => { b.classList.remove('active'); b.style.borderColor = 'transparent'; });
-  const btn = document.getElementById('btn-' + id);
-  btn.classList.add('active'); btn.style.borderColor = s.bg;
-  document.getElementById('detailPanel').innerHTML =
-    '<div class="detail-header" style="border-left:4px solid ' + s.bg + ';">' +
-    '<span class="pill" style="background:' + s.bg + ';color:' + s.text + ';margin-bottom:8px;">' + s.abbr + '</span>' +
-    '<h2>' + s.label + '</h2><p class="purpose">' + (s.purpose||'') + '</p></div>' +
-    '<div class="detail-meta">' +
-    '<div><div class="meta-label">Typical length</div><div class="meta-value">' + (s.length||'') + '</div></div>' +
-    '<div><div class="meta-label">Texture</div><div class="meta-value">' + (s.texture||'') + '</div></div>' +
-    '<div style="flex:1;min-width:180px;"><div class="meta-label">What to listen for</div><div class="meta-value">' + (s.whatToListen||'') + '</div></div></div>' +
-    '<div class="examples-section"><div class="examples-label">Hear it in action</div><div class="video-list">' +
-    s.videos.map(v =>
-      '<div class="video-item">' +
-      '<iframe src="https://www.youtube.com/embed/' + v.id + '?start=' + v.start + '&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>' +
-      '<div class="video-info"><h4>' + v.title + '</h4><p class="video-artist">' + v.artist + '</p>' +
-      '<span class="timestamp-badge">Starts at ' + fmtTime(v.start) + '</span>' +
-      '<p class="listen-tip">' + (v.tip||'') + '</p></div></div>'
-    ).join('') +
-    '</div></div>';
-}
-function renderForms() {
-  document.getElementById('formsList').innerHTML = FORMS.map(f =>
-    '<div class="form-row"><h3>' + f.name + '</h3>' +
-    '<div class="formula">' + f.formula.map((a,i) => chipHtml(a) + (i < f.formula.length-1 ? '<span class="sep">→</span>' : '')).join('') + '</div>' +
-    '<div class="form-examples"><strong>Examples:</strong> ' + f.examples + '</div>' +
-    '<div class="form-notes">' + f.notes + '</div></div>'
-  ).join('');
-}
-function populateFormFilter() {
-  const forms = [...new Set(SONGS.map(s => s.form))];
-  document.getElementById('formFilter').innerHTML = '<option value="">All forms</option>' + forms.map(f => '<option value="' + f + '">' + f + '</option>').join('');
-}
-function renderSongs() {
-  const filter = document.getElementById('formFilter').value;
-  const songs = filter ? SONGS.filter(s => s.form === filter) : SONGS;
-  document.getElementById('songsGrid').innerHTML = songs.map(s =>
-    '<div class="song-row"><div class="song-info"><h4>' + s.title + '</h4><div class="song-artist">' + s.artist + '</div><div class="song-year">' + s.year + '</div></div>' +
-    '<div><div class="song-form-label">Structure</div><div class="song-structure">' + s.structure.map(a => chipHtml(a,true)).join('<span class="sep" style="font-size:10px;margin:0 2px;">›</span>') + '</div><div style="margin-top:5px;font-size:11px;color:#aaa;">Form: ' + s.form + '</div></div>' +
-    '<div class="song-notes">' + s.notes + '</div></div>'
-  ).join('');
-}
-function populateActivitySong() {
-  document.getElementById('activitySong').innerHTML = SONGS.map((s,i) => '<option value="' + i + '">' + s.title + ' — ' + s.artist + '</option>').join('');
-}
-function renderActivityPalette() {
-  const abbrs = ['In','V','Pre','Ch','Br','Sol','Int','Out','A','B','C','D','E'];
-  document.getElementById('activityPalette').innerHTML = abbrs.map(abbr => {
-    const c = getColor(abbr);
-    return '<span class="drag-chip" draggable="true" data-abbr="' + abbr + '" style="background:' + c.bg + ';color:' + c.text + ';" ondragstart="startChipDrag(event,\\'' + abbr + '\\')">' + abbr + '</span>';
-  }).join('');
-}
-let timeline = [], resizingBlock = null, resizeStartX = 0, resizeStartW = 0, trackWidth = 0;
-function loadActivitySong() { clearTimeline(); }
-function startChipDrag(e, abbr) { e.dataTransfer.setData('text/plain', abbr); }
-function setupTrackDrop() {
-  const t = document.getElementById('timelineTrack');
-  t.addEventListener('dragover', e => { e.preventDefault(); t.classList.add('drag-over'); });
-  t.addEventListener('dragleave', () => t.classList.remove('drag-over'));
-  t.addEventListener('drop', e => {
-    e.preventDefault(); t.classList.remove('drag-over');
-    const abbr = e.dataTransfer.getData('text/plain');
-    if (!abbr) return;
-    const rect = t.getBoundingClientRect();
-    const xPct = (e.clientX - rect.left) / rect.width;
-    const w = 0.15;
-    timeline.push({ abbr, left: Math.min(Math.max(0, xPct - w/2), 1 - w), width: w, id: Date.now() });
-    renderTimeline();
-  });
-}
-function renderTimeline() {
-  const t = document.getElementById('timelineTrack');
-  t.querySelectorAll('.placed-block').forEach(b => b.remove());
-  timeline.forEach(block => {
-    const c = getColor(block.abbr);
-    const el = document.createElement('div');
-    el.className = 'placed-block';
-    el.style.cssText = 'left:' + (block.left*100) + '%;width:' + (block.width*100) + '%;background:' + c.bg + ';color:' + c.text + ';';
-    el.innerHTML = block.abbr + '<span class="remove-x" onclick="removeBlock(' + block.id + ')">✕</span><span class="resize-handle" onmousedown="startResize(event,' + block.id + ')"></span>';
-    t.appendChild(el);
-  });
-  updateFormReadout();
-}
-function removeBlock(id) { timeline = timeline.filter(b => b.id !== id); renderTimeline(); }
-function startResize(e, id) {
-  e.preventDefault(); e.stopPropagation();
-  const block = timeline.find(b => b.id === id); if (!block) return;
-  resizingBlock = id; resizeStartX = e.clientX; resizeStartW = block.width;
-  trackWidth = document.getElementById('timelineTrack').getBoundingClientRect().width;
-  window.addEventListener('mousemove', doResize);
-  window.addEventListener('mouseup', stopResize);
-}
-function doResize(e) {
-  if (!resizingBlock) return;
-  const block = timeline.find(b => b.id === resizingBlock); if (!block) return;
-  block.width = Math.max(0.06, Math.min(1 - block.left, resizeStartW + (e.clientX - resizeStartX) / trackWidth));
-  renderTimeline();
-}
-function stopResize() { resizingBlock = null; window.removeEventListener('mousemove', doResize); window.removeEventListener('mouseup', stopResize); }
-function updateFormReadout() {
-  const sorted = [...timeline].sort((a,b) => a.left - b.left);
-  const str = sorted.map(b => b.abbr).join(' → ');
-  document.getElementById('formReadout').innerHTML = str ? '<span class="form-string">' + str + '</span>' : '<span class="form-empty">Your form will appear here as you build it.</span>';
-}
-function clearTimeline() { timeline = []; renderTimeline(); document.getElementById('checkBox').classList.remove('visible'); }
-function checkAnswer() {
-  const song = SONGS[parseInt(document.getElementById('activitySong').value)];
-  const sorted = [...timeline].sort((a,b) => a.left - b.left);
-  const box = document.getElementById('checkBox');
-  box.classList.add('visible');
-  box.innerHTML = sorted.map(b => b.abbr).join('-') === song.structure.join('-')
-    ? '<span class="correct">Great match!</span> You correctly identified the structure of "' + song.title + '." ' + song.notes
-    : '<span class="incorrect">Not quite.</span> The actual form is: <strong>' + song.structure.join(' → ') + '</strong><br><br>' + song.notes;
-}
-function revealAnswer() {
-  const song = SONGS[parseInt(document.getElementById('activitySong').value)];
-  timeline = song.structure.map((abbr,i) => ({ abbr, left: i/song.structure.length, width: 0.9/song.structure.length, id: Date.now()+i }));
-  renderTimeline();
-  document.getElementById('checkBox').classList.remove('visible');
-}
-renderSectionGrid(); renderForms(); populateFormFilter(); renderSongs(); populateActivitySong(); renderActivityPalette(); setupTrackDrop();
-<\/script>
-</body>
-</html>`;
-}
-
-loadPersistedSections();
-renderSidebar();
-
 </script>
 </body>
 </html>
