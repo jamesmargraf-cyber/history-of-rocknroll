@@ -121,9 +121,9 @@ function render() {
       return visKey in t ? t[visKey] : l.defaultVisible;
     });
 
-    // Active lessons first (preserving fixed order within each group)
-    const active = visible.filter(l => t[l.id] !== false);
-    const inactive = visible.filter(l => t[l.id] === false);
+    // Active lessons newest first, then inactive newest first
+    const active = visible.filter(l => t[l.id] !== false).reverse();
+    const inactive = visible.filter(l => t[l.id] === false).reverse();
     const ordered = [...active, ...inactive];
 
     const lessonsHTML = ordered.map(l => {
