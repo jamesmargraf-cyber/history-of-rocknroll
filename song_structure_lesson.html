@@ -42,12 +42,15 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; f
 .examples-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #999; margin-bottom: 14px; }
 .video-list { display: flex; flex-direction: column; gap: 18px; }
 .video-item { display: grid; grid-template-columns: 240px 1fr; gap: 16px; align-items: start; }
-.video-item iframe { width: 240px; height: 135px; border: none; border-radius: 8px; display: block; }
+.video-player-wrap { width: 240px; border-radius: 8px; overflow: hidden; background: #000; }
+.video-player-wrap > div { width: 240px !important; height: 135px !important; }
 .video-info h4 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
 .video-artist { font-size: 12px; color: #888; margin-bottom: 6px; }
 .listen-tip { font-size: 13px; color: #555; line-height: 1.55; }
 .timestamp-badge { display: inline-block; font-size: 11px; padding: 2px 9px; border-radius: 20px; background: #f0f0f0; color: #666; border: 1px solid #e0e0e0; margin-bottom: 7px; }
 .placeholder { padding: 2.5rem 1.25rem; color: #aaa; font-size: 14px; font-style: italic; text-align: center; }
+.replay-btn { margin-top: 6px; font-size: 11px; padding: 4px 10px; border: 1px solid #ddd; border-radius: 4px; background: #f5f5f5; cursor: pointer; color: #555; }
+.replay-btn:hover { background: #eee; }
 
 /* FORMS TAB */
 .forms-list { display: flex; flex-direction: column; gap: 12px; }
@@ -178,9 +181,9 @@ const SECTIONS = [
     length:'4–16 bars, sometimes longer', texture:'Usually instrumental; may preview the main riff, a chord loop, or atmospheric sound',
     whatToListen:'How does the intro prepare you for the song? What does it tell you about tempo, mood, and genre before a single lyric is sung?',
     videos:[
-      { id:'Gu9HhYv0C7E', start:0, title:"Baba O'Riley", artist:'The Who (1978, Shepperton Studios)', tip:'The synthesizer loop runs over a minute before any lyric. Notice how it locks you into a hypnotic rhythmic cycle — that loop IS the intro.' },
-      { id:'Y-9Y4CCIWnM', start:0, title:'Johnny B. Goode', artist:'Chuck Berry (1958)', tip:'Four bars of guitar riff, then the band enters. In under ten seconds you know the key, tempo, feel, and genre.' },
-      { id:'hTWKbfoikeg', start:0, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:'The riff plays quietly, then loud — the intro itself demonstrates the loud/quiet dynamic that defines the whole song.' }
+      { id:'Gu9HhYv0C7E', start:0, end:75, title:"Baba O'Riley", artist:'The Who (1978, Shepperton Studios)', tip:'The synthesizer loop runs over a minute before any lyric. Notice how it locks you into a hypnotic rhythmic cycle — that loop IS the intro.' },
+      { id:'Y-9Y4CCIWnM', start:0, end:18, title:'Johnny B. Goode', artist:'Chuck Berry (1958)', tip:'Four bars of guitar riff, then the band enters. In under ten seconds you know the key, tempo, feel, and genre.' },
+      { id:'hTWKbfoikeg', start:0, end:25, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:'The riff plays quietly, then loud — the intro itself demonstrates the loud/quiet dynamic that defines the whole song.' }
     ]
   },
   { id:'verse', label:'Verse', abbr:'V', bg:'#9FE1CB', text:'#085041', tagline:'Tells the story; lyrics change each time',
@@ -188,9 +191,9 @@ const SECTIONS = [
     length:'8–16 bars', texture:'Moderate energy; melodic and conversational in feel',
     whatToListen:'How does each verse push the story forward? Does the energy change between the verse and what follows?',
     videos:[
-      { id:'Y-9Y4CCIWnM', start:9, title:'Johnny B. Goode', artist:'Chuck Berry (1958)', tip:"Each verse tells a chapter of Johnny's story. The melody stays the same over the 12-bar cycle — only the words change." },
-      { id:'jo505ZyaCbA', start:0, title:'Yesterday', artist:'The Beatles (1965)', tip:'Opens directly into the verse — no intro at all. The sparse guitar and strings keep all focus on the lyric.' },
-      { id:'hTWKbfoikeg', start:25, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:'The verse is hushed and restrained — deliberately holding back energy to set up the contrast to come.' }
+      { id:'Y-9Y4CCIWnM', start:9, end:50, title:'Johnny B. Goode', artist:'Chuck Berry (1958)', tip:"Each verse tells a chapter of Johnny's story. The melody stays the same over the 12-bar cycle — only the words change." },
+      { id:'NrgmdOz227I', start:0, end:47, title:'Yesterday', artist:'The Beatles (1965)', tip:'Opens directly into the verse — no intro at all. The sparse guitar and strings keep all focus on the lyric.' },
+      { id:'hTWKbfoikeg', start:25, end:61, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:'The verse is hushed and restrained — deliberately holding back energy to set up the contrast to come.' }
     ]
   },
   { id:'pre-chorus', label:'Pre-chorus', abbr:'Pre', bg:'#FAC775', text:'#633806', tagline:'Builds tension before the chorus releases',
@@ -198,8 +201,8 @@ const SECTIONS = [
     length:'4–8 bars', texture:"Rising energy; often ends on harmonic tension that 'wants' to resolve into the chorus",
     whatToListen:"Does the energy feel like it's climbing? When the chorus finally hits, does it feel like a release?",
     videos:[
-      { id:'hTWKbfoikeg', start:50, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:"The pre-chorus ('Hello, hello...') shifts the dynamic upward. Short, but it makes the chorus explode by comparison." },
-      { id:'-j2EgFx129w', start:148, title:"Don't Stop Believin'", artist:'Journey (1981)', tip:"After two and a half minutes of verses, the pre-chorus arrives — you can feel the song gathering itself before the payoff." }
+      { id:'hTWKbfoikeg', start:50, end:62, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:"The pre-chorus ('Hello, hello...') shifts the dynamic upward. Short, but it makes the chorus explode by comparison." },
+      { id:'-j2EgFx129w', start:148, end:168, title:"Don't Stop Believin'", artist:'Journey (1981)', tip:"After two and a half minutes of verses, the pre-chorus arrives — you can feel the song gathering itself before the payoff." }
     ]
   },
   { id:'chorus', label:'Chorus', abbr:'Ch', bg:'#F4C0D1', text:'#72243E', tagline:'The emotional peak; lyrics repeat each time',
@@ -207,9 +210,9 @@ const SECTIONS = [
     length:'8–16 bars', texture:'Full instrumentation, highest energy, broadest melodic range',
     whatToListen:"What does the chorus do that the verse doesn't? Notice the difference in volume, instrumentation, and emotional impact.",
     videos:[
-      { id:'hTWKbfoikeg', start:61, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:'The shift from pre-chorus to chorus is one of the most visceral moments in 90s rock — full band, distortion cranked, Cobain at full volume.' },
-      { id:'-j2EgFx129w', start:166, title:"Don't Stop Believin'", artist:'Journey (1981)', tip:"The chorus doesn't arrive until about 2:50. The entire journey through the verses makes this payoff feel enormous." },
-      { id:'Y-9Y4CCIWnM', start:50, title:'Johnny B. Goode', artist:'Chuck Berry (1958)', tip:"In blues-based rock the 'chorus' is sometimes just the title lyric punched in over the turnaround — simpler, but just as effective." }
+      { id:'hTWKbfoikeg', start:61, end:100, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:'The shift from pre-chorus to chorus is one of the most visceral moments in 90s rock — full band, distortion cranked, Cobain at full volume.' },
+      { id:'-j2EgFx129w', start:166, end:200, title:"Don't Stop Believin'", artist:'Journey (1981)', tip:"The chorus doesn't arrive until about 2:50. The entire journey through the verses makes this payoff feel enormous." },
+      { id:'Y-9Y4CCIWnM', start:50, end:75, title:'Johnny B. Goode', artist:'Chuck Berry (1958)', tip:"In blues-based rock the 'chorus' is sometimes just the title lyric punched in over the turnaround — simpler, but just as effective." }
     ]
   },
   { id:'bridge', label:'Bridge', abbr:'Br', bg:'#CECBF6', text:'#3C3489', tagline:'Contrast and relief; appears once',
@@ -217,8 +220,8 @@ const SECTIONS = [
     length:'Usually 8 bars', texture:'Contrasting — often stripped down, harmonically surprising, or emotionally distinct',
     whatToListen:'How does the bridge feel different from everything before it? Does it change key, energy, or lyrical perspective?',
     videos:[
-      { id:'jo505ZyaCbA', start:47, title:'Yesterday', artist:'The Beatles (1965)', tip:"The bridge shifts to minor-leaning harmony and a violin counter-melody. In a two-minute song this contrast does enormous emotional work." },
-      { id:'hTWKbfoikeg', start:218, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:'The stripped-down, almost spoken section breaks the verse-chorus pattern before the final explosive chorus.' }
+      { id:'NrgmdOz227I', start:47, end:70, title:'Yesterday', artist:'The Beatles (1965)', tip:"The bridge shifts to minor-leaning harmony and a violin counter-melody. In a two-minute song this contrast does enormous emotional work." },
+      { id:'hTWKbfoikeg', start:218, end:248, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:'The stripped-down, almost spoken section breaks the verse-chorus pattern before the final explosive chorus.' }
     ]
   },
   { id:'solo', label:'Solo / Interlude', abbr:'Sol', bg:'#F5C4B3', text:'#712B13', tagline:'Instrumental break; emotional variety',
@@ -226,8 +229,8 @@ const SECTIONS = [
     length:'8–16 bars, sometimes longer', texture:'Instrumental; often follows verse or chorus chord progression',
     whatToListen:'How does the solo replace or enhance what a vocal bridge would do? Does it feel like a release, a climax, or a reflection?',
     videos:[
-      { id:'Y-9Y4CCIWnM', start:84, title:'Johnny B. Goode', artist:'Chuck Berry (1958)', tip:'The guitar solo IS the emotional peak — no vocal needed. This is the 12-bar blues form doing its essential work.' },
-      { id:'hTWKbfoikeg', start:218, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:'The solo is deliberately anti-virtuosic — repetitive and almost disinterested. That restraint is itself a statement.' }
+      { id:'Y-9Y4CCIWnM', start:84, end:115, title:'Johnny B. Goode', artist:'Chuck Berry (1958)', tip:'The guitar solo IS the emotional peak — no vocal needed. This is the 12-bar blues form doing its essential work.' },
+      { id:'hTWKbfoikeg', start:218, end:248, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:'The solo is deliberately anti-virtuosic — repetitive and almost disinterested. That restraint is itself a statement.' }
     ]
   },
   { id:'outro', label:'Outro', abbr:'Out', bg:'#D3D1C7', text:'#444441', tagline:'The farewell; brings the song to a close',
@@ -235,8 +238,8 @@ const SECTIONS = [
     length:'4–16 bars, or a long fade', texture:'Often fades or strips down; may repeat the hook or riff into silence',
     whatToListen:"Does the song end cleanly, or does it fade? What effect does that choice create? Does the outro feel resolved or unfinished?",
     videos:[
-      { id:'jo505ZyaCbA', start:110, title:'Yesterday', artist:'The Beatles (1965)', tip:"A hard stop on the final chord — no fade, no tag. It ends abruptly, leaving the lyric's weight still resonating." },
-      { id:'-j2EgFx129w', start:220, title:"Don't Stop Believin'", artist:'Journey (1981)', tip:"The song fades on a repeated chorus — suggesting the story goes on. The characters never quite resolve." }
+      { id:'NrgmdOz227I', start:110, end:132, title:'Yesterday', artist:'The Beatles (1965)', tip:"A hard stop on the final chord — no fade, no tag. It ends abruptly, leaving the lyric's weight still resonating." },
+      { id:'-j2EgFx129w', start:220, end:260, title:"Don't Stop Believin'", artist:'Journey (1981)', tip:"The song fades on a repeated chorus — suggesting the story goes on. The characters never quite resolve." }
     ]
   },
   { id:'tag', label:'Tag / Hook', abbr:'Tag', bg:'#C0DD97', text:'#27500A', tagline:'Short repeated phrase to drive the hook home',
@@ -244,7 +247,7 @@ const SECTIONS = [
     length:'2–4 bars, repeated multiple times', texture:'Often simple and stripped-back — the reduction lets the hook shine',
     whatToListen:'Why does repeating a short phrase create such a strong impression? Does the repetition feel satisfying or hypnotic?',
     videos:[
-      { id:'rIbMbXjbW98', start:188, title:'Hey Jude', artist:'The Beatles (1968)', tip:"The 'Na na na' tag runs over four minutes — longer than the entire verse-chorus section. Repetition as ecstatic release." }
+      { id:'rIbMbXjbW98', start:188, end:260, title:'Hey Jude', artist:'The Beatles (1968)', tip:"The 'Na na na' tag runs over four minutes — longer than the entire verse-chorus section. Repetition as ecstatic release." }
     ]
   },
 ];
@@ -296,12 +299,108 @@ function renderSectionGrid() {
     </button>`).join('');
 }
 
+// ── YouTube IFrame API ────────────────────────────────────────────────────────
+// Registry of active YT.Player instances and their stop times
+const ytPlayers = {};    // key: div id → YT.Player
+const ytStopAt = {};     // key: div id → stop time in seconds
+const ytIntervals = {};  // key: div id → setInterval handle
+
+// Called by YouTube API when it's ready
+window.onYouTubeIframeAPIReady = function() {
+  window.ytApiReady = true;
+  if (window.ytPendingPlayers) {
+    window.ytPendingPlayers.forEach(fn => fn());
+    window.ytPendingPlayers = [];
+  }
+};
+
+function ensureYTApi(callback) {
+  if (window.ytApiReady) { callback(); return; }
+  window.ytPendingPlayers = window.ytPendingPlayers || [];
+  window.ytPendingPlayers.push(callback);
+  if (!document.getElementById('yt-api-script')) {
+    const s = document.createElement('script');
+    s.id = 'yt-api-script';
+    s.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(s);
+  }
+}
+
+function destroyAllPlayers() {
+  Object.keys(ytPlayers).forEach(pid => {
+    try { ytPlayers[pid].destroy(); } catch(e) {}
+    clearInterval(ytIntervals[pid]);
+    delete ytPlayers[pid];
+    delete ytStopAt[pid];
+    delete ytIntervals[pid];
+  });
+}
+
+function createPlayer(divId, videoId, startSec, endSec) {
+  ensureYTApi(() => {
+    if (ytPlayers[divId]) {
+      try { ytPlayers[divId].destroy(); } catch(e) {}
+      clearInterval(ytIntervals[divId]);
+    }
+    ytStopAt[divId] = endSec;
+    ytPlayers[divId] = new YT.Player(divId, {
+      width: 240,
+      height: 135,
+      videoId: videoId,
+      playerVars: {
+        start: startSec,
+        end: endSec,
+        rel: 0,
+        modestbranding: 1,
+        playsinline: 1,
+      },
+      events: {
+        onReady: (e) => { /* player ready, user clicks play */ },
+        onStateChange: (e) => {
+          if (e.data === YT.PlayerState.PLAYING) {
+            clearInterval(ytIntervals[divId]);
+            ytIntervals[divId] = setInterval(() => {
+              try {
+                const player = ytPlayers[divId];
+                if (!player) return;
+                const current = player.getCurrentTime();
+                const stop = ytStopAt[divId];
+                if (stop && current >= stop) {
+                  player.pauseVideo();
+                  player.seekTo(startSec, true);
+                  clearInterval(ytIntervals[divId]);
+                }
+              } catch(err) {}
+            }, 500);
+          }
+          if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
+            clearInterval(ytIntervals[divId]);
+          }
+        }
+      }
+    });
+  });
+}
+
+function replayPlayer(divId, startSec) {
+  const player = ytPlayers[divId];
+  if (!player) return;
+  try {
+    player.seekTo(startSec, true);
+    player.playVideo();
+  } catch(e) {}
+}
+
 function showSection(id) {
   const s = SECTIONS.find(x => x.id === id);
   if (!s) return;
+
+  destroyAllPlayers();
+
   document.querySelectorAll('.section-btn').forEach(b => { b.classList.remove('active'); b.style.borderColor = 'transparent'; });
   const btn = document.getElementById('btn-' + id);
   btn.classList.add('active'); btn.style.borderColor = s.bg;
+
   document.getElementById('detailPanel').innerHTML = `
     <div class="detail-header" style="border-left:4px solid ${s.bg};">
       <span class="pill" style="background:${s.bg};color:${s.text};margin-bottom:8px;">${s.abbr}</span>
@@ -316,18 +415,34 @@ function showSection(id) {
     <div class="examples-section">
       <div class="examples-label">Hear it in action</div>
       <div class="video-list">
-        ${s.videos.map(v => `
+        ${s.videos.map((v, i) => {
+          const pid = `yt-${id}-${i}`;
+          const endSec = v.end || (v.start + 45);
+          return `
           <div class="video-item">
-            <iframe src="https://www.youtube.com/embed/${v.id}?start=${v.start}&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy" title="${v.title}"></iframe>
+            <div>
+              <div class="video-player-wrap">
+                <div id="${pid}"></div>
+              </div>
+              <button class="replay-btn" onclick="replayPlayer('${pid}', ${v.start})">↺ Replay section</button>
+            </div>
             <div class="video-info">
               <h4>${v.title}</h4>
               <p class="video-artist">${v.artist}</p>
-              <span class="timestamp-badge">Starts at ${fmtTime(v.start)}</span>
+              <span class="timestamp-badge">${fmtTime(v.start)} – ${fmtTime(endSec)}</span>
               <p class="listen-tip">${v.tip}</p>
             </div>
-          </div>`).join('')}
+          </div>`;
+        }).join('')}
       </div>
     </div>`;
+
+  // Init players after DOM is updated
+  s.videos.forEach((v, i) => {
+    const pid = `yt-${id}-${i}`;
+    const endSec = v.end || (v.start + 45);
+    createPlayer(pid, v.id, v.start, endSec);
+  });
 }
 
 function renderForms() {

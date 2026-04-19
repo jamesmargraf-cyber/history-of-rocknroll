@@ -197,10 +197,103 @@ function selectVideo(si, vi) {
   renderEditor();
 }
 
+// ── YouTube IFrame API ────────────────────────────────────────────────────────
+let previewPlayer = null;
+let stopInterval = null;
+
+window.onYouTubeIframeAPIReady = function() {
+  window.ytApiReady = true;
+  if (window.ytPending) { window.ytPending(); window.ytPending = null; }
+};
+
+function ensureYTApi(cb) {
+  if (window.ytApiReady) { cb(); return; }
+  window.ytPending = cb;
+  if (!document.getElementById('yt-api-script')) {
+    const s = document.createElement('script');
+    s.id = 'yt-api-script';
+    s.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(s);
+  }
+}
+
+function destroyPreview() {
+  clearInterval(stopInterval);
+  stopInterval = null;
+  if (previewPlayer) {
+    try { previewPlayer.destroy(); } catch(e) {}
+    previewPlayer = null;
+  }
+}
+
+function createPreviewPlayer(videoId, startSec, endSec) {
+  destroyPreview();
+  ensureYTApi(() => {
+    previewPlayer = new YT.Player('previewPlayerDiv', {
+      width: '100%',
+      height: '100%',
+      videoId: videoId,
+      playerVars: { start: startSec, rel: 0, modestbranding: 1, playsinline: 1 },
+      events: {
+        onStateChange: (e) => {
+          if (e.data === YT.PlayerState.PLAYING) {
+            clearInterval(stopInterval);
+            stopInterval = setInterval(() => {
+              if (!previewPlayer) return;
+              const cur = previewPlayer.getCurrentTime();
+              const end = parseInt(document.getElementById('inputEnd').value) || 0;
+              if (end && cur >= end) {
+                previewPlayer.pauseVideo();
+                previewPlayer.seekTo(parseInt(document.getElementById('inputStart').value) || 0, true);
+                clearInterval(stopInterval);
+              }
+            }, 300);
+          }
+          if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
+            clearInterval(stopInterval);
+          }
+        }
+      }
+    });
+  });
+}
+
+function grabCurrentTime(field) {
+  if (!previewPlayer) return;
+  try {
+    const t = Math.floor(previewPlayer.getCurrentTime());
+    SECTIONS[activeSection].videos[activeVideoIndex][field] = t;
+    const inputId = field === 'start' ? 'inputStart' : 'inputEnd';
+    document.getElementById(inputId).value = t;
+    const span = document.querySelector(`#${inputId} + span`);
+    if (span) span.textContent = '= ' + fmtTime(t);
+  } catch(e) {}
+}
+
+function reloadPreview() {
+  const id = document.getElementById('inputId').value.trim();
+  const start = parseInt(document.getElementById('inputStart').value) || 0;
+  const end = parseInt(document.getElementById('inputEnd').value) || 0;
+  SECTIONS[activeSection].videos[activeVideoIndex].id = id;
+  SECTIONS[activeSection].videos[activeVideoIndex].start = start;
+  SECTIONS[activeSection].videos[activeVideoIndex].end = end;
+  if (previewPlayer) {
+    try {
+      previewPlayer.loadVideoById({ videoId: id, startSeconds: start });
+    } catch(e) {
+      createPreviewPlayer(id, start, end);
+    }
+  } else {
+    createPreviewPlayer(id, start, end);
+  }
+}
+
 function renderEditor() {
   const sec = SECTIONS[activeSection];
   const v = sec.videos[activeVideoIndex];
   const main = document.getElementById('mainPanel');
+
+  destroyPreview();
 
   main.innerHTML = `
     <div class="editor-card">
@@ -212,54 +305,52 @@ function renderEditor() {
         </div>
       </div>
 
-      <div class="preview-wrap">
-        <iframe id="previewFrame"
-          src="https://www.youtube.com/embed/${v.id}?start=${v.start}&rel=0&modestbranding=1"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
+      <div class="preview-wrap" style="position:relative;background:#000;aspect-ratio:16/9;">
+        <div id="previewPlayerDiv" style="width:100%;height:100%;"></div>
       </div>
 
       <div class="controls">
         <div class="video-id-row">
           <label>YouTube Video ID <span style="font-weight:400;text-transform:none;letter-spacing:0;">(the part after v= in the URL)</span></label>
-          <input type="text" id="inputId" value="${v.id}" placeholder="e.g. hTWKbfoikeg" oninput="updateField('id', this.value)">
+          <input type="text" id="inputId" value="${v.id}" placeholder="e.g. hTWKbfoikeg">
         </div>
 
         <div>
           <label>Start time (seconds)</label>
           <div class="time-input-row">
-            <input type="number" id="inputStart" value="${v.start}" min="0" placeholder="0" oninput="updateField('start', parseInt(this.value)||0)">
+            <input type="number" id="inputStart" value="${v.start}" min="0" placeholder="0">
             <span>= ${fmtTime(v.start)}</span>
-            <button onclick="useCurrentTime('start')">Use current</button>
+            <button onclick="grabCurrentTime('start')" title="Pause the video at the right moment, then click this">⊙ Grab time</button>
           </div>
         </div>
 
         <div>
-          <label>End time (seconds) <span style="font-weight:400;text-transform:none;letter-spacing:0;">— for reference only</span></label>
+          <label>End time (seconds)</label>
           <div class="time-input-row">
-            <input type="number" id="inputEnd" value="${v.end || ''}" min="0" placeholder="optional" oninput="updateField('end', parseInt(this.value)||0)">
+            <input type="number" id="inputEnd" value="${v.end || ''}" min="0" placeholder="0">
             <span>= ${fmtTime(v.end)}</span>
-            <button onclick="useCurrentTime('end')">Use current</button>
+            <button onclick="grabCurrentTime('end')" title="Pause the video at the right moment, then click this">⊙ Grab time</button>
           </div>
         </div>
       </div>
 
       <div class="tip-box">
-        <strong>How to find timestamps:</strong> Play the video above and pause it exactly where the section starts. The current time shown in the YouTube player is your start time in m:ss — convert to seconds (e.g. 1:04 = 64). Then click <em>Use current</em> or type the seconds directly.
+        <strong>How to set timestamps:</strong> Click <em>Preview</em> to load the video. Play it, pause at the exact moment where the section starts, then click <strong>⊙ Grab time</strong> next to Start. Do the same for the end of the section. Then click <em>Save</em>.
       </div>
 
       <div class="action-row">
-        <button class="btn-preview" onclick="reloadPreview()">Preview with these timestamps</button>
+        <button class="btn-preview" onclick="reloadPreview()">▶ Preview clip</button>
         <button class="btn-save" onclick="saveVideo()">Save <span id="savedIndicator" class="saved-indicator">✓ Saved</span></button>
       </div>
     </div>
   `;
+
+  // Auto-load the player
+  createPreviewPlayer(v.id, v.start, v.end);
 }
 
 function updateField(field, value) {
   SECTIONS[activeSection].videos[activeVideoIndex][field] = value;
-  // Update the time display next to start/end inputs live
   if (field === 'start') {
     const el = document.querySelector('#inputStart + span');
     if (el) el.textContent = '= ' + fmtTime(value);
@@ -268,27 +359,6 @@ function updateField(field, value) {
     const el = document.querySelector('#inputEnd + span');
     if (el) el.textContent = '= ' + fmtTime(value);
   }
-}
-
-function reloadPreview() {
-  const v = SECTIONS[activeSection].videos[activeVideoIndex];
-  const id = document.getElementById('inputId').value.trim();
-  const start = parseInt(document.getElementById('inputStart').value) || 0;
-  const frame = document.getElementById('previewFrame');
-  frame.src = `https://www.youtube.com/embed/${id}?start=${start}&rel=0&modestbranding=1&autoplay=1`;
-  SECTIONS[activeSection].videos[activeVideoIndex].id = id;
-  SECTIONS[activeSection].videos[activeVideoIndex].start = start;
-}
-
-function useCurrentTime(field) {
-  // Can't read YouTube iframe time directly due to CORS, so prompt user
-  const secs = prompt(`Enter the current video time in seconds:\n(e.g. if the player shows 1:04, enter 64)`);
-  if (secs === null) return;
-  const val = parseInt(secs);
-  if (isNaN(val)) return;
-  SECTIONS[activeSection].videos[activeVideoIndex][field] = val;
-  document.getElementById(field === 'start' ? 'inputStart' : 'inputEnd').value = val;
-  updateField(field, val);
 }
 
 function saveVideo() {
