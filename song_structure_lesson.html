@@ -227,14 +227,20 @@ const SECTIONS = [
       { id:'eBG7P-K-r1Y', start:186, end:207, title:'Everlong', artist:'Foo Fighters (1997)', tip:'The bridge strips everything back to a whispered vocal and sparse guitar before the song explodes back into the final chorus — a masterclass in dynamic contrast.' }
     ]
   },
-  { id:'solo', label:'Solo / Interlude', abbr:'Sol', bg:'#F5C4B3', text:'#712B13', tagline:'Instrumental break; emotional variety',
-    purpose:'An instrumental passage providing emotional variety, showcasing musicianship, or creating breathing room. Common in blues-derived rock. Can serve the same structural function as a bridge.',
-    length:'8–16 bars, sometimes longer', texture:'Instrumental; often follows verse or chorus chord progression',
-    whatToListen:'How does the solo replace or enhance what a vocal bridge would do? Does it feel like a release, a climax, or a reflection?',
+  { id:'solo', label:'Solo', abbr:'Solo', bg:'#F5C4B3', text:'#712B13', tagline:'Improvised or featured instrumental passage',
+    purpose:'A featured instrumental section showcasing a musician\'s skill and expression. Solos are often at least partially improvised and serve as an emotional peak — the instrumental equivalent of a climactic vocal moment.',
+    length:'8–16 bars, sometimes longer', texture:'Instrumental; typically a single instrument featured over the backing band',
+    whatToListen:'What instrument is soloing? Does it feel improvised or composed? How does the solo change the emotional energy of the song?',
     videos:[
       { id:'Y-9Y4CCIWnM', start:85, end:121, title:'Johnny B. Goode', artist:'Chuck Berry (1958)', tip:'The guitar solo IS the emotional peak — no vocal needed. This is the 12-bar blues form doing its essential work.' },
       { id:'hTWKbfoikeg', start:165, end:190, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:'The solo is deliberately anti-virtuosic — repetitive and almost disinterested. That restraint is itself a statement.' }
     ]
+  },
+  { id:'interlude', label:'Interlude', abbr:'Int', bg:'#FDE68A', text:'#78350F', tagline:'Composed instrumental break between sections',
+    purpose:'A composed instrumental passage that provides contrast and breathing room between vocal sections. Unlike a solo, an interlude is typically fully written out and serves a structural role — connecting or separating sections rather than showcasing a soloist.',
+    length:'4–8 bars typically', texture:'Instrumental; often carries the main riff or a new melodic idea',
+    whatToListen:'How does the interlude create space in the song? Does it feel like a bridge between two sections, or a moment of rest?',
+    videos:[]
   },
   { id:'outro', label:'Outro', abbr:'Out', bg:'#D3D1C7', text:'#444441', tagline:'The farewell; brings the song to a close',
     purpose:"Brings the song to a close. Can be a hard stop, a gradual fade-out, or a repeated tag that winds down. The outro is the last impression — how a song says goodbye.",
@@ -259,31 +265,30 @@ const SECTIONS = [
 const FORMS = [
   { name:'Simple verse form', formula:['V','V','V','V'], notes:'The oldest form in popular music — no chorus, no break. Each verse carries the whole weight of the song.', examples:'"House of the Rising Sun" (Animals), "The Times They Are A-Changin\'" (Dylan)' },
   { name:'Verse-chorus form', formula:['V','Ch','V','Ch','V','Ch'], notes:'The backbone of rock and pop. Verse builds story, chorus delivers the payoff. Works at any tempo, any era.', examples:'"Johnny B. Goode" (Chuck Berry), "Born to Run" (Springsteen), "Good Riddance" (Green Day)' },
-  { name:'Verse-pre-chorus-chorus form', formula:['V','Pre','Ch','V','Pre','Ch','Sol','Out'], notes:'Adds a pre-chorus between verse and chorus to build tension before the payoff. The pre-chorus creates a ramp that makes the chorus hit harder — common in grunge and pop-rock.', examples:'"Smells Like Teen Spirit" (Nirvana), "Billie Jean" (Michael Jackson)' },
+  { name:'Verse-pre-chorus-chorus form', formula:['V','Pre','Ch','V','Pre','Ch','Solo','Out'], notes:'Adds a pre-chorus between verse and chorus to build tension before the payoff. The pre-chorus creates a ramp that makes the chorus hit harder — common in grunge and pop-rock.', examples:'"Smells Like Teen Spirit" (Nirvana), "Billie Jean" (Michael Jackson)' },
   { name:'Verse-chorus with bridge / Verse-pre-chorus-chorus with bridge', formula:['V','Ch','V','Ch','Br','Ch'], notes:'Adds contrast before the final chorus. The bridge provides relief and makes the last chorus feel fresh — like hearing it for the first time again. Some versions include a pre-chorus before each chorus.', examples:'"Let It Be" (Beatles), "Everlong" (Foo Fighters), "Don\'t You (Forget About Me)" (Simple Minds)' },
   { name:'32-bar AABA', formula:['A','A','B','A'], notes:'Classic pre-rock form inherited from jazz and the Tin Pan Alley era. A = 8-bar verse, B = contrasting bridge. Early rock drew heavily from this tradition.', examples:'"Yesterday" (Beatles), "Can\'t Help Falling in Love" (Elvis)' },
-  { name:'Extended intro form', formula:['In','V','Ch','V','Ch','Sol','Out'], notes:'Songs where the intro is an event in itself — an instrumental passage that establishes mood before any lyric enters. Common in arena rock and psychedelia.', examples:'"Baba O\'Riley" (The Who), "Hotel California" (Eagles), "Stairway to Heaven" (Led Zeppelin)' },
+  { name:'Extended intro form', formula:['In','V','Ch','V','Ch','Solo','Out'], notes:'Songs where the intro is an event in itself — an instrumental passage that establishes mood before any lyric enters. Common in arena rock and psychedelia.', examples:'"Baba O\'Riley" (The Who), "Hotel California" (Eagles), "Stairway to Heaven" (Led Zeppelin)' },
   { name:'Through-composed / suite', formula:['A','B','C','D','E'], notes:'Little to no repetition — each section is entirely new material. Rare in rock but used for ambitious concept pieces. The absence of repeating sections is the whole point.', examples:'"Bohemian Rhapsody" (Queen), "A Day in the Life" (Beatles), "Happiness Is a Warm Gun" (Beatles)' },
   { name:'12-bar blues form (classic)', formula:['I','I','I','I','IV','IV','I','I','V','IV','I','I'], notes:'The original 12-bar blues structure. Bar 2 stays on the I chord, and the song resolves back to I at the end rather than turning around to V. The foundation of early rock and R&B.', examples:'"Hound Dog" (Elvis), "Pride and Joy" (Stevie Ray Vaughan)' },
   { name:'12-bar blues form (quick change)', formula:['I','IV','I','I','IV','IV','I','I','V','IV','I','V'], notes:'A variation where bar 2 moves quickly to the IV chord before returning to I, creating more harmonic movement early in the cycle. Bar 12 uses a V turnaround to drive back into the next repeat.', examples:'"Johnny B. Goode" (Chuck Berry), "I Got You (I Feel Good)" (James Brown)' },
 ];
 
 const SONGS = [
-  { title:'Johnny B. Goode', artist:'Chuck Berry', year:'1958', form:'12-bar blues form (quick change)', structure:['In','V','Ch','V','Ch','Sol','V','Ch','Out'], notes:"Every verse and chorus follows the 12-bar blues cycle. 'Go Johnny Go' is a clear, repeated chorus. The guitar solo appears between the second chorus and final verse." },
+  { title:'Johnny B. Goode', artist:'Chuck Berry', year:'1958', form:'12-bar blues form (quick change)', structure:['In','V','Ch','V','Ch','Solo','V','Ch','Out'], notes:"Every verse and chorus follows the 12-bar blues cycle. 'Go Johnny Go' is a clear, repeated chorus. The guitar solo appears between the second chorus and final verse." },
   { title:'Like a Rolling Stone', artist:'Bob Dylan', year:'1965', form:'Verse-chorus form', structure:['In','V','Pre','Ch','V','Pre','Ch','V','Pre','Ch','V','Pre','Ch','Out'], notes:'Four long verses, each followed by a pre-chorus and chorus. The pre-chorus carries unique lyrics each time — a hybrid between a pre-chorus and a bridge. Fades on the final chorus.' },
   { title:"Baba O'Riley", artist:'The Who', year:'1971', form:'Extended intro form', structure:['In','V','Ch','V','Ch','Br','Out'], notes:'The synthesizer loop intro runs over a minute before any lyric enters. The outro features a long violin solo that accelerates in intensity.' },
   { title:'Bohemian Rhapsody', artist:'Queen', year:'1975', form:'Through-composed / suite', structure:['A','B','C','D'], notes:'Four completely distinct movements with no repetition: a cappella intro, piano ballad, operatic section, and hard rock. The absence of repeating sections is the whole point.' },
-  { title:"Don't Stop Believin'", artist:'Journey', year:'1981', form:'Verse-chorus form', structure:['In','V','Int','V','Pre','Int','V','Pre','Sol','Ch','Out'], notes:'No chorus until nearly four minutes in. Two interludes and two pre-choruses do all the tension-building work, making the eventual chorus one of rock\'s great payoffs.' },
-  { title:'Smells Like Teen Spirit', artist:'Nirvana', year:'1991', form:'Verse-pre-chorus-chorus form', structure:['In','V','Pre','Ch','V','Pre','Ch','Sol','V','Pre','Ch','Out'], notes:'Classic loud-quiet dynamic. The pre-chorus exists specifically to make the chorus hit harder by contrast.' },
+  { title:"Don't Stop Believin'", artist:'Journey', year:'1981', form:'Verse-chorus form', structure:['In','V','Int','V','Pre','Int','V','Pre','Solo','Ch','Out'], notes:'No chorus until nearly four minutes in. Two interludes and two pre-choruses do all the tension-building work, making the eventual chorus one of rock\'s great payoffs.' },
+  { title:'Smells Like Teen Spirit', artist:'Nirvana', year:'1991', form:'Verse-pre-chorus-chorus form', structure:['In','V','Pre','Ch','V','Pre','Ch','Solo','V','Pre','Ch','Out'], notes:'Classic loud-quiet dynamic. The pre-chorus exists specifically to make the chorus hit harder by contrast.' },
   { title:'Yesterday', artist:'The Beatles', year:'1965', form:'32-bar AABA', structure:['In','A','A','B','A','B','A','Out'], notes:'A near-perfect specimen of Tin Pan Alley form with a brief intro and outro. The B section shifts to minor-leaning harmony, providing emotional contrast before the return to A.' },
-  { title:'Fade Into You', artist:'Mazzy Star', year:'1993', form:'Verse-chorus form', structure:['In','V','V','Ch','Sol','V','Ch','Out'], notes:'Minimal structure mirrors the lyrical theme of longing that goes nowhere. The solo provides the only significant departure before the final verse-chorus cycle.' },
+  { title:'Fade Into You', artist:'Mazzy Star', year:'1993', form:'Verse-chorus form', structure:['In','V','V','Ch','Solo','V','Ch','Out'], notes:'Minimal structure mirrors the lyrical theme of longing that goes nowhere. The solo provides the only significant departure before the final verse-chorus cycle.' },
 ];
 
 function getColor(abbr) {
   const s = SECTIONS.find(x => x.abbr === abbr || x.label === abbr);
   if (s) return { bg: s.bg, text: s.text };
   const extras = {
-    'Int': { bg:'#FDE68A', text:'#78350F' },
     'A':   { bg:'#E9D5FF', text:'#4C1D95' },
     'B':   { bg:'#BFDBFE', text:'#1E3A8A' },
     'C':   { bg:'#BBF7D0', text:'#065F46' },
@@ -303,6 +308,18 @@ function showTab(id) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelector(`[onclick="showTab('${id}')"]`).classList.add('active');
   document.getElementById(`panel-${id}`).classList.add('active');
+  // Lazy-init song players when examples tab becomes visible
+  if (id === 'examples') {
+    setTimeout(() => {
+      SONGS.forEach((s, i) => {
+        const pid = 'song-player-' + i;
+        const el = document.getElementById(pid);
+        if (el && s.videoId && !songPlayers[pid]) {
+          createSongPlayer(pid, s.videoId);
+        }
+      });
+    }, 100);
+  }
 }
 
 function renderSectionGrid() {
@@ -515,10 +532,7 @@ function renderSongs() {
     </div>`;
   }).join('');
 
-  // Init players after DOM update
-  songs.forEach((s, i) => {
-    if (s.videoId) createSongPlayer('song-player-' + i, s.videoId);
-  });
+  // Players will be initialized when the examples tab is clicked
 }
 
 function populateActivitySong() {
@@ -526,7 +540,7 @@ function populateActivitySong() {
 }
 
 function renderActivityPalette() {
-  const abbrs = ['In','V','Pre','Ch','Br','Sol','Int','Out','A','B','C','D','E'];
+  const abbrs = ['In','V','Pre','Ch','Br','Solo','Int','Out','A','B','C','D','E'];
   document.getElementById('activityPalette').innerHTML = abbrs.map(abbr => {
     const c = getColor(abbr);
     return `<span class="drag-chip" draggable="true" data-abbr="${abbr}" style="background:${c.bg};color:${c.text};" ondragstart="startChipDrag(event,'${abbr}')">${abbr}</span>`;
