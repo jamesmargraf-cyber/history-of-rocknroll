@@ -308,7 +308,21 @@ function showTab(id) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelector(`[onclick="showTab('${id}')"]`).classList.add('active');
   document.getElementById(`panel-${id}`).classList.add('active');
-
+  if (id === 'examples') {
+    // Use both requestAnimationFrame and a fallback timeout
+    const initPlayers = () => {
+      const filter = document.getElementById('formFilter').value;
+      const songs = filter ? SONGS.filter(s => s.form === filter) : SONGS;
+      console.log('Initializing song players for', songs.length, 'songs');
+      songs.forEach((s, i) => {
+        const pid = 'song-player-' + i;
+        const wrap = document.getElementById(pid + '-wrap');
+        console.log('Player', pid, '- wrap found:', !!wrap, '- videoId:', s.videoId, '- existing player:', !!songPlayers[pid]);
+        if (s.videoId && !songPlayers[pid] && wrap) createSongPlayer(pid, s.videoId);
+      });
+    };
+    requestAnimationFrame(() => setTimeout(initPlayers, 200));
+  }
 }
 
 function renderSectionGrid() {
@@ -491,21 +505,27 @@ function destroyAllSongPlayers() {
 }
 
 function createSongPlayer(pid, videoId) {
+  console.log('createSongPlayer called:', pid, videoId, '- ytApiReady:', window.ytApiReady);
   ensureYTApi(() => {
     if (songPlayers[pid]) { try { songPlayers[pid].destroy(); } catch(e) {} }
     // Create a fresh div to replace the target (avoids stale node issues)
     const container = document.getElementById(pid + '-wrap');
-    if (!container) return;
+    if (!container) { console.warn('No container found for', pid); return; }
     container.innerHTML = '<div id="' + pid + '"></div>';
+    console.log('Creating YT.Player for', pid);
     songPlayers[pid] = new YT.Player(pid, {
       videoId: videoId,
       playerVars: { rel: 0, modestbranding: 1, playsinline: 1 },
       events: {
         onReady: function(e) {
+          console.log('Player ready:', pid);
           const iframe = e.target.getIframe();
           if (iframe) {
             iframe.style.cssText = 'width:100%;height:220px;display:block;border:none;';
           }
+        },
+        onError: function(e) {
+          console.error('Player error:', pid, e.data);
         }
       }
     });
