@@ -126,14 +126,19 @@ function render() {
     const inactive = visible.filter(l => t[l.id] === false).reverse();
     const ordered = [...active, ...inactive];
 
-    const lessonsHTML = ordered.map(l => {
+    const lessonsHTML = ordered.map((l, i) => {
       const isActive = t[l.id] !== false;
+      const isPast = isActive && i > 0; // first active is current, rest are past
+      const pastStyle = isPast ? 'style="color:#8a8070;"' : '';
+      const pastNameStyle = isPast ? 'style="color:#8a8070;"' : '';
+      const pastArrowStyle = isPast ? 'style="color:#4a4540;"' : '';
       return `<a href="${isActive && l.url ? l.url : '#'}"
         class="tool-link ${isActive ? '' : 'inactive'}"
-        ${isActive && l.url ? 'target="_blank"' : ''}>
-        <span class="tool-name">${l.name}</span>
+        ${isActive && l.url ? 'target="_blank"' : ''}
+        ${pastStyle}>
+        <span class="tool-name" ${pastNameStyle}>${l.name}</span>
         <span class="tool-type">${l.type}</span>
-        <span class="arrow">→</span>
+        <span class="arrow" ${pastArrowStyle}>→</span>
       </a>`;
     }).join('');
 
