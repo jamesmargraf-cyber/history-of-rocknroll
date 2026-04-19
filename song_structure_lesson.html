@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Song Structure — History of Rock 'n' Roll</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 15px; color: #1a1a1a; line-height: 1.6; background: #f5f4f0; }
+
+.page-header { background: #1a1a1a; color: #fff; padding: 1.5rem 2rem; }
+.page-header h1 { font-size: 20px; font-weight: 500; letter-spacing: 0.02em; }
+.page-header p { font-size: 13px; color: #999; margin-top: 3px; }
+
+.lesson { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+.tabs { display: flex; gap: 2px; margin-bottom: 1.5rem; border-bottom: 1px solid #ddd; flex-wrap: wrap; }
+.tab { padding: 8px 18px; font-size: 14px; font-weight: 500; border: none; background: none; cursor: pointer; color: #666; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s; }
+.tab.active { color: #1a1a1a; border-bottom-color: #1a1a1a; }
+.tab:hover:not(.active) { color: #1a1a1a; }
+
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* SECTIONS TAB */
+.section-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; margin-bottom: 1.25rem; }
+.section-btn { border: 1.5px solid transparent; border-radius: 12px; padding: 10px 12px; cursor: pointer; background: #fff; text-align: left; transition: border-color 0.15s, box-shadow 0.15s; }
+.section-btn:hover { box-shadow: 0 1px 6px rgba(0,0,0,0.1); }
+.section-btn.active { border-width: 2px; }
+.pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 10px; border-radius: 20px; margin-bottom: 6px; }
+.section-btn h3 { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+.section-btn .tagline { font-size: 11px; color: #666; line-height: 1.4; }
+
+.detail-panel { border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; background: #fff; }
+.detail-header { padding: 1rem 1.25rem 0.9rem; border-bottom: 1px solid #eee; }
+.detail-header h2 { font-size: 18px; font-weight: 600; margin-bottom: 5px; }
+.detail-header .purpose { font-size: 14px; color: #444; }
+.detail-meta { display: flex; gap: 1.5rem; padding: 0.9rem 1.25rem; border-bottom: 1px solid #eee; flex-wrap: wrap; background: #fafafa; }
+.meta-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #999; margin-bottom: 3px; }
+.meta-value { font-size: 13px; color: #555; }
+.examples-section { padding: 1.25rem; }
+.examples-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #999; margin-bottom: 14px; }
+.video-list { display: flex; flex-direction: column; gap: 18px; }
+.video-item { display: grid; grid-template-columns: 240px 1fr; gap: 16px; align-items: start; }
+.video-item iframe { width: 240px; height: 135px; border: none; border-radius: 8px; display: block; }
+.video-info h4 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+.video-artist { font-size: 12px; color: #888; margin-bottom: 6px; }
+.listen-tip { font-size: 13px; color: #555; line-height: 1.55; }
+.timestamp-badge { display: inline-block; font-size: 11px; padding: 2px 9px; border-radius: 20px; background: #f0f0f0; color: #666; border: 1px solid #e0e0e0; margin-bottom: 7px; }
+.placeholder { padding: 2.5rem 1.25rem; color: #aaa; font-size: 14px; font-style: italic; text-align: center; }
+
+/* FORMS TAB */
+.forms-list { display: flex; flex-direction: column; gap: 12px; }
+.form-row { border: 1px solid #e0e0e0; border-radius: 12px; padding: 1rem 1.25rem; background: #fff; }
+.form-row h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+.formula { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; align-items: center; }
+.block-chip { padding: 4px 11px; border-radius: 14px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.sep { font-size: 11px; color: #bbb; }
+.form-notes { font-size: 12px; color: #888; margin-top: 5px; font-style: italic; }
+.form-examples { font-size: 13px; color: #555; margin-top: 5px; }
+.ask-btn { margin-top: 10px; font-size: 12px; padding: 5px 14px; cursor: pointer; border: 1px solid #ccc; border-radius: 20px; background: none; color: #666; }
+.ask-btn:hover { background: #f5f5f5; color: #1a1a1a; }
+
+/* SONGS TAB */
+.filter-row { margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
+.filter-row label { font-size: 13px; color: #666; }
+.filter-row select { font-size: 13px; padding: 5px 10px; border: 1px solid #ddd; border-radius: 6px; background: #fff; }
+.songs-grid { display: flex; flex-direction: column; gap: 10px; }
+.song-row { display: grid; grid-template-columns: 140px 1fr 1fr; gap: 14px; border: 1px solid #e0e0e0; border-radius: 12px; padding: 1rem 1.25rem; background: #fff; align-items: start; }
+.song-info h4 { font-size: 14px; font-weight: 600; }
+.song-artist { font-size: 12px; color: #888; }
+.song-year { font-size: 11px; color: #aaa; }
+.song-form-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #aaa; margin-bottom: 5px; }
+.song-structure { display: flex; flex-wrap: wrap; gap: 4px; }
+.small-chip { padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+.song-notes { font-size: 12px; color: #666; line-height: 1.55; }
+
+/* ACTIVITY TAB */
+.activity-intro { font-size: 14px; color: #555; margin-bottom: 1.25rem; line-height: 1.6; }
+.song-select-row { display: flex; align-items: center; gap: 12px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.song-select-row label { font-size: 13px; color: #666; }
+.song-select-row select { font-size: 14px; padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; }
+.palette-label { font-size: 11px; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+.palette { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 1.25rem; }
+.drag-chip { padding: 7px 15px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: grab; user-select: none; transition: opacity 0.12s, transform 0.1s; border: none; }
+.drag-chip:active { cursor: grabbing; transform: scale(0.95); }
+.timeline-wrap { border: 1px solid #e0e0e0; border-radius: 12px; padding: 1rem; background: #fafafa; margin-bottom: 1rem; }
+.timeline-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.timeline-track { position: relative; height: 56px; background: #fff; border-radius: 8px; border: 1px solid #e0e0e0; overflow: hidden; }
+.timeline-track.drag-over { border-style: dashed; border-color: #999; }
+.placed-block { position: absolute; top: 6px; height: 44px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; cursor: grab; user-select: none; }
+.placed-block .remove-x { position: absolute; top: 2px; right: 4px; font-size: 10px; cursor: pointer; opacity: 0.6; }
+.placed-block .remove-x:hover { opacity: 1; }
+.resize-handle { position: absolute; right: 0; top: 0; bottom: 0; width: 8px; cursor: ew-resize; }
+.form-readout { font-size: 14px; margin-bottom: 1rem; min-height: 24px; }
+.form-string { font-weight: 600; color: #1a1a1a; }
+.form-empty { color: #aaa; font-style: italic; }
+.activity-footer { display: flex; gap: 10px; flex-wrap: wrap; }
+.activity-footer button { font-size: 13px; padding: 8px 18px; cursor: pointer; border: 1px solid #ccc; border-radius: 8px; background: #fff; }
+.activity-footer button:hover { background: #f0f0f0; }
+.check-box { border: 1px solid #e0e0e0; border-radius: 12px; padding: 1rem 1.25rem; background: #fff; margin-top: 1rem; font-size: 13px; display: none; line-height: 1.6; }
+.check-box.visible { display: block; }
+.correct { color: #1D9E75; font-weight: 600; }
+.incorrect { color: #D85A30; font-weight: 600; }
+
+@media (max-width: 600px) {
+  .video-item { grid-template-columns: 1fr; }
+  .video-item iframe { width: 100%; height: 200px; }
+  .song-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Song Structure</h1>
+  <p>History of Rock 'n' Roll</p>
+</div>
+
+<div class="lesson">
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('sections')">Song sections</button>
+  <button class="tab" onclick="showTab('forms')">Common forms</button>
+  <button class="tab" onclick="showTab('examples')">Song examples</button>
+  <button class="tab" onclick="showTab('activity')">Build a form</button>
+</div>
+
+<div id="panel-sections" class="panel active">
+  <div class="section-grid" id="sectionGrid"></div>
+  <div class="detail-panel" id="detailPanel">
+    <div class="placeholder">Click a section above to explore its definition and hear examples.</div>
+  </div>
+</div>
+
+<div id="panel-forms" class="panel">
+  <div class="forms-list" id="formsList"></div>
+</div>
+
+<div id="panel-examples" class="panel">
+  <div class="filter-row">
+    <label>Filter by form:</label>
+    <select id="formFilter" onchange="renderSongs()"></select>
+  </div>
+  <div class="songs-grid" id="songsGrid"></div>
+</div>
+
+<div id="panel-activity" class="panel">
+  <p class="activity-intro">Choose a song, then drag section blocks onto the timeline to map its form. Try to match the real structure — then check your answer.</p>
+  <div class="song-select-row">
+    <label>Song:</label>
+    <select id="activitySong" onchange="loadActivitySong()"></select>
+    <button onclick="clearTimeline()">Clear</button>
+  </div>
+  <div class="palette-label">Section palette</div>
+  <div class="palette" id="activityPalette"></div>
+  <div class="timeline-wrap">
+    <div class="timeline-header">
+      <span style="font-size:13px;font-weight:600;color:#555;">Timeline</span>
+      <span style="font-size:12px;color:#aaa;">Drop sections here — drag right edge to resize</span>
+    </div>
+    <div class="timeline-track" id="timelineTrack"></div>
+  </div>
+  <div class="form-readout" id="formReadout"><span class="form-empty">Your form will appear here as you build it.</span></div>
+  <div class="activity-footer">
+    <button onclick="checkAnswer()">Check my answer</button>
+    <button onclick="revealAnswer()">Reveal answer</button>
+  </div>
+  <div class="check-box" id="checkBox"></div>
+</div>
+
+</div>
+
+<script>
+const SECTIONS = [
+  { id:'intro', label:'Intro', abbr:'In', bg:'#B5D4F4', text:'#0C447C', tagline:'Sets the scene before vocals enter',
+    purpose:'Establishes the mood, tempo, key, and sonic world of the song before any vocals appear. A great intro hooks the listener or holds them in deliberate suspense.',
+    length:'4–16 bars, sometimes longer', texture:'Usually instrumental; may preview the main riff, a chord loop, or atmospheric sound',
+    whatToListen:'How does the intro prepare you for the song? What does it tell you about tempo, mood, and genre before a single lyric is sung?',
+    videos:[
+      { id:'Gu9HhYv0C7E', start:0, title:"Baba O'Riley", artist:'The Who (1978, Shepperton Studios)', tip:'The synthesizer loop runs over a minute before any lyric. Notice how it locks you into a hypnotic rhythmic cycle — that loop IS the intro.' },
+      { id:'Y-9Y4CCIWnM', start:0, title:'Johnny B. Goode', artist:'Chuck Berry (1958)', tip:'Four bars of guitar riff, then the band enters. In under ten seconds you know the key, tempo, feel, and genre.' },
+      { id:'hTWKbfoikeg', start:0, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:'The riff plays quietly, then loud — the intro itself demonstrates the loud/quiet dynamic that defines the whole song.' }
+    ]
+  },
+  { id:'verse', label:'Verse', abbr:'V', bg:'#9FE1CB', text:'#085041', tagline:'Tells the story; lyrics change each time',
+    purpose:'Carries the narrative or emotional content. The melody stays consistent across verses, but the lyrics change — each verse advances the story or deepens the situation.',
+    length:'8–16 bars', texture:'Moderate energy; melodic and conversational in feel',
+    whatToListen:'How does each verse push the story forward? Does the energy change between the verse and what follows?',
+    videos:[
+      { id:'Y-9Y4CCIWnM', start:9, title:'Johnny B. Goode', artist:'Chuck Berry (1958)', tip:"Each verse tells a chapter of Johnny's story. The melody stays the same over the 12-bar cycle — only the words change." },
+      { id:'jo505ZyaCbA', start:0, title:'Yesterday', artist:'The Beatles (1965)', tip:'Opens directly into the verse — no intro at all. The sparse guitar and strings keep all focus on the lyric.' },
+      { id:'hTWKbfoikeg', start:25, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:'The verse is hushed and restrained — deliberately holding back energy to set up the contrast to come.' }
+    ]
+  },
+  { id:'pre-chorus', label:'Pre-chorus', abbr:'Pre', bg:'#FAC775', text:'#633806', tagline:'Builds tension before the chorus releases',
+    purpose:'Generates momentum and anticipation before the chorus arrives. Not all songs have one, but when used well it makes the chorus feel like a genuine release of built-up energy.',
+    length:'4–8 bars', texture:"Rising energy; often ends on harmonic tension that 'wants' to resolve into the chorus",
+    whatToListen:"Does the energy feel like it's climbing? When the chorus finally hits, does it feel like a release?",
+    videos:[
+      { id:'hTWKbfoikeg', start:50, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:"The pre-chorus ('Hello, hello...') shifts the dynamic upward. Short, but it makes the chorus explode by comparison." },
+      { id:'-j2EgFx129w', start:148, title:"Don't Stop Believin'", artist:'Journey (1981)', tip:"After two and a half minutes of verses, the pre-chorus arrives — you can feel the song gathering itself before the payoff." }
+    ]
+  },
+  { id:'chorus', label:'Chorus', abbr:'Ch', bg:'#F4C0D1', text:'#72243E', tagline:'The emotional peak; lyrics repeat each time',
+    purpose:'The emotional and musical climax. The chorus repeats the same lyrics every time — this is where the title usually appears, and what listeners remember and sing along to.',
+    length:'8–16 bars', texture:'Full instrumentation, highest energy, broadest melodic range',
+    whatToListen:"What does the chorus do that the verse doesn't? Notice the difference in volume, instrumentation, and emotional impact.",
+    videos:[
+      { id:'hTWKbfoikeg', start:61, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:'The shift from pre-chorus to chorus is one of the most visceral moments in 90s rock — full band, distortion cranked, Cobain at full volume.' },
+      { id:'-j2EgFx129w', start:166, title:"Don't Stop Believin'", artist:'Journey (1981)', tip:"The chorus doesn't arrive until about 2:50. The entire journey through the verses makes this payoff feel enormous." },
+      { id:'Y-9Y4CCIWnM', start:50, title:'Johnny B. Goode', artist:'Chuck Berry (1958)', tip:"In blues-based rock the 'chorus' is sometimes just the title lyric punched in over the turnaround — simpler, but just as effective." }
+    ]
+  },
+  { id:'bridge', label:'Bridge', abbr:'Br', bg:'#CECBF6', text:'#3C3489', tagline:'Contrast and relief; appears once',
+    purpose:'Provides contrast from verse-chorus repetition. Introduces new chord progressions, a new perspective, or a different emotional register. Appears once — usually before the final chorus.',
+    length:'Usually 8 bars', texture:'Contrasting — often stripped down, harmonically surprising, or emotionally distinct',
+    whatToListen:'How does the bridge feel different from everything before it? Does it change key, energy, or lyrical perspective?',
+    videos:[
+      { id:'jo505ZyaCbA', start:47, title:'Yesterday', artist:'The Beatles (1965)', tip:"The bridge shifts to minor-leaning harmony and a violin counter-melody. In a two-minute song this contrast does enormous emotional work." },
+      { id:'hTWKbfoikeg', start:218, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:'The stripped-down, almost spoken section breaks the verse-chorus pattern before the final explosive chorus.' }
+    ]
+  },
+  { id:'solo', label:'Solo / Interlude', abbr:'Sol', bg:'#F5C4B3', text:'#712B13', tagline:'Instrumental break; emotional variety',
+    purpose:'An instrumental passage providing emotional variety, showcasing musicianship, or creating breathing room. Common in blues-derived rock. Can serve the same structural function as a bridge.',
+    length:'8–16 bars, sometimes longer', texture:'Instrumental; often follows verse or chorus chord progression',
+    whatToListen:'How does the solo replace or enhance what a vocal bridge would do? Does it feel like a release, a climax, or a reflection?',
+    videos:[
+      { id:'Y-9Y4CCIWnM', start:84, title:'Johnny B. Goode', artist:'Chuck Berry (1958)', tip:'The guitar solo IS the emotional peak — no vocal needed. This is the 12-bar blues form doing its essential work.' },
+      { id:'hTWKbfoikeg', start:218, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:'The solo is deliberately anti-virtuosic — repetitive and almost disinterested. That restraint is itself a statement.' }
+    ]
+  },
+  { id:'outro', label:'Outro', abbr:'Out', bg:'#D3D1C7', text:'#444441', tagline:'The farewell; brings the song to a close',
+    purpose:"Brings the song to a close. Can be a hard stop, a gradual fade-out, or a repeated tag that winds down. The outro is the last impression — how a song says goodbye.",
+    length:'4–16 bars, or a long fade', texture:'Often fades or strips down; may repeat the hook or riff into silence',
+    whatToListen:"Does the song end cleanly, or does it fade? What effect does that choice create? Does the outro feel resolved or unfinished?",
+    videos:[
+      { id:'jo505ZyaCbA', start:110, title:'Yesterday', artist:'The Beatles (1965)', tip:"A hard stop on the final chord — no fade, no tag. It ends abruptly, leaving the lyric's weight still resonating." },
+      { id:'-j2EgFx129w', start:220, title:"Don't Stop Believin'", artist:'Journey (1981)', tip:"The song fades on a repeated chorus — suggesting the story goes on. The characters never quite resolve." }
+    ]
+  },
+  { id:'tag', label:'Tag / Hook', abbr:'Tag', bg:'#C0DD97', text:'#27500A', tagline:'Short repeated phrase to drive the hook home',
+    purpose:'A short repeated phrase, usually at the end, used to hammer home the central hook. Can be a lyric, a riff, or a vocal figure — often the stickiest, most memorable element of a song.',
+    length:'2–4 bars, repeated multiple times', texture:'Often simple and stripped-back — the reduction lets the hook shine',
+    whatToListen:'Why does repeating a short phrase create such a strong impression? Does the repetition feel satisfying or hypnotic?',
+    videos:[
+      { id:'rIbMbXjbW98', start:188, title:'Hey Jude', artist:'The Beatles (1968)', tip:"The 'Na na na' tag runs over four minutes — longer than the entire verse-chorus section. Repetition as ecstatic release." }
+    ]
+  },
+];
+
+const FORMS = [
+  { name:'Simple verse form', formula:['V','V','V','V'], notes:'The oldest form in popular music — no chorus, no break. Each verse carries the whole weight of the song.', examples:'"House of the Rising Sun" (Animals), "The Times They Are A-Changin\'" (Dylan)' },
+  { name:'Verse-chorus form', formula:['V','Ch','V','Ch','V','Ch'], notes:'The backbone of rock and pop. Verse builds story, chorus delivers the payoff. Works at any tempo, any era.', examples:'"Smells Like Teen Spirit", "Born to Run", "Good Riddance"' },
+  { name:'Verse-chorus with bridge', formula:['V','Ch','V','Ch','Br','Ch'], notes:'Adds contrast before the final chorus. The bridge creates relief and makes the last chorus feel like a release.', examples:'"Yesterday", "Let It Be", "Don\'t Stop Believin\'"' },
+  { name:'32-bar AABA', formula:['A','A','B','A'], notes:'Classic pre-rock form inherited from jazz and popular song. A = 8-bar verse, B = contrasting bridge. Early rock drew heavily from this.', examples:'"I Got You (I Feel Good)", "Love Me Tender", early Chuck Berry' },
+  { name:'Extended intro form', formula:['In','In','V','Ch','V','Ch','Sol','Ch','Out'], notes:'Songs where the intro is an event in itself. Common in arena rock and psychedelia.', examples:'"Baba O\'Riley", "Hotel California", "Stairway to Heaven"' },
+  { name:'Through-composed / suite', formula:['A','B','C','D','E'], notes:'Little to no repetition — each section is new material. Rare in rock but used for ambitious concept pieces.', examples:'"Bohemian Rhapsody", "A Day in the Life", "Happiness Is a Warm Gun"' },
+  { name:'12-bar blues form', formula:['I','IV','I','I','IV','IV','I','I','V','IV','I','V'], notes:'The harmonic and formal DNA of rock. A 12-bar cycle of three chords (I-IV-V) that repeats continuously.', examples:'"Johnny B. Goode", "Hound Dog", "La Grange", "Pride and Joy"' },
+];
+
+const SONGS = [
+  { title:'Johnny B. Goode', artist:'Chuck Berry', year:'1958', form:'12-bar blues', structure:['In','V','Sol','V','V','Sol','Out'], notes:'Every verse follows the 12-bar blues cycle. The guitar solo IS the form — no separate chorus needed.' },
+  { title:'Like a Rolling Stone', artist:'Bob Dylan', year:'1965', form:'Verse-chorus form', structure:['V','V','Ch','V','Ch','V','Ch'], notes:'Long narrative verses build to a devastating chorus. No bridge — the verses carry the weight.' },
+  { title:"Baba O'Riley", artist:'The Who', year:'1971', form:'Extended intro form', structure:['In','In','V','V','Ch','Sol','Out'], notes:'The iconic synth loop intro runs over a minute before any lyric. The form mirrors the generational theme.' },
+  { title:'Bohemian Rhapsody', artist:'Queen', year:'1975', form:'Through-composed / suite', structure:['In','V','V','Br','Sol','Out'], notes:'Five distinct sections with almost no internal repetition: ballad → operatic → hard rock → outro.' },
+  { title:"Don't Stop Believin'", artist:'Journey', year:'1981', form:'Verse-chorus with bridge', structure:['In','V','V','Pre','Ch','V','Ch','Sol','Ch'], notes:'No chorus for almost three minutes. The delayed payoff is the structure.' },
+  { title:'Smells Like Teen Spirit', artist:'Nirvana', year:'1991', form:'Verse-chorus form', structure:['In','V','Pre','Ch','V','Pre','Ch','Sol','V','Pre','Ch','Out'], notes:'Classic loud-quiet dynamic. The pre-chorus exists specifically to make the chorus hit harder by contrast.' },
+  { title:'Yesterday', artist:'The Beatles', year:'1965', form:'32-bar AABA', structure:['A','A','B','A','A','B','A'], notes:'A perfect specimen of Tin Pan Alley form adapted to the rock era. The bridge provides emotional release before the final return.' },
+  { title:'Fade Into You', artist:'Mazzy Star', year:'1993', form:'Verse-chorus form', structure:['In','V','Ch','V','Ch','Out'], notes:'Minimal structure mirrors the lyrical theme — no bridge, no surprise, just a loop that fades. The form IS the feeling.' },
+];
+
+function getColor(abbr) {
+  const s = SECTIONS.find(x => x.abbr === abbr || x.label === abbr);
+  return s ? { bg: s.bg, text: s.text } : { bg:'#D3D1C7', text:'#444441' };
+}
+function chipHtml(abbr, small) {
+  const c = getColor(abbr);
+  return `<span class="${small?'small-chip':'block-chip'}" style="background:${c.bg};color:${c.text};">${abbr}</span>`;
+}
+function fmtTime(s) { return `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`; }
+
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`[onclick="showTab('${id}')"]`).classList.add('active');
+  document.getElementById(`panel-${id}`).classList.add('active');
+}
+
+function renderSectionGrid() {
+  document.getElementById('sectionGrid').innerHTML = SECTIONS.map(s => `
+    <button class="section-btn" id="btn-${s.id}" onclick="showSection('${s.id}')">
+      <span class="pill" style="background:${s.bg};color:${s.text};">${s.abbr}</span>
+      <h3>${s.label}</h3>
+      <p class="tagline">${s.tagline}</p>
+    </button>`).join('');
+}
+
+function showSection(id) {
+  const s = SECTIONS.find(x => x.id === id);
+  if (!s) return;
+  document.querySelectorAll('.section-btn').forEach(b => { b.classList.remove('active'); b.style.borderColor = 'transparent'; });
+  const btn = document.getElementById('btn-' + id);
+  btn.classList.add('active'); btn.style.borderColor = s.bg;
+  document.getElementById('detailPanel').innerHTML = `
+    <div class="detail-header" style="border-left:4px solid ${s.bg};">
+      <span class="pill" style="background:${s.bg};color:${s.text};margin-bottom:8px;">${s.abbr}</span>
+      <h2>${s.label}</h2>
+      <p class="purpose">${s.purpose}</p>
+    </div>
+    <div class="detail-meta">
+      <div><div class="meta-label">Typical length</div><div class="meta-value">${s.length}</div></div>
+      <div><div class="meta-label">Texture</div><div class="meta-value">${s.texture}</div></div>
+      <div style="flex:1;min-width:180px;"><div class="meta-label">What to listen for</div><div class="meta-value">${s.whatToListen}</div></div>
+    </div>
+    <div class="examples-section">
+      <div class="examples-label">Hear it in action</div>
+      <div class="video-list">
+        ${s.videos.map(v => `
+          <div class="video-item">
+            <iframe src="https://www.youtube.com/embed/${v.id}?start=${v.start}&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy" title="${v.title}"></iframe>
+            <div class="video-info">
+              <h4>${v.title}</h4>
+              <p class="video-artist">${v.artist}</p>
+              <span class="timestamp-badge">Starts at ${fmtTime(v.start)}</span>
+              <p class="listen-tip">${v.tip}</p>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function renderForms() {
+  document.getElementById('formsList').innerHTML = FORMS.map(f => `
+    <div class="form-row">
+      <h3>${f.name}</h3>
+      <div class="formula">${f.formula.map((a,i) => chipHtml(a) + (i < f.formula.length-1 ? '<span class="sep">→</span>' : '')).join('')}</div>
+      <div class="form-examples"><strong>Examples:</strong> ${f.examples}</div>
+      <div class="form-notes">${f.notes}</div>
+    </div>`).join('');
+}
+
+function populateFormFilter() {
+  const forms = [...new Set(SONGS.map(s => s.form))];
+  document.getElementById('formFilter').innerHTML = '<option value="">All forms</option>' + forms.map(f => `<option value="${f}">${f}</option>`).join('');
+}
+
+function renderSongs() {
+  const filter = document.getElementById('formFilter').value;
+  const songs = filter ? SONGS.filter(s => s.form === filter) : SONGS;
+  document.getElementById('songsGrid').innerHTML = songs.map(s => `
+    <div class="song-row">
+      <div class="song-info"><h4>${s.title}</h4><div class="song-artist">${s.artist}</div><div class="song-year">${s.year}</div></div>
+      <div><div class="song-form-label">Structure</div><div class="song-structure">${s.structure.map(a => chipHtml(a,true)).join('<span class="sep" style="font-size:10px;margin:0 2px;">›</span>')}</div><div style="margin-top:5px;font-size:11px;color:#aaa;">Form: ${s.form}</div></div>
+      <div class="song-notes">${s.notes}</div>
+    </div>`).join('');
+}
+
+function populateActivitySong() {
+  document.getElementById('activitySong').innerHTML = SONGS.map((s,i) => `<option value="${i}">${s.title} — ${s.artist}</option>`).join('');
+}
+
+function renderActivityPalette() {
+  const abbrs = ['In','V','Pre','Ch','Br','Sol','Out','Tag','A','B'];
+  document.getElementById('activityPalette').innerHTML = abbrs.map(abbr => {
+    const c = getColor(abbr);
+    return `<span class="drag-chip" draggable="true" data-abbr="${abbr}" style="background:${c.bg};color:${c.text};" ondragstart="startChipDrag(event,'${abbr}')">${abbr}</span>`;
+  }).join('');
+}
+
+let timeline = [], resizingBlock = null, resizeStartX = 0, resizeStartW = 0, trackWidth = 0;
+
+function loadActivitySong() { clearTimeline(); }
+
+function startChipDrag(e, abbr) { e.dataTransfer.setData('text/plain', abbr); }
+
+function setupTrackDrop() {
+  const t = document.getElementById('timelineTrack');
+  t.addEventListener('dragover', e => { e.preventDefault(); t.classList.add('drag-over'); });
+  t.addEventListener('dragleave', () => t.classList.remove('drag-over'));
+  t.addEventListener('drop', e => {
+    e.preventDefault(); t.classList.remove('drag-over');
+    const abbr = e.dataTransfer.getData('text/plain');
+    if (!abbr) return;
+    const rect = t.getBoundingClientRect();
+    const xPct = (e.clientX - rect.left) / rect.width;
+    const w = 0.15;
+    const left = Math.min(Math.max(0, xPct - w/2), 1 - w);
+    timeline.push({ abbr, left, width: w, id: Date.now() });
+    renderTimeline();
+  });
+}
+
+function renderTimeline() {
+  const t = document.getElementById('timelineTrack');
+  t.querySelectorAll('.placed-block').forEach(b => b.remove());
+  timeline.forEach(block => {
+    const c = getColor(block.abbr);
+    const el = document.createElement('div');
+    el.className = 'placed-block';
+    el.style.cssText = `left:${block.left*100}%;width:${block.width*100}%;background:${c.bg};color:${c.text};`;
+    el.innerHTML = `${block.abbr}<span class="remove-x" onclick="removeBlock(${block.id})">✕</span><span class="resize-handle" onmousedown="startResize(event,${block.id})"></span>`;
+    t.appendChild(el);
+  });
+  updateFormReadout();
+}
+
+function removeBlock(id) { timeline = timeline.filter(b => b.id !== id); renderTimeline(); }
+
+function startResize(e, id) {
+  e.preventDefault(); e.stopPropagation();
+  const block = timeline.find(b => b.id === id); if (!block) return;
+  resizingBlock = id; resizeStartX = e.clientX; resizeStartW = block.width;
+  trackWidth = document.getElementById('timelineTrack').getBoundingClientRect().width;
+  window.addEventListener('mousemove', doResize);
+  window.addEventListener('mouseup', stopResize);
+}
+function doResize(e) {
+  if (!resizingBlock) return;
+  const block = timeline.find(b => b.id === resizingBlock); if (!block) return;
+  block.width = Math.max(0.06, Math.min(1 - block.left, resizeStartW + (e.clientX - resizeStartX) / trackWidth));
+  renderTimeline();
+}
+function stopResize() { resizingBlock = null; window.removeEventListener('mousemove', doResize); window.removeEventListener('mouseup', stopResize); }
+
+function updateFormReadout() {
+  const sorted = [...timeline].sort((a,b) => a.left - b.left);
+  const str = sorted.map(b => b.abbr).join(' → ');
+  document.getElementById('formReadout').innerHTML = str
+    ? `<span class="form-string">${str}</span>`
+    : '<span class="form-empty">Your form will appear here as you build it.</span>';
+}
+
+function clearTimeline() { timeline = []; renderTimeline(); document.getElementById('checkBox').classList.remove('visible'); }
+
+function checkAnswer() {
+  const song = SONGS[parseInt(document.getElementById('activitySong').value)];
+  const sorted = [...timeline].sort((a,b) => a.left - b.left);
+  const student = sorted.map(b => b.abbr).join('-');
+  const box = document.getElementById('checkBox');
+  box.classList.add('visible');
+  box.innerHTML = student === song.structure.join('-')
+    ? `<span class="correct">Great match!</span> You correctly identified the structure of "${song.title}." ${song.notes}`
+    : `<span class="incorrect">Not quite.</span> The actual form is: <strong>${song.structure.join(' → ')}</strong><br><br>${song.notes}`;
+}
+
+function revealAnswer() {
+  const song = SONGS[parseInt(document.getElementById('activitySong').value)];
+  timeline = song.structure.map((abbr,i) => ({ abbr, left: i/song.structure.length, width: 0.9/song.structure.length, id: Date.now()+i }));
+  renderTimeline();
+  document.getElementById('checkBox').classList.remove('visible');
+}
+
+renderSectionGrid();
+renderForms();
+populateFormFilter();
+renderSongs();
+populateActivitySong();
+renderActivityPalette();
+setupTrackDrop();
+</script>
+</body>
+</html>
