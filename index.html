@@ -11,8 +11,10 @@
   --white: #f5f2ec;
   --red: #c8372d;
   --gold: #d4a843;
+  --blue: #7ab8d4;
   --gray: #2a2a2a;
   --mid: #888;
+  --dim: #444;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -25,7 +27,6 @@ body {
   overflow-x: hidden;
 }
 
-/* NOISE TEXTURE OVERLAY */
 body::before {
   content: '';
   position: fixed;
@@ -36,18 +37,12 @@ body::before {
   opacity: 0.4;
 }
 
-/* HEADER */
 header {
   padding: 3rem 3rem 0;
   position: relative;
 }
 
-.header-rule {
-  height: 3px;
-  background: var(--red);
-  margin-bottom: 1.5rem;
-  width: 60px;
-}
+.header-rule { height: 3px; background: var(--red); margin-bottom: 1.5rem; width: 60px; }
 
 .course-label {
   font-family: 'IBM Plex Mono', monospace;
@@ -87,7 +82,6 @@ h1 .accent { color: var(--red); }
   background: var(--red);
 }
 
-/* DECORATIVE VINYL */
 .vinyl-wrap {
   position: absolute;
   top: 2rem;
@@ -98,15 +92,7 @@ h1 .accent { color: var(--red); }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.vinyl {
-  width: 140px;
-  height: 140px;
-}
-
-/* MAIN GRID */
-main {
-  padding: 3rem;
-}
+main { padding: 3rem; }
 
 .units-grid {
   display: grid;
@@ -116,17 +102,13 @@ main {
   border: 1px solid #1a1a1a;
   border-radius: 2px;
   overflow: hidden;
-  margin-bottom: 1px;
 }
 
 .unit {
   background: var(--black);
   padding: 2rem 1.75rem 1.5rem;
   position: relative;
-  transition: background 0.2s;
 }
-
-.unit:hover { background: #141414; }
 
 .unit-number {
   font-family: 'Bebas Neue', sans-serif;
@@ -152,7 +134,7 @@ main {
 
 .unit-1 .unit-tag { background: #c8372d22; color: var(--red); border: 1px solid #c8372d44; }
 .unit-2 .unit-tag { background: #d4a84322; color: var(--gold); border: 1px solid #d4a84344; }
-.unit-3 .unit-tag { background: #4a8fb822; color: #7ab8d4; border: 1px solid #4a8fb844; }
+.unit-3 .unit-tag { background: #4a8fb822; color: var(--blue); border: 1px solid #4a8fb844; }
 
 .unit h2 {
   font-family: 'Bebas Neue', sans-serif;
@@ -163,6 +145,10 @@ main {
   color: var(--white);
 }
 
+.unit-locked h2 { color: var(--dim); }
+.unit-locked .unit-tag { opacity: 0.4; }
+.unit-locked .unit-number { color: #181818; }
+
 .unit-desc {
   font-size: 12px;
   color: var(--mid);
@@ -170,6 +156,8 @@ main {
   margin-bottom: 1.5rem;
   font-style: italic;
 }
+
+.unit-locked .unit-desc { color: var(--dim); }
 
 /* TOOL LINKS */
 .tools { display: flex; flex-direction: column; gap: 2px; }
@@ -190,10 +178,8 @@ main {
   gap: 10px;
 }
 
-.tool-link:hover {
-  border-color: #444;
-  background: #1c1c1c;
-}
+.tool-link:hover { border-color: #444; background: #1c1c1c; }
+.unit-1 .tool-link:hover { border-color: var(--red); }
 
 .tool-link .tool-name { flex: 1; }
 
@@ -211,69 +197,27 @@ main {
   transition: transform 0.15s, color 0.15s;
 }
 
-.tool-link:hover .arrow {
-  transform: translateX(3px);
-  color: var(--white);
-}
+.tool-link:hover .arrow { transform: translateX(3px); color: var(--white); }
 
-.unit-1 .tool-link:hover { border-color: var(--red); }
-.unit-2 .tool-link:hover { border-color: var(--gold); }
-.unit-3 .tool-link:hover { border-color: #4a8fb8; }
-
-/* COMING SOON */
-.tool-link.soon {
-  opacity: 0.35;
-  cursor: default;
+/* INACTIVE TOOL */
+.tool-link.inactive {
+  opacity: 0.3;
   pointer-events: none;
+  cursor: default;
 }
 
-.soon-badge {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--mid);
-  border: 1px solid #333;
-  padding: 2px 6px;
-  border-radius: 2px;
-}
-
-/* ADMIN BAR */
-.admin-bar {
-  background: #111;
-  border: 1px solid #1a1a1a;
-  border-radius: 2px;
-  padding: 12px 1.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.admin-bar span {
+/* LOCKED UNIT OVERLAY */
+.unit-locked-msg {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 11px;
-  color: #444;
+  color: var(--dim);
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #1a1a1a;
 }
 
-.admin-link {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  color: #555;
-  text-decoration: none;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  transition: color 0.15s;
-  padding: 4px 10px;
-  border: 1px solid #222;
-  border-radius: 2px;
-}
-
-.admin-link:hover { color: var(--mid); border-color: #333; }
-
-/* FOOTER */
 footer {
   padding: 1.5rem 3rem 2.5rem;
   display: flex;
@@ -283,27 +227,19 @@ footer {
   margin-top: 2rem;
 }
 
-footer .left {
+footer span {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 11px;
   color: #333;
   letter-spacing: 0.06em;
 }
 
-footer .right {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  color: #333;
-  letter-spacing: 0.06em;
-}
-
-/* RESPONSIVE */
 @media (max-width: 768px) {
   header { padding: 2rem 1.5rem 0; }
   main { padding: 2rem 1.5rem; }
   .units-grid { grid-template-columns: 1fr; }
   .vinyl-wrap { display: none; }
-  footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; }
 }
 </style>
 </head>
@@ -311,12 +247,12 @@ footer .right {
 
 <header>
   <div class="header-rule"></div>
-  <p class="course-label">Margraf — Period 2 &amp; 5</p>
+  <p class="course-label">Margraf — Period 2</p>
   <h1>History of<br>Rock <span class="accent">'n'</span> Roll</h1>
-  <p class="header-sub">Interactive course tools &amp; resources</p>
+  <p class="header-sub">Course tools &amp; activities</p>
 
   <div class="vinyl-wrap">
-    <svg class="vinyl" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+    <svg width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
       <circle cx="70" cy="70" r="69" fill="#111" stroke="#333" stroke-width="1"/>
       <circle cx="70" cy="70" r="58" fill="none" stroke="#222" stroke-width="1"/>
       <circle cx="70" cy="70" r="50" fill="none" stroke="#222" stroke-width="1"/>
@@ -330,92 +266,113 @@ footer .right {
 </header>
 
 <main>
-  <div class="units-grid">
-
-    <!-- UNIT 1 -->
-    <div class="unit unit-1">
-      <div class="unit-number">01</div>
-      <span class="unit-tag">Unit 1</span>
-      <h2>What Does It Sound Like?</h2>
-      <p class="unit-desc">Developing critical listening skills — timbre, stereo field, song structure, and sonic analysis.</p>
-      <div class="tools">
-        <a href="song_structure_lesson.html" class="tool-link">
-          <span class="tool-name">Song Structure Lesson</span>
-          <span class="tool-type">Interactive</span>
-          <span class="arrow">→</span>
-        </a>
-        <a href="#" class="tool-link soon">
-          <span class="tool-name">Stereo Mapping</span>
-          <span class="soon-badge">Coming soon</span>
-        </a>
-        <a href="#" class="tool-link soon">
-          <span class="tool-name">Intensity Charting</span>
-          <span class="soon-badge">Coming soon</span>
-        </a>
-        <a href="#" class="tool-link soon">
-          <span class="tool-name">Instrument Explorer</span>
-          <span class="soon-badge">Coming soon</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- UNIT 2 -->
-    <div class="unit unit-2">
-      <div class="unit-number">02</div>
-      <span class="unit-tag">Unit 2</span>
-      <h2>What Does It Say?</h2>
-      <p class="unit-desc">Lyrical analysis — theme, narrative, metaphor, and the stories rock 'n' roll tells.</p>
-      <div class="tools">
-        <a href="#" class="tool-link soon">
-          <span class="tool-name">Lyric Analysis Tool</span>
-          <span class="soon-badge">Coming soon</span>
-        </a>
-        <a href="#" class="tool-link soon">
-          <span class="tool-name">Theme Mapper</span>
-          <span class="soon-badge">Coming soon</span>
-        </a>
-        <a href="#" class="tool-link soon">
-          <span class="tool-name">Close Reading Guide</span>
-          <span class="soon-badge">Coming soon</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- UNIT 3 -->
-    <div class="unit unit-3">
-      <div class="unit-number">03</div>
-      <span class="unit-tag">Unit 3</span>
-      <h2>Why Was It Made?</h2>
-      <p class="unit-desc">Historical context — the cultural, political, and social forces that shaped rock 'n' roll.</p>
-      <div class="tools">
-        <a href="#" class="tool-link soon">
-          <span class="tool-name">Era Timeline</span>
-          <span class="soon-badge">Coming soon</span>
-        </a>
-        <a href="#" class="tool-link soon">
-          <span class="tool-name">Context Research Guide</span>
-          <span class="soon-badge">Coming soon</span>
-        </a>
-        <a href="#" class="tool-link soon">
-          <span class="tool-name">Artist Background Tool</span>
-          <span class="soon-badge">Coming soon</span>
-        </a>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ADMIN BAR -->
-  <div class="admin-bar">
-    <span>Teacher tools</span>
-    <div style="display:flex;gap:8px;"><a href="video_admin.html" class="admin-link">Video Admin →</a><a href="song_admin.html" class="admin-link">Song Admin →</a></div>
+  <div class="units-grid" id="unitsGrid">
+    <!-- Rendered by JS -->
   </div>
 </main>
 
 <footer>
-  <span class="left">Margraf — History of Rock 'n' Roll</span>
-  <span class="right">Unit tools &amp; resources</span>
+  <span>Margraf — History of Rock 'n' Roll</span>
+  <span id="footerPeriod"></span>
 </footer>
 
+<script>
+const STORAGE_KEY = 'rock_lesson_toggles';
+
+// ── LESSON DATA ───────────────────────────────────────────────────────────────
+const UNITS = [
+  {
+    id: 'unit1',
+    number: '01',
+    tag: 'Unit 1',
+    cls: 'unit-1',
+    title: 'What Does It Sound Like?',
+    desc: 'Developing critical listening skills — timbre, stereo field, song structure, and sonic analysis.',
+    locked: false,
+    tools: [
+      { id: 'song-structure', name: 'Song Structure Lesson', type: 'Interactive', url: 'https://jamesmargraf-cyber.github.io/history-of-rocknroll/song_structure_lesson.html' },
+      { id: 'song-analyzer', name: 'Song Analyzer', type: 'Interactive', url: 'https://jamesmargraf-cyber.github.io/song-analyzer-dev/' },
+      { id: 'instrument-explorer', name: 'Instrument Explorer', type: 'Interactive', url: 'https://jamesmargraf-cyber.github.io/history-of-rocknroll/instrument_explorer.html' },
+      { id: 'timbre', name: 'Timbre Activity', type: 'Google Classroom', url: 'https://classroom.google.com/u/0/c/ODU5MDUyMTIyMjAy/a/ODYwMTUyMDMwMDgw/details' },
+    ]
+  },
+  {
+    id: 'unit2',
+    number: '02',
+    tag: 'Unit 2',
+    cls: 'unit-2',
+    title: 'What Does It Say?',
+    desc: 'Lyrical analysis — theme, narrative, metaphor, and the stories rock \'n\' roll tells.',
+    locked: true,
+    tools: []
+  },
+  {
+    id: 'unit3',
+    number: '03',
+    tag: 'Unit 3',
+    cls: 'unit-3',
+    title: 'Why Was It Made?',
+    desc: 'Historical context — the cultural, political, and social forces that shaped rock \'n\' roll.',
+    locked: true,
+    tools: []
+  },
+];
+
+// ── LOAD TOGGLES FROM LOCALSTORAGE ────────────────────────────────────────────
+function loadToggles() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : {};
+  } catch(e) { return {}; }
+}
+
+function isToolActive(toolId) {
+  const toggles = loadToggles();
+  // Default: all tools active unless explicitly set to false
+  return toggles[toolId] !== false;
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function render() {
+  const grid = document.getElementById('unitsGrid');
+  grid.innerHTML = UNITS.map(unit => {
+    if (unit.locked) {
+      return `
+        <div class="unit ${unit.cls} unit-locked">
+          <div class="unit-number">${unit.number}</div>
+          <span class="unit-tag">${unit.tag}</span>
+          <h2>${unit.title}</h2>
+          <p class="unit-locked-msg">Not yet unlocked</p>
+        </div>`;
+    }
+
+    const toolsHTML = unit.tools.map(tool => {
+      const active = isToolActive(tool.id);
+      return `
+        <a href="${active ? tool.url : '#'}"
+           class="tool-link ${active ? '' : 'inactive'}"
+           ${active ? 'target="_blank"' : ''}>
+          <span class="tool-name">${tool.name}</span>
+          <span class="tool-type">${tool.type}</span>
+          <span class="arrow">→</span>
+        </a>`;
+    }).join('');
+
+    return `
+      <div class="unit ${unit.cls}">
+        <div class="unit-number">${unit.number}</div>
+        <span class="unit-tag">${unit.tag}</span>
+        <h2>${unit.title}</h2>
+        <p class="unit-desc">${unit.desc}</p>
+        <div class="tools">${toolsHTML}</div>
+      </div>`;
+  }).join('');
+}
+
+render();
+
+// Re-render if localStorage changes (teacher page updated toggles)
+window.addEventListener('storage', render);
+</script>
 </body>
 </html>

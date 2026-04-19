@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Dashboard — History of Rock 'n' Roll</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0e0e0e;
+  --white: #f5f2ec;
+  --red: #c8372d;
+  --gold: #d4a843;
+  --gray: #2a2a2a;
+  --mid: #888;
+  --green: #1D9E75;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #f5f4f0;
+  color: #1a1a1a;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 14px;
+  min-height: 100vh;
+}
+
+.header {
+  background: var(--black);
+  color: var(--white);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.05em;
+  color: var(--white);
+}
+
+.header-left p {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--mid);
+  margin-top: 2px;
+  letter-spacing: 0.08em;
+}
+
+.header-right {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  padding: 6px 14px;
+  border-radius: 4px;
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid #333;
+  color: var(--mid);
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.admin-btn:hover { border-color: var(--mid); color: var(--white); }
+.admin-btn.blue { background: #2a5298; color: #fff; border-color: #2a5298; }
+.admin-btn.blue:hover { background: #1e3d72; }
+
+.main { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+.page-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing: 0.04em;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+
+.page-sub {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 2rem;
+  letter-spacing: 0.05em;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.card-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fafafa;
+}
+
+.card-header h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  color: #1a1a1a;
+}
+
+.unit-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.badge-red { background: #c8372d22; color: var(--red); border: 1px solid #c8372d44; }
+
+.tool-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 1.25rem;
+  border-bottom: 1px solid #f0f0f0;
+  gap: 1rem;
+}
+
+.tool-row:last-child { border-bottom: none; }
+
+.tool-info { flex: 1; }
+.tool-name { font-size: 14px; font-weight: 500; color: #1a1a1a; margin-bottom: 2px; }
+.tool-url {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #aaa;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 380px;
+}
+
+.tool-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+
+.open-link {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #888;
+  text-decoration: none;
+  padding: 4px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.open-link:hover { border-color: #999; color: #333; }
+
+/* TOGGLE */
+.toggle-wrap { display: flex; align-items: center; gap: 8px; }
+.toggle-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #888;
+  letter-spacing: 0.05em;
+  min-width: 46px;
+  text-align: right;
+}
+.toggle-label.on { color: var(--green); }
+
+.toggle {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.toggle input { opacity: 0; width: 0; height: 0; }
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #ddd;
+  border-radius: 24px;
+  transition: background 0.2s;
+}
+
+.toggle-slider:before {
+  content: '';
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.toggle input:checked + .toggle-slider { background: var(--green); }
+.toggle input:checked + .toggle-slider:before { transform: translateX(20px); }
+
+/* ADMIN TOOLS SECTION */
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.admin-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #1a1a1a;
+  transition: border-color 0.15s, background 0.15s;
+  gap: 10px;
+}
+
+.admin-card:hover { border-color: #999; background: #fafafa; }
+.admin-card-name { font-size: 14px; font-weight: 500; }
+.admin-card-desc { font-size: 12px; color: #888; margin-top: 2px; }
+.admin-card-arrow { color: #ccc; font-size: 14px; }
+
+.preview-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #888;
+  text-decoration: none;
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+  margin-top: 1rem;
+}
+
+.preview-link:hover { border-color: #999; color: #333; }
+
+.saved-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--green);
+  color: #fff;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  padding: 10px 20px;
+  border-radius: 6px;
+  letter-spacing: 0.06em;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.saved-toast.show { opacity: 1; }
+
+.section-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #999;
+  margin-bottom: 10px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Teacher Dashboard</h1>
+    <p>History of Rock 'n' Roll — Margraf</p>
+  </div>
+  <div class="header-right">
+    <a href="index.html" class="admin-btn" target="_blank">View student page →</a>
+  </div>
+</div>
+
+<div class="main">
+
+  <h2 class="page-title">Lesson Controls</h2>
+  <p class="page-sub">Toggle lessons on or off to control what students can access on the student page.</p>
+
+  <!-- UNIT 1 TOGGLES -->
+  <div class="card">
+    <div class="card-header">
+      <span class="unit-badge badge-red">Unit 1</span>
+      <h2>What Does It Sound Like?</h2>
+    </div>
+
+    <div class="tool-row">
+      <div class="tool-info">
+        <div class="tool-name">Song Structure Lesson</div>
+        <div class="tool-url">jamesmargraf-cyber.github.io/history-of-rocknroll/song_structure_lesson.html</div>
+      </div>
+      <div class="tool-actions">
+        <a href="https://jamesmargraf-cyber.github.io/history-of-rocknroll/song_structure_lesson.html" class="open-link" target="_blank">Open ↗</a>
+        <div class="toggle-wrap">
+          <span class="toggle-label" id="label-song-structure">On</span>
+          <label class="toggle">
+            <input type="checkbox" id="toggle-song-structure" checked onchange="saveToggle('song-structure', this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-row">
+      <div class="tool-info">
+        <div class="tool-name">Song Analyzer</div>
+        <div class="tool-url">jamesmargraf-cyber.github.io/song-analyzer-dev/</div>
+      </div>
+      <div class="tool-actions">
+        <a href="https://jamesmargraf-cyber.github.io/song-analyzer-dev/" class="open-link" target="_blank">Open ↗</a>
+        <div class="toggle-wrap">
+          <span class="toggle-label" id="label-song-analyzer">On</span>
+          <label class="toggle">
+            <input type="checkbox" id="toggle-song-analyzer" checked onchange="saveToggle('song-analyzer', this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-row">
+      <div class="tool-info">
+        <div class="tool-name">Instrument Explorer</div>
+        <div class="tool-url">jamesmargraf-cyber.github.io/history-of-rocknroll/instrument_explorer.html</div>
+      </div>
+      <div class="tool-actions">
+        <a href="https://jamesmargraf-cyber.github.io/history-of-rocknroll/instrument_explorer.html" class="open-link" target="_blank">Open ↗</a>
+        <div class="toggle-wrap">
+          <span class="toggle-label" id="label-instrument-explorer">On</span>
+          <label class="toggle">
+            <input type="checkbox" id="toggle-instrument-explorer" checked onchange="saveToggle('instrument-explorer', this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-row">
+      <div class="tool-info">
+        <div class="tool-name">Timbre Activity</div>
+        <div class="tool-url">classroom.google.com — Google Classroom</div>
+      </div>
+      <div class="tool-actions">
+        <a href="https://classroom.google.com/u/0/c/ODU5MDUyMTIyMjAy/a/ODYwMTUyMDMwMDgw/details" class="open-link" target="_blank">Open ↗</a>
+        <div class="toggle-wrap">
+          <span class="toggle-label" id="label-timbre">On</span>
+          <label class="toggle">
+            <input type="checkbox" id="toggle-timbre" checked onchange="saveToggle('timbre', this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ADMIN TOOLS -->
+  <div class="section-label">Admin tools</div>
+  <div class="admin-grid">
+    <a href="video_admin.html" class="admin-card">
+      <div>
+        <div class="admin-card-name">Video Admin</div>
+        <div class="admin-card-desc">Edit video IDs and timestamps for the song structure lesson</div>
+      </div>
+      <span class="admin-card-arrow">→</span>
+    </a>
+    <a href="song_admin.html" class="admin-card">
+      <div>
+        <div class="admin-card-name">Song Admin</div>
+        <div class="admin-card-desc">Edit song structures and metadata for the lesson examples</div>
+      </div>
+      <span class="admin-card-arrow">→</span>
+    </a>
+  </div>
+
+</div>
+
+<div class="saved-toast" id="savedToast">✓ Saved</div>
+
+<script>
+const STORAGE_KEY = 'rock_lesson_toggles';
+
+const TOOLS = ['song-structure', 'song-analyzer', 'instrument-explorer', 'timbre'];
+
+function loadToggles() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : {};
+  } catch(e) { return {}; }
+}
+
+function saveToggle(toolId, active) {
+  const toggles = loadToggles();
+  toggles[toolId] = active;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(toggles));
+  updateLabel(toolId, active);
+  showToast();
+}
+
+function updateLabel(toolId, active) {
+  const label = document.getElementById('label-' + toolId);
+  if (!label) return;
+  label.textContent = active ? 'On' : 'Off';
+  label.className = 'toggle-label' + (active ? ' on' : '');
+}
+
+function showToast() {
+  const toast = document.getElementById('savedToast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+function initToggles() {
+  const toggles = loadToggles();
+  TOOLS.forEach(id => {
+    const checkbox = document.getElementById('toggle-' + id);
+    if (!checkbox) return;
+    const active = toggles[id] !== false; // default on
+    checkbox.checked = active;
+    updateLabel(id, active);
+  });
+}
+
+initToggles();
+</script>
+</body>
+</html>
