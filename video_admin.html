@@ -83,7 +83,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; f
     <h1>Video Admin — Song Structure Lesson</h1>
     <p>Edit video IDs and timestamps, then export the updated lesson file</p>
   </div>
-  <button class="export-btn" onclick="exportLesson()">Export lesson HTML</button>
+  <div style="display:flex;gap:8px;align-items:center;"><button class="export-btn" onclick="resetToDefaults()" style="background:#c8372d;color:#fff;">Reset defaults</button><button class="export-btn" onclick="exportLesson()">Export lesson HTML</button><button class="export-btn" onclick="exportAdmin()" style="background:#2a5298;color:#fff;">Export admin HTML</button></div>
 </div>
 
 <div class="layout">
@@ -361,29 +361,114 @@ function updateField(field, value) {
   }
 }
 
+const STORAGE_KEY = 'rock_video_admin_sections';
+
+function persistSections() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(SECTIONS)); } catch(e) {}
+}
+
+function loadPersistedSections() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+    const parsed = JSON.parse(saved);
+    parsed.forEach((savedSec, si) => {
+      if (!SECTIONS[si]) return;
+      savedSec.videos.forEach((savedVid, vi) => {
+        if (!SECTIONS[si].videos[vi]) return;
+        SECTIONS[si].videos[vi].id = savedVid.id;
+        SECTIONS[si].videos[vi].start = savedVid.start;
+        SECTIONS[si].videos[vi].end = savedVid.end;
+      });
+    });
+  } catch(e) {}
+}
+
+function resetToDefaults() {
+  if (!confirm('Reset all timestamps and video IDs to defaults? This cannot be undone.')) return;
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  location.reload();
+}
+
 function saveVideo() {
   const v = SECTIONS[activeSection].videos[activeVideoIndex];
   v.id = document.getElementById('inputId').value.trim();
   v.start = parseInt(document.getElementById('inputStart').value) || 0;
   v.end = parseInt(document.getElementById('inputEnd').value) || 0;
+  persistSections();
   renderSidebar();
   const ind = document.getElementById('savedIndicator');
   if (ind) { ind.classList.add('show'); setTimeout(() => ind.classList.remove('show'), 2000); }
 }
-
 function exportLesson() {
-  // Build the SECTIONS JS block with current values
-  const sectionsData = JSON.stringify(SECTIONS, null, 2);
-
-  // Build full lesson HTML with updated data
   const html = buildLessonHTML();
+  downloadFile(html, 'song_structure_lesson.html');
+}
+
+function exportAdmin() {
+  const html = buildAdminHTML();
+  downloadFile(html, 'video_admin.html');
+}
+
+function downloadFile(html, filename) {
   const blob = new Blob([html], { type: 'text/html' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'song_structure_lesson.html';
+  a.download = filename;
   a.click();
   URL.revokeObjectURL(url);
+}
+
+function buildAdminHTML() {
+  // Serialize current SECTIONS data with updated values as hardcoded defaults
+  const sectionsJS = SECTIONS.map(sec => {
+    const videosJS = sec.videos.map(v =>
+      `      { id:'${v.id}', start:${v.start}, end:${v.end||0}, title:'${v.title.replace(/'/g,"\\'")}', artist:'${v.artist.replace(/'/g,"\\'")}' }`
+    ).join(',\n');
+    return `  { id:'${sec.id}', label:'${sec.label}', abbr:'${sec.abbr}', bg:'${sec.bg}', text:'${sec.text}',\n    videos:[\n${videosJS}\n    ]\n  }`;
+  }).join(',\n');
+
+  // Read the current file's full source and replace the SECTIONS block
+  // Since we can't read the file, we rebuild the admin from a template with updated data
+  return buildAdminTemplate(sectionsJS);
+}
+
+function buildAdminTemplate(sectionsJS) {
+  // Captures all the non-data parts of this file and injects updated SECTIONS
+  // We store the full admin template as a string with a placeholder for SECTIONS data
+  const style = document.querySelector('style').outerHTML;
+  const bodyContent = document.body.innerHTML
+    // Remove the rendered sidebar/panel content — will be regenerated on load
+    .replace(/<div id="sidebarList">[\s\S]*?<\/div>/, '<div id="sidebarList"></div>')
+    .replace(/<div class="main" id="mainPanel">[\s\S]*?<\/div>(?=\s*<\/div>\s*<script)/, '<div class="main" id="mainPanel"><div class="empty-state"><p>Select a video from the sidebar</p><small>Click any video to edit its ID and timestamps</small></div></div>');
+
+  // Get all scripts except the inline one (we'll rebuild it)
+  const scriptContent = Array.from(document.scripts)
+    .filter(s => !s.src)
+    .map(s => s.textContent)[0] || '';
+
+  // Replace the SECTIONS const block with updated data
+  const updatedScript = scriptContent.replace(
+    /const SECTIONS = \[[\s\S]*?\];(\s*\/\/ ── YouTube)/,
+    `const SECTIONS = [\n${sectionsJS}\n];\n$1`
+  );
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Admin — Song Structure Lesson</title>
+${style}
+</head>
+<body>
+${bodyContent}
+<script>
+${updatedScript}
+<\/script>
+</body>
+</html>`;
 }
 
 function buildLessonHTML() {
@@ -771,6 +856,7 @@ renderSectionGrid(); renderForms(); populateFormFilter(); renderSongs(); populat
 </html>`;
 }
 
+loadPersistedSections();
 renderSidebar();
 </script>
 </body>
