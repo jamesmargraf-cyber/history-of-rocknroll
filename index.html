@@ -12,235 +12,51 @@
   --red: #c8372d;
   --gold: #d4a843;
   --blue: #7ab8d4;
-  --gray: #2a2a2a;
   --mid: #888;
-  --dim: #444;
+  --dim: #333;
+  --card: #141414;
+  --border: #1e1e1e;
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  background: var(--black);
-  color: var(--white);
-  font-family: 'IBM Plex Sans', sans-serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 100;
-  opacity: 0.4;
-}
-
-header {
-  padding: 3rem 3rem 0;
-  position: relative;
-}
-
+body { background: var(--black); color: var(--white); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
+body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 100; opacity: 0.4; }
+header { padding: 3rem 3rem 0; position: relative; }
 .header-rule { height: 3px; background: var(--red); margin-bottom: 1.5rem; width: 60px; }
-
-.course-label {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--mid);
-  margin-bottom: 0.75rem;
-}
-
-h1 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(52px, 8vw, 96px);
-  line-height: 0.92;
-  letter-spacing: 0.02em;
-  color: var(--white);
-}
-
+.course-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.75rem; }
+h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 8vw, 96px); line-height: 0.92; letter-spacing: 0.02em; }
 h1 .accent { color: var(--red); }
-
-.header-sub {
-  margin-top: 1.25rem;
-  font-size: 14px;
-  color: var(--mid);
-  font-family: 'IBM Plex Mono', monospace;
-  letter-spacing: 0.05em;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.header-sub::before {
-  content: '';
-  display: inline-block;
-  width: 24px;
-  height: 1px;
-  background: var(--red);
-}
-
-.vinyl-wrap {
-  position: absolute;
-  top: 2rem;
-  right: 3rem;
-  opacity: 0.12;
-  animation: spin 20s linear infinite;
-}
-
+.header-sub { margin-top: 1.25rem; font-size: 14px; color: var(--mid); font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.05em; display: flex; align-items: center; gap: 1rem; }
+.header-sub::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--red); }
+.vinyl-wrap { position: absolute; top: 2rem; right: 3rem; opacity: 0.12; animation: spin 20s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-
 main { padding: 3rem; }
-
-.units-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: #1a1a1a;
-  border: 1px solid #1a1a1a;
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.unit {
-  background: var(--black);
-  padding: 2rem 1.75rem 1.5rem;
-  position: relative;
-}
-
-.unit-number {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 72px;
-  line-height: 1;
-  color: #1e1e1e;
-  position: absolute;
-  top: 1rem;
-  right: 1.25rem;
-  user-select: none;
-}
-
-.unit-tag {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 3px 8px;
-  border-radius: 2px;
-  display: inline-block;
-  margin-bottom: 1rem;
-}
-
+.units-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
+.unit { background: var(--black); padding: 2rem 1.75rem 1.5rem; position: relative; }
+.unit-number { font-family: 'Bebas Neue', sans-serif; font-size: 72px; line-height: 1; color: #1e1e1e; position: absolute; top: 1rem; right: 1.25rem; user-select: none; }
+.unit-tag { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; display: inline-block; margin-bottom: 1rem; }
 .unit-1 .unit-tag { background: #c8372d22; color: var(--red); border: 1px solid #c8372d44; }
 .unit-2 .unit-tag { background: #d4a84322; color: var(--gold); border: 1px solid #d4a84344; }
 .unit-3 .unit-tag { background: #4a8fb822; color: var(--blue); border: 1px solid #4a8fb844; }
-
-.unit h2 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 28px;
-  letter-spacing: 0.04em;
-  line-height: 1.1;
-  margin-bottom: 0.5rem;
-  color: var(--white);
-}
-
+.unit h2 { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 0.04em; line-height: 1.1; margin-bottom: 0.5rem; }
 .unit-locked h2 { color: var(--dim); }
 .unit-locked .unit-tag { opacity: 0.4; }
 .unit-locked .unit-number { color: #181818; }
-
-.unit-desc {
-  font-size: 12px;
-  color: var(--mid);
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  font-style: italic;
-}
-
+.unit-desc { font-size: 12px; color: var(--mid); line-height: 1.6; margin-bottom: 1.25rem; font-style: italic; }
 .unit-locked .unit-desc { color: var(--dim); }
-
-/* TOOL LINKS */
+.section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--mid); margin-bottom: 6px; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
 .tools { display: flex; flex-direction: column; gap: 2px; }
-
-.tool-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 12px;
-  background: #141414;
-  border: 1px solid #222;
-  border-radius: 2px;
-  text-decoration: none;
-  color: var(--white);
-  font-size: 13px;
-  font-weight: 500;
-  transition: border-color 0.15s, background 0.15s;
-  gap: 10px;
-}
-
+.tool-link { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: var(--card); border: 1px solid #222; border-radius: 2px; text-decoration: none; color: var(--white); font-size: 13px; font-weight: 500; transition: border-color 0.15s, background 0.15s; gap: 10px; }
 .tool-link:hover { border-color: #444; background: #1c1c1c; }
 .unit-1 .tool-link:hover { border-color: var(--red); }
-
-.tool-link .tool-name { flex: 1; }
-
-.tool-link .tool-type {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  color: var(--mid);
-  letter-spacing: 0.05em;
-  white-space: nowrap;
-}
-
-.tool-link .arrow {
-  color: var(--mid);
-  font-size: 12px;
-  transition: transform 0.15s, color 0.15s;
-}
-
+.tool-link.inactive { opacity: 0.25; pointer-events: none; }
+.tool-name { flex: 1; }
+.tool-type { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--mid); letter-spacing: 0.05em; white-space: nowrap; }
+.arrow { color: var(--mid); font-size: 12px; transition: transform 0.15s, color 0.15s; }
 .tool-link:hover .arrow { transform: translateX(3px); color: var(--white); }
-
-/* INACTIVE TOOL */
-.tool-link.inactive {
-  opacity: 0.3;
-  pointer-events: none;
-  cursor: default;
-}
-
-/* LOCKED UNIT OVERLAY */
-.unit-locked-msg {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  color: var(--dim);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #1a1a1a;
-}
-
-footer {
-  padding: 1.5rem 3rem 2.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-top: 1px solid #1a1a1a;
-  margin-top: 2rem;
-}
-
-footer span {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  color: #333;
-  letter-spacing: 0.06em;
-}
-
-@media (max-width: 768px) {
-  header { padding: 2rem 1.5rem 0; }
-  main { padding: 2rem 1.5rem; }
-  .units-grid { grid-template-columns: 1fr; }
-  .vinyl-wrap { display: none; }
-  footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; }
-}
+.unit-locked-msg { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--dim); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #1a1a1a; }
+footer { padding: 1.5rem 3rem 2.5rem; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #1a1a1a; margin-top: 2rem; }
+footer span { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #333; letter-spacing: 0.06em; }
+@media (max-width: 768px) { header { padding: 2rem 1.5rem 0; } main { padding: 2rem 1.5rem; } .units-grid { grid-template-columns: 1fr; } .vinyl-wrap { display: none; } footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; } }
 </style>
 </head>
 <body>
@@ -250,7 +66,6 @@ footer span {
   <p class="course-label">Margraf — Period 2</p>
   <h1>History of<br>Rock <span class="accent">'n'</span> Roll</h1>
   <p class="header-sub">Course tools &amp; activities</p>
-
   <div class="vinyl-wrap">
     <svg width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
       <circle cx="70" cy="70" r="69" fill="#111" stroke="#333" stroke-width="1"/>
@@ -266,112 +81,97 @@ footer span {
 </header>
 
 <main>
-  <div class="units-grid" id="unitsGrid">
-    <!-- Rendered by JS -->
-  </div>
+  <div class="units-grid" id="unitsGrid"></div>
 </main>
 
 <footer>
   <span>Margraf — History of Rock 'n' Roll</span>
-  <span id="footerPeriod"></span>
 </footer>
 
 <script>
 const STORAGE_KEY = 'rock_lesson_toggles';
 
-// ── LESSON DATA ───────────────────────────────────────────────────────────────
-const UNITS = [
-  {
-    id: 'unit1',
-    number: '01',
-    tag: 'Unit 1',
-    cls: 'unit-1',
-    title: 'What Does It Sound Like?',
-    desc: 'Developing critical listening skills — timbre, stereo field, song structure, and sonic analysis.',
-    locked: false,
-    tools: [
-      { id: 'song-structure', name: 'Song Structure Lesson', type: 'Interactive', url: 'https://jamesmargraf-cyber.github.io/history-of-rocknroll/song_structure_lesson.html' },
-      { id: 'song-analyzer', name: 'Song Analyzer', type: 'Interactive', url: 'https://jamesmargraf-cyber.github.io/song-analyzer-dev/' },
-      { id: 'instrument-explorer', name: 'Instrument Explorer', type: 'Interactive', url: 'https://jamesmargraf-cyber.github.io/history-of-rocknroll/instrument_explorer.html' },
-      { id: 'timbre', name: 'Timbre Activity', type: 'Google Classroom', url: 'https://classroom.google.com/u/0/c/ODU5MDUyMTIyMjAy/a/ODYwMTUyMDMwMDgw/details' },
-    ]
-  },
-  {
-    id: 'unit2',
-    number: '02',
-    tag: 'Unit 2',
-    cls: 'unit-2',
-    title: 'What Does It Say?',
-    desc: 'Lyrical analysis — theme, narrative, metaphor, and the stories rock \'n\' roll tells.',
-    locked: true,
-    tools: []
-  },
-  {
-    id: 'unit3',
-    number: '03',
-    tag: 'Unit 3',
-    cls: 'unit-3',
-    title: 'Why Was It Made?',
-    desc: 'Historical context — the cultural, political, and social forces that shaped rock \'n\' roll.',
-    locked: true,
-    tools: []
-  },
+// Fixed lesson order — visibility and active state controlled by teacher toggles
+// _visible: whether the lesson card shows at all (default: first 3 visible, 4+5 hidden)
+// active (no suffix): whether the link is clickable (default: on)
+const LESSONS = [
+  { id:'stereo-maps',    name:'Lesson 1 — Stereo Maps',          type:'Lesson', url:'stereo_maps.html',             defaultVisible:true  },
+  { id:'timbre',         name:'Lesson 2 — Timbre',               type:'Lesson', url:'https://classroom.google.com/u/0/c/ODU5MDUyMTIyMjAy/a/ODYwMTUyMDMwMDgw/details', defaultVisible:true  },
+  { id:'song-structure', name:'Lesson 3 — Song Structure',       type:'Lesson', url:'song_structure_lesson.html',   defaultVisible:true  },
+  { id:'dynamics',       name:'Lesson 4 — Dynamics & Intensity', type:'Lesson', url:'',                             defaultVisible:false },
+  { id:'tempo',          name:'Lesson 5 — Tempo & Beat',         type:'Lesson', url:'',                             defaultVisible:false },
 ];
 
-// ── LOAD TOGGLES FROM LOCALSTORAGE ────────────────────────────────────────────
+const TOOLS = [
+  { id:'song-analyzer',       name:'Song Analyzer',       type:'Tool', url:'https://jamesmargraf-cyber.github.io/song-analyzer-dev/' },
+  { id:'instrument-explorer', name:'Instrument Explorer', type:'Tool', url:'instrument_explorer.html' },
+];
+
 function loadToggles() {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved) : {};
-  } catch(e) { return {}; }
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e) { return {}; }
 }
 
-function isToolActive(toolId) {
-  const toggles = loadToggles();
-  // Default: all tools active unless explicitly set to false
-  return toggles[toolId] !== false;
-}
-
-// ── RENDER ────────────────────────────────────────────────────────────────────
 function render() {
-  const grid = document.getElementById('unitsGrid');
-  grid.innerHTML = UNITS.map(unit => {
-    if (unit.locked) {
-      return `
-        <div class="unit ${unit.cls} unit-locked">
-          <div class="unit-number">${unit.number}</div>
-          <span class="unit-tag">${unit.tag}</span>
-          <h2>${unit.title}</h2>
-          <p class="unit-locked-msg">Not yet unlocked</p>
-        </div>`;
-    }
+  const t = loadToggles();
 
-    const toolsHTML = unit.tools.map(tool => {
-      const active = isToolActive(tool.id);
-      return `
-        <a href="${active ? tool.url : '#'}"
-           class="tool-link ${active ? '' : 'inactive'}"
-           ${active ? 'target="_blank"' : ''}>
-          <span class="tool-name">${tool.name}</span>
-          <span class="tool-type">${tool.type}</span>
-          <span class="arrow">→</span>
-        </a>`;
+  const unit1HTML = (() => {
+    // Filter to visible lessons
+    const visible = LESSONS.filter(l => {
+      const visKey = l.id + '_visible';
+      return visKey in t ? t[visKey] : l.defaultVisible;
+    });
+
+    // Active lessons first (preserving fixed order within each group)
+    const active = visible.filter(l => t[l.id] !== false);
+    const inactive = visible.filter(l => t[l.id] === false);
+    const ordered = [...active, ...inactive];
+
+    const lessonsHTML = ordered.map(l => {
+      const isActive = t[l.id] !== false;
+      return `<a href="${isActive && l.url ? l.url : '#'}"
+        class="tool-link ${isActive ? '' : 'inactive'}"
+        ${isActive && l.url ? 'target="_blank"' : ''}>
+        <span class="tool-name">${l.name}</span>
+        <span class="tool-type">${l.type}</span>
+        <span class="arrow">→</span>
+      </a>`;
     }).join('');
 
-    return `
-      <div class="unit ${unit.cls}">
-        <div class="unit-number">${unit.number}</div>
-        <span class="unit-tag">${unit.tag}</span>
-        <h2>${unit.title}</h2>
-        <p class="unit-desc">${unit.desc}</p>
-        <div class="tools">${toolsHTML}</div>
-      </div>`;
-  }).join('');
+    const toolsHTML = TOOLS.map(l =>
+      `<a href="${l.url}" class="tool-link" target="_blank">
+        <span class="tool-name">${l.name}</span>
+        <span class="tool-type">${l.type}</span>
+        <span class="arrow">→</span>
+      </a>`
+    ).join('');
+
+    return `<div class="unit unit-1">
+      <div class="unit-number">01</div>
+      <span class="unit-tag">Unit 1</span>
+      <h2>What Does It Sound Like?</h2>
+      <p class="unit-desc">Developing critical listening skills — timbre, stereo field, song structure, and sonic analysis.</p>
+      <div class="section-label" style="margin-top:0;padding-top:0;border-top:none;">Lessons</div>
+      <div class="tools">${lessonsHTML}</div>
+      <div class="section-label">Tools</div>
+      <div class="tools">${toolsHTML}</div>
+    </div>`;
+  })();
+
+  const lockedUnit = (num, cls, tag, title) =>
+    `<div class="unit ${cls} unit-locked">
+      <div class="unit-number">${num}</div>
+      <span class="unit-tag">${tag}</span>
+      <h2>${title}</h2>
+      <p class="unit-locked-msg">Not yet unlocked</p>
+    </div>`;
+
+  document.getElementById('unitsGrid').innerHTML =
+    unit1HTML +
+    lockedUnit('02', 'unit-2', 'Unit 2', "What Does It Say?") +
+    lockedUnit('03', 'unit-3', 'Unit 3', "Why Was It Made?");
 }
 
 render();
-
-// Re-render if localStorage changes (teacher page updated toggles)
 window.addEventListener('storage', render);
 </script>
 </body>
