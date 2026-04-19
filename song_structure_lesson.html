@@ -69,7 +69,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; f
 .filter-row label { font-size: 13px; color: #666; }
 .filter-row select { font-size: 13px; padding: 5px 10px; border: 1px solid #ddd; border-radius: 6px; background: #fff; }
 .songs-grid { display: flex; flex-direction: column; gap: 10px; }
-.song-row { display: grid; grid-template-columns: 140px 1fr 1fr; gap: 14px; border: 1px solid #e0e0e0; border-radius: 12px; padding: 1rem 1.25rem; background: #fff; align-items: start; }
+.song-row { border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; background: #fff; }
+.song-row-top { display: grid; grid-template-columns: 200px 1fr 1fr; gap: 14px; padding: 1rem 1.25rem; align-items: start; }
+.song-player-wrap { border-top: 1px solid #eee; background: #000; border-radius: 0 0 12px 12px; overflow: hidden; }
+.song-player-wrap > div { width: 100% !important; height: 200px !important; }
 .song-info h4 { font-size: 14px; font-weight: 600; }
 .song-artist { font-size: 12px; color: #888; }
 .song-year { font-size: 11px; color: #aaa; }
@@ -261,11 +264,12 @@ const FORMS = [
   { name:'32-bar AABA', formula:['A','A','B','A'], notes:'Classic pre-rock form inherited from jazz and the Tin Pan Alley era. A = 8-bar verse, B = contrasting bridge. Early rock drew heavily from this tradition.', examples:'"Yesterday" (Beatles), "Can\'t Help Falling in Love" (Elvis)' },
   { name:'Extended intro form', formula:['In','V','Ch','V','Ch','Sol','Out'], notes:'Songs where the intro is an event in itself — an instrumental passage that establishes mood before any lyric enters. Common in arena rock and psychedelia.', examples:'"Baba O\'Riley" (The Who), "Hotel California" (Eagles), "Stairway to Heaven" (Led Zeppelin)' },
   { name:'Through-composed / suite', formula:['A','B','C','D','E'], notes:'Little to no repetition — each section is entirely new material. Rare in rock but used for ambitious concept pieces. The absence of repeating sections is the whole point.', examples:'"Bohemian Rhapsody" (Queen), "A Day in the Life" (Beatles), "Happiness Is a Warm Gun" (Beatles)' },
-  { name:'12-bar blues form', formula:['I','IV','I','I','IV','IV','I','I','V','IV','I','V'], notes:'The harmonic and formal DNA of rock. A 12-bar cycle of three chords (I-IV-V) that repeats continuously. Structure lives in the harmony, not in named sections.', examples:'"Johnny B. Goode" (Chuck Berry), "Hound Dog" (Elvis), "I Got You (I Feel Good)" (James Brown), "Pride and Joy" (SRV)' },
+  { name:'12-bar blues form (classic)', formula:['I','I','I','I','IV','IV','I','I','V','IV','I','I'], notes:'The original 12-bar blues structure. Bar 2 stays on the I chord, and the song resolves back to I at the end rather than turning around to V. The foundation of early rock and R&B.', examples:'"Hound Dog" (Elvis), "Pride and Joy" (Stevie Ray Vaughan)' },
+  { name:'12-bar blues form (quick change)', formula:['I','IV','I','I','IV','IV','I','I','V','IV','I','V'], notes:'A variation where bar 2 moves quickly to the IV chord before returning to I, creating more harmonic movement early in the cycle. Bar 12 uses a V turnaround to drive back into the next repeat.', examples:'"Johnny B. Goode" (Chuck Berry), "I Got You (I Feel Good)" (James Brown)' },
 ];
 
 const SONGS = [
-  { title:'Johnny B. Goode', artist:'Chuck Berry', year:'1958', form:'12-bar blues form', structure:['In','V','Ch','V','Ch','Sol','V','Ch','Out'], notes:"Every verse and chorus follows the 12-bar blues cycle. 'Go Johnny Go' is a clear, repeated chorus. The guitar solo appears between the second chorus and final verse." },
+  { title:'Johnny B. Goode', artist:'Chuck Berry', year:'1958', form:'12-bar blues form (quick change)', structure:['In','V','Ch','V','Ch','Sol','V','Ch','Out'], notes:"Every verse and chorus follows the 12-bar blues cycle. 'Go Johnny Go' is a clear, repeated chorus. The guitar solo appears between the second chorus and final verse." },
   { title:'Like a Rolling Stone', artist:'Bob Dylan', year:'1965', form:'Verse-chorus form', structure:['In','V','Pre','Ch','V','Pre','Ch','V','Pre','Ch','V','Pre','Ch','Out'], notes:'Four long verses, each followed by a pre-chorus and chorus. The pre-chorus carries unique lyrics each time — a hybrid between a pre-chorus and a bridge. Fades on the final chorus.' },
   { title:"Baba O'Riley", artist:'The Who', year:'1971', form:'Extended intro form', structure:['In','V','Ch','V','Ch','Br','Out'], notes:'The synthesizer loop intro runs over a minute before any lyric enters. The outro features a long violin solo that accelerates in intensity.' },
   { title:'Bohemian Rhapsody', artist:'Queen', year:'1975', form:'Through-composed / suite', structure:['A','B','C','D'], notes:'Four completely distinct movements with no repetition: a cappella intro, piano ballad, operatic section, and hard rock. The absence of repeating sections is the whole point.' },
@@ -471,15 +475,50 @@ function populateFormFilter() {
   document.getElementById('formFilter').innerHTML = '<option value="">All forms</option>' + forms.map(f => `<option value="${f}">${f}</option>`).join('');
 }
 
+const songPlayers = {};
+const songStopIntervals = {};
+
+function destroyAllSongPlayers() {
+  Object.keys(songPlayers).forEach(pid => {
+    try { songPlayers[pid].destroy(); } catch(e) {}
+    clearInterval(songStopIntervals[pid]);
+    delete songPlayers[pid];
+    delete songStopIntervals[pid];
+  });
+}
+
+function createSongPlayer(pid, videoId) {
+  ensureYTApi(() => {
+    if (songPlayers[pid]) { try { songPlayers[pid].destroy(); } catch(e) {} }
+    songPlayers[pid] = new YT.Player(pid, {
+      width: '100%', height: 200,
+      videoId: videoId,
+      playerVars: { rel: 0, modestbranding: 1, playsinline: 1 },
+    });
+  });
+}
+
 function renderSongs() {
+  destroyAllSongPlayers();
   const filter = document.getElementById('formFilter').value;
   const songs = filter ? SONGS.filter(s => s.form === filter) : SONGS;
-  document.getElementById('songsGrid').innerHTML = songs.map(s => `
+  document.getElementById('songsGrid').innerHTML = songs.map((s, i) => {
+    const pid = 'song-player-' + i;
+    return `
     <div class="song-row">
-      <div class="song-info"><h4>${s.title}</h4><div class="song-artist">${s.artist}</div><div class="song-year">${s.year}</div></div>
-      <div><div class="song-form-label">Structure</div><div class="song-structure">${s.structure.map(a => chipHtml(a,true)).join('<span class="sep" style="font-size:10px;margin:0 2px;">›</span>')}</div><div style="margin-top:5px;font-size:11px;color:#aaa;">Form: ${s.form}</div></div>
-      <div class="song-notes">${s.notes}</div>
-    </div>`).join('');
+      <div class="song-row-top">
+        <div class="song-info"><h4>${s.title}</h4><div class="song-artist">${s.artist}</div><div class="song-year">${s.year}</div></div>
+        <div><div class="song-form-label">Structure</div><div class="song-structure">${s.structure.map(a => chipHtml(a,true)).join('<span class="sep" style="font-size:10px;margin:0 2px;">›</span>')}</div><div style="margin-top:5px;font-size:11px;color:#aaa;">Form: ${s.form}</div></div>
+        <div class="song-notes">${s.notes}</div>
+      </div>
+      <div class="song-player-wrap"><div id="${pid}"></div></div>
+    </div>`;
+  }).join('');
+
+  // Init players after DOM update
+  songs.forEach((s, i) => {
+    if (s.videoId) createSongPlayer('song-player-' + i, s.videoId);
+  });
 }
 
 function populateActivitySong() {
