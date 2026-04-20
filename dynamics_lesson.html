@@ -91,11 +91,59 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; f
 
 <div class="tabs">
   <button class="tab active" onclick="showTab('concepts')">Concepts</button>
+  <button class="tab" onclick="showTab('practice')">Practice</button>
   <button class="tab" onclick="showTab('assignment')">Assignment</button>
 </div>
 
 <div id="panel-concepts" class="panel active">
   <div class="concepts-list" id="conceptsList"></div>
+</div>
+
+<div id="panel-practice" class="panel">
+  <div class="assignment-card">
+    <div class="assignment-header">
+      <h3>Song Energy Map</h3>
+      <p>Practice charting the intensity of a song before you tackle the full assignment.</p>
+    </div>
+    <div class="assignment-body">
+      <h4>What is the Song Energy Map?</h4>
+      <p style="font-size:14px;color:#444;line-height:1.7;margin-bottom:1rem;">The Song Energy Map is a tool inside the Song Analyzer that lets you draw the intensity arc of a song as you listen. Think of it like a graph — time runs left to right, intensity runs bottom to top. As the song plays, you mark how intense each moment feels. When you're done, you'll have a visual record of the song's energy over time that you can save and submit.</p>
+
+      <h4 style="margin-top:1.25rem;">How to use it</h4>
+      <div class="step">
+        <div class="step-num">1</div>
+        <p><strong>Open the Song Analyzer</strong> using the button below.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <p><strong>Load a song</strong> — search for a track or paste a link. Pick something you know well so you can focus on listening rather than learning the song.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <p><strong>Navigate to the Energy Map tab</strong> inside the Song Analyzer. You'll see a blank graph with a timeline along the bottom.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <p><strong>Press play and draw</strong> — as the song plays, click and drag to trace the energy level. Go higher when the song feels intense, lower when it feels restrained. Don't overthink it — trust your instincts.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <p><strong>Review your map</strong> — when the song ends, look at the shape you drew. Does it match what you remember hearing? Try it a second time and see if your map changes.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <p><strong>Save or submit</strong> — when you're satisfied with your map, use the submit button inside the tool. For the assignment you'll do this with a specific song and submit via Google Classroom.</p>
+      </div>
+
+      <div style="margin-top:1.25rem;padding:1rem 1.25rem;background:#f5f5f5;border-radius:8px;border:1px solid #eee;">
+        <p style="font-size:13px;color:#666;line-height:1.6;"><strong style="color:#1a1a1a;">What to listen for:</strong> As you draw, ask yourself — is this moment intense because of volume? Because of how many instruments are playing? Because the rhythm is busy? Because the pitch is high? The map captures the overall feeling, but your reflection later will explain the <em>why</em>.</p>
+      </div>
+
+      <div class="cta-row">
+        <a href="https://jamesmargraf-cyber.github.io/song-analyzer-dev/" target="_blank" class="cta-btn cta-primary">Open Song Analyzer →</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div id="panel-assignment" class="panel">
