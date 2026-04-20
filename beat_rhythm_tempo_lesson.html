@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beat, Rhythm & Tempo — History of Rock 'n' Roll</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 15px; color: #1a1a1a; background: #f5f4f0; min-height: 100vh; }
+
+.page-header { background: #1a1a1a; color: #fff; padding: 1.5rem 2rem; }
+.page-header h1 { font-size: 20px; font-weight: 500; }
+.page-header p { font-size: 13px; color: #999; margin-top: 3px; }
+
+.lesson-intro { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 0; }
+.lesson-intro h2 { font-size: 17px; font-weight: 600; margin-bottom: 0.75rem; }
+.lesson-intro p { font-size: 14px; color: #555; line-height: 1.75; margin-bottom: 0.75rem; }
+.lesson-intro p:last-child { margin-bottom: 0; }
+
+.lesson { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+/* TABS */
+.tabs { display: flex; gap: 2px; margin-bottom: 1.5rem; border-bottom: 1px solid #ddd; flex-wrap: wrap; }
+.tab { padding: 8px 18px; font-size: 14px; font-weight: 500; border: none; background: none; cursor: pointer; color: #666; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s; }
+.tab.active { color: #1a1a1a; border-bottom-color: #1a1a1a; }
+.tab:hover:not(.active) { color: #1a1a1a; }
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* CONCEPT CARDS */
+.concepts-list { display: flex; flex-direction: column; gap: 16px; }
+.concept-card { border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; background: #fff; }
+.concept-header { padding: 1rem 1.25rem 0.85rem; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 12px; }
+.concept-number { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+.concept-header h3 { font-size: 16px; font-weight: 600; }
+.concept-body { padding: 1rem 1.25rem; }
+.concept-body p { font-size: 14px; color: #444; line-height: 1.7; margin-bottom: 0.75rem; }
+.concept-body p:last-of-type { margin-bottom: 0; }
+.listen-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #999; margin: 1rem 0 0.5rem !important; }
+.video-row { display: grid; grid-template-columns: 200px 1fr; gap: 14px; align-items: start; margin-bottom: 12px; }
+.video-row:last-child { margin-bottom: 0; }
+.video-player-wrap { width: 200px; border-radius: 8px; overflow: hidden; background: #000; }
+.video-player-wrap > div { width: 200px !important; height: 113px !important; }
+.video-meta h4 { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+.video-meta .artist { font-size: 12px; color: #888; margin-bottom: 5px; }
+.video-meta .tip { font-size: 13px; color: #555; line-height: 1.5; }
+.timestamp-badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #f0f0f0; color: #666; border: 1px solid #e0e0e0; margin-bottom: 5px; }
+.replay-btn { font-size: 11px; padding: 3px 8px; border: 1px solid #ddd; border-radius: 4px; background: #f5f5f5; cursor: pointer; color: #555; margin-top: 5px; display: inline-block; }
+.replay-btn:hover { background: #eee; }
+
+/* KEY DISTINCTION BOX */
+.distinction-box { background: #f9f9f9; border: 1px solid #eee; border-left: 3px solid #1a1a1a; border-radius: 0 8px 8px 0; padding: 0.85rem 1rem; margin: 0.75rem 0; }
+.distinction-box p { font-size: 13px; color: #444; line-height: 1.6; margin: 0 !important; }
+.distinction-box strong { color: #1a1a1a; }
+
+/* PRACTICE PANEL */
+.practice-intro { font-size: 14px; color: #555; line-height: 1.7; margin-bottom: 1.5rem; }
+.tool-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.tool-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; }
+.tool-card-header { padding: 1rem 1.25rem 0.85rem; background: #1a1a1a; }
+.tool-card-header h3 { font-size: 15px; font-weight: 500; color: #fff; margin-bottom: 3px; }
+.tool-card-header p { font-size: 12px; color: #999; }
+.tool-card-body { padding: 1rem 1.25rem; }
+.tool-card-body p { font-size: 13px; color: #555; line-height: 1.6; margin-bottom: 1rem; }
+.tool-btn { display: block; text-align: center; padding: 10px 20px; background: #1a1a1a; color: #fff; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 500; transition: background 0.15s; }
+.tool-btn:hover { background: #333; }
+
+/* ASSIGNMENT PANEL */
+.assignment-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem; }
+.assignment-header { padding: 1rem 1.25rem; background: #1a1a1a; color: #fff; }
+.assignment-header h3 { font-size: 15px; font-weight: 500; margin-bottom: 3px; }
+.assignment-header p { font-size: 12px; color: #999; }
+.assignment-body { padding: 1.25rem; }
+.assignment-body h4 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #999; margin-bottom: 8px; }
+.step { display: flex; gap: 12px; margin-bottom: 14px; align-items: start; }
+.step:last-child { margin-bottom: 0; }
+.step-num { width: 24px; height: 24px; border-radius: 50%; background: #1a1a1a; color: #fff; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.step p { font-size: 14px; color: #444; line-height: 1.6; }
+.step p strong { color: #1a1a1a; font-weight: 600; }
+.cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid #eee; }
+.cta-btn { display: inline-block; padding: 10px 24px; border-radius: 6px; font-size: 13px; font-weight: 500; text-decoration: none; transition: background 0.15s; }
+.cta-primary { background: #1a1a1a; color: #fff; }
+.cta-primary:hover { background: #333; }
+.cta-secondary { background: #fff; color: #1a1a1a; border: 1px solid #ccc; }
+.cta-secondary:hover { background: #f5f5f5; }
+
+@media (max-width: 600px) {
+  .video-row { grid-template-columns: 1fr; }
+  .video-player-wrap, .video-player-wrap > div { width: 100% !important; }
+  .tool-cards { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Beat, Rhythm &amp; Tempo</h1>
+  <p>History of Rock 'n' Roll — Unit 1: What Does It Sound Like?</p>
+</div>
+
+<div class="lesson-intro">
+  <h2>The foundation of music</h2>
+  <p>Before you can hear anything else in a piece of music — the melody, the harmony, the lyrics — you feel the pulse. That pulse is the beat, and everything else in a song is organized around it. Understanding how beat, rhythm, tempo, meter, and syncopation work gives you a framework for listening to any piece of music, in any genre, from any era.</p>
+  <p>These concepts are closely related, and they're easy to confuse. This lesson will help you hear the difference between them and identify each one in songs you already know.</p>
+</div>
+
+<div class="lesson">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('concepts')">Concepts</button>
+    <button class="tab" onclick="showTab('practice')">Practice</button>
+    <button class="tab" onclick="showTab('assignment')">Assignment</button>
+  </div>
+
+  <div id="panel-concepts" class="panel active">
+    <div class="concepts-list" id="conceptsList"></div>
+  </div>
+
+  <div id="panel-practice" class="panel">
+    <p class="practice-intro">Use these two tools to build your feel for beat and rhythm. Start with <strong>Tap the Beat</strong> to practice finding the pulse in real songs — then try the <strong>Step Sequencer</strong> to build your own rhythmic patterns and hear how meter and syncopation work in practice.</p>
+    <div class="tool-cards">
+      <div class="tool-card">
+        <div class="tool-card-header">
+          <h3>Tap the Beat</h3>
+          <p>Find the pulse in real songs</p>
+        </div>
+        <div class="tool-card-body">
+          <p>Six songs at different tempos and meters. Press play, then tap the button on every beat. After 8 taps the tool calculates your BPM and tells you how close you are to the actual tempo.</p>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-header">
+          <h3>Step Sequencer</h3>
+          <p>Build your own rhythmic patterns</p>
+        </div>
+        <div class="tool-card-body">
+          <p>A 16-step drum machine with four presets — Basic Rock, Funky, Shuffle, and Waltz. Toggle steps on and off to modify the patterns or build something new. Adjust the tempo to hear how BPM changes the feel.</p>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:1.25rem;">
+      <a href="rhythm_tools.html" target="_blank" class="cta-btn cta-primary">Open Rhythm Tools →</a>
+    </div>
+  </div>
+
+  <div id="panel-assignment" class="panel">
+    <div class="assignment-card">
+      <div class="assignment-header">
+        <h3>Meter Identification Quiz</h3>
+        <p>Identify the meter of six songs and find one of your own.</p>
+      </div>
+      <div class="assignment-body">
+        <h4>What you'll do</h4>
+        <div class="step">
+          <div class="step-num">1</div>
+          <p><strong>Open the quiz</strong> in Google Classroom using the link below.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <p><strong>Listen to each clip</strong> and count along. Select the meter that best describes the song — 4/4, 3/4, 6/8, or 7/4.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <p><strong>Use the Tap the Beat tool</strong> to check your instincts — if a song is in the quiz, you can tap along and see your BPM, which may help you confirm the meter.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <p><strong>Submit the quiz</strong> when complete. Your score will be recorded automatically.</p>
+        </div>
+        <div class="cta-row">
+          <a href="https://classroom.google.com/REPLACE-WITH-ASSIGNMENT-LINK" target="_blank" class="cta-btn cta-primary">Open Quiz in Google Classroom →</a>
+          <a href="rhythm_tools.html" target="_blank" class="cta-btn cta-secondary">Open Tap the Beat →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── YOUTUBE IFRAME API ──────────────────────────────────────────────────────
+const ytPlayers = {};
+const ytStopAt = {};
+const ytIntervals = {};
+
+window.onYouTubeIframeAPIReady = function() {
+  window.ytApiReady = true;
+  (window.ytPending || []).forEach(fn => fn());
+  window.ytPending = [];
+};
+
+function ensureYTApi(cb) {
+  if (window.ytApiReady) { cb(); return; }
+  window.ytPending = window.ytPending || [];
+  window.ytPending.push(cb);
+  if (!document.getElementById('yt-api')) {
+    const s = document.createElement('script');
+    s.id = 'yt-api';
+    s.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(s);
+  }
+}
+
+function createPlayer(divId, videoId, startSec, endSec) {
+  ensureYTApi(() => {
+    if (ytPlayers[divId]) { try { ytPlayers[divId].destroy(); } catch(e) {} clearInterval(ytIntervals[divId]); }
+    ytStopAt[divId] = endSec;
+    ytPlayers[divId] = new YT.Player(divId, {
+      width: 200, height: 113,
+      videoId: videoId,
+      playerVars: { start: startSec, rel: 0, modestbranding: 1, playsinline: 1 },
+      events: {
+        onStateChange: (e) => {
+          if (e.data === YT.PlayerState.PLAYING) {
+            clearInterval(ytIntervals[divId]);
+            ytIntervals[divId] = setInterval(() => {
+              try {
+                if (ytPlayers[divId].getCurrentTime() >= ytStopAt[divId]) {
+                  ytPlayers[divId].pauseVideo();
+                  ytPlayers[divId].seekTo(startSec, true);
+                  clearInterval(ytIntervals[divId]);
+                }
+              } catch(err) {}
+            }, 500);
+          }
+          if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
+            clearInterval(ytIntervals[divId]);
+          }
+        }
+      }
+    });
+  });
+}
+
+function replayPlayer(divId, startSec) {
+  const p = ytPlayers[divId];
+  if (!p) return;
+  try { p.seekTo(startSec, true); p.playVideo(); } catch(e) {}
+}
+
+function fmtTime(s) { return Math.floor(s/60) + ':' + (s%60).toString().padStart(2,'0'); }
+
+// ── CONCEPT DATA ────────────────────────────────────────────────────────────
+const CONCEPTS = [
+  {
+    number: '01',
+    label: 'Beat',
+    color: '#B5D4F4',
+    textColor: '#0C447C',
+    body: [
+      'The beat is the steady, underlying pulse of music — the thing you tap your foot to, clap along with, or nod your head to without thinking. It is constant and even. It exists whether or not any instrument is explicitly playing it.',
+      'Think of the beat as a clock ticking underneath the music. Everything else — melody, rhythm, harmony — happens in relation to that clock. A musician who plays "in time" is locking their performance to that shared pulse. A musician who plays "out of time" has lost track of it.',
+      'The beat is often confused with rhythm, but they are different things. The beat is the steady foundation. Rhythm is what happens on top of it.',
+    ],
+    distinction: 'The beat never changes speed or pattern within a section. It is the constant. Rhythm varies.',
+    listenLabel: 'Hear it — the beat as the only element',
+    videos: [
+      { id:'-tJYN-eG1zk', start:0, end:45, title:'We Will Rock You', artist:'Queen (1977)', tip:'The stomp-stomp-clap pattern IS the beat — nothing else. No melody, no harmony, just the pulse. Tap along and notice how easy it is to find because it\'s the only thing happening.' },
+    ]
+  },
+  {
+    number: '02',
+    label: 'Rhythm',
+    color: '#9FE1CB',
+    textColor: '#085041',
+    body: [
+      'Rhythm is the pattern of long and short sounds layered on top of the beat. While the beat stays constant, rhythm varies — it can be simple or complex, predictable or surprising, sparse or dense.',
+      'Every part in a piece of music has its own rhythm. The vocal melody has a rhythm. The bass guitar has a rhythm. The drums have multiple overlapping rhythms. These patterns relate to each other and to the underlying beat.',
+      'A useful way to hear the difference: the beat is what you count (1-2-3-4), while the rhythm is what you would sing or tap if you were imitating a specific instrument or melody.',
+    ],
+    distinction: 'Beat = the steady pulse you count. Rhythm = the specific pattern of notes that plays against that pulse.',
+    listenLabel: 'Hear it — rhythm layered over the beat',
+    videos: [
+      { id:'Kr4EQDVETuA', start:0, end:45, title:'Billie Jean', artist:'Michael Jackson (1982)', tip:'Tap a steady 1-2-3-4 with one hand while you listen to the bass line. Notice that the bass rhythm is a specific pattern — some notes on the beat, some between beats — while your tapping hand stays perfectly even. That difference is beat vs. rhythm.' },
+    ]
+  },
+  {
+    number: '03',
+    label: 'Tempo',
+    color: '#FAC775',
+    textColor: '#633806',
+    body: [
+      'Tempo is how fast or slow the beat moves, measured in beats per minute (BPM). A tempo of 60 BPM means one beat per second — the pace of a slow heartbeat. A tempo of 180 BPM is three beats per second — breathlessly fast.',
+      'Tempo is one of the most powerful emotional tools in music. Slow tempos create space, weight, and introspection. Fast tempos create urgency, excitement, and energy. Producers and artists choose tempo deliberately to shape how a song feels.',
+      'Tempo can also change within a song — a sudden slowdown (ritardando) before a climactic moment, or a gradual acceleration that builds tension. Even subtle tempo shifts are felt physically by the listener.',
+    ],
+    distinction: 'Tempo is the speed of the beat. It tells you how fast to count — not what to count.',
+    listenLabel: 'Hear it — contrasting tempos, contrasting emotions',
+    videos: [
+      { id:'qgaRVvAKoqQ', start:0, end:50, title:'Black', artist:'Pearl Jam (1991)', tip:'Around 63 BPM — one beat just slightly faster than one per second. Feel the space between each beat. Notice how that space creates weight and emotional heaviness.' },
+      { id:'Wu4_zVxmufY', start:0, end:45, title:'Born to Run', artist:'Bruce Springsteen (1975)', tip:'Around 148 BPM — more than twice as fast. The same four-beat structure, but the compression of time creates a completely different feeling: urgency, momentum, no room to breathe.' },
+    ]
+  },
+  {
+    number: '04',
+    label: 'Meter',
+    color: '#CECBF6',
+    textColor: '#3C3489',
+    body: [
+      'Meter is how beats are grouped into repeating units called bars (or measures). Most rock and pop music is in 4/4 — four beats per bar, with a strong accent on beat 1. But other groupings are possible and create very different feels.',
+      'In 3/4 time (waltz), beats group in threes: 1-2-3, 1-2-3. The accent on beat 1 gives triple meter its characteristic lilting, sweeping quality. In 7/4, beats group in sevens — which creates an asymmetric feeling, as if the music is always slightly off-balance.',
+      'The top number in a time signature tells you how many beats per bar. The bottom number tells you what type of note gets one beat. 4/4 is four quarter-note beats per bar. 6/8 is six eighth-note beats per bar, which usually groups into two sets of three — a compound feel.',
+    ],
+    distinction: 'Meter tells you how the beats are grouped and where the accents fall. It shapes the overall feel and "swing" of the music.',
+    listenLabel: 'Hear it — different meters, different feels',
+    videos: [
+      { id:'Wu4_zVxmufY', start:0, end:45, title:'Born to Run', artist:'Bruce Springsteen (1975)', tip:'Count 1-2-3-4, 1-2-3-4. This is 4/4 — the most common meter in rock. Four even beats per bar with a strong accent on beat 1 and a backbeat on beats 2 and 4. Once you have this locked in, the other meters will feel noticeably different by contrast.' },
+      { id:'Gk781Z0ErmA', start:0, end:45, title:'We Are the Champions', artist:'Queen (1977)', tip:'Now count 1-2-3, 1-2-3. Feel how the pattern shifts — only three beats before it resets. The accent on beat 1 gives triple meter its sweeping, lilting quality. Compare to Born to Run and notice how the grouping changes the feel entirely.' },
+      { id:'z3cg3IQzSqw', start:0, end:45, title:'Money', artist:'Pink Floyd (1973)', tip:'Try counting 1-2-3-4-5-6-7. The pattern will feel slightly "wrong" — like it resolves a beat too late. That\'s 7/4 at work. The cash register sound at the start actually plays in groups of 7 — listen for it.' },
+    ]
+  },
+  {
+    number: '05',
+    label: 'Syncopation',
+    color: '#F4C0D1',
+    textColor: '#72243E',
+    body: [
+      'Syncopation is the deliberate emphasis of beats or parts of beats that are normally weak or unstated. In 4/4, beats 1 and 3 are strong, beats 2 and 4 are weaker, and the spaces between beats (the "and"s, or off-beats) are weakest. Syncopation shifts the accent to those weaker positions.',
+      'Syncopation is the rhythmic engine of funk, soul, R&B, and rock. It creates a sense of forward motion, groove, and surprise. When a rhythm lands where you don\'t expect it, your body responds — which is why syncopated music makes people want to move.',
+      'The key to hearing syncopation is to keep the beat steady in your head (or tap it with one hand) while listening for notes that land between or against those beats. Those off-beat accents are the syncopation.',
+    ],
+    distinction: 'Syncopation doesn\'t change the beat — it plays against it. The pulse stays constant while the rhythm emphasizes unexpected positions.',
+    listenLabel: 'Hear it — syncopation in action',
+    videos: [
+      { id:'ftdZ363R9kQ', start:0, end:50, title:'Superstition', artist:'Stevie Wonder (1972)', tip:'Tap a steady beat while you listen to the clavinet. Notice how the clavinet constantly lands between your taps — on the off-beats and between the beats. That tension between your steady tap and the clavinet\'s off-beat pattern is syncopation.' },
+      { id:'3T1c7GkzRQQ', start:0, end:45, title:'Roxanne', artist:'The Police (1978)', tip:'Listen to the guitar stabs — they land almost entirely on the off-beats (the "and"s between the counts). Tap the beat and you\'ll feel how the guitar deliberately avoids it. This creates the restless, urgent feeling of the song.' },
+    ]
+  },
+];
+
+function renderConcepts() {
+  document.getElementById('conceptsList').innerHTML = CONCEPTS.map((c, ci) => {
+    const videosHTML = c.videos.map((v, vi) => {
+      const pid = 'player-' + ci + '-' + vi;
+      const endSec = v.end || v.start + 60;
+      return '<div class="video-row">' +
+        '<div>' +
+          '<div class="video-player-wrap"><div id="' + pid + '"></div></div>' +
+          '<button class="replay-btn" onclick="replayPlayer(\'' + pid + '\',' + v.start + ')">↺ Replay</button>' +
+        '</div>' +
+        '<div class="video-meta">' +
+          '<h4>' + v.title + '</h4>' +
+          '<p class="artist">' + v.artist + '</p>' +
+          '<span class="timestamp-badge">' + fmtTime(v.start) + ' – ' + fmtTime(endSec) + '</span>' +
+          '<p class="tip">' + v.tip + '</p>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    return '<div class="concept-card">' +
+      '<div class="concept-header">' +
+        '<span class="concept-number" style="background:' + c.color + ';color:' + c.textColor + ';">' + c.number + '</span>' +
+        '<h3>' + c.label + '</h3>' +
+      '</div>' +
+      '<div class="concept-body">' +
+        c.body.map(p => '<p>' + p + '</p>').join('') +
+        '<div class="distinction-box"><p><strong>Key distinction:</strong> ' + c.distinction + '</p></div>' +
+        '<p class="listen-label">' + c.listenLabel + '</p>' +
+        videosHTML +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  CONCEPTS.forEach((c, ci) => {
+    c.videos.forEach((v, vi) => {
+      createPlayer('player-' + ci + '-' + vi, v.id, v.start, v.end || v.start + 60);
+    });
+  });
+}
+
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelector('[onclick="showTab(\'' + id + '\')"]').classList.add('active');
+  document.getElementById('panel-' + id).classList.add('active');
+}
+
+renderConcepts();
+</script>
+</body>
+</html>
