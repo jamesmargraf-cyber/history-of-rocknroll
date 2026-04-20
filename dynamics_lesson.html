@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamics & Intensity — History of Rock 'n' Roll</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 15px; color: #1a1a1a; line-height: 1.6; background: #f5f4f0; }
+
+.page-header { background: #1a1a1a; color: #fff; padding: 1.5rem 2rem; }
+.page-header h1 { font-size: 20px; font-weight: 500; letter-spacing: 0.02em; }
+.page-header p { font-size: 13px; color: #999; margin-top: 3px; }
+
+.lesson-intro { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 0; }
+.lesson-intro h2 { font-size: 17px; font-weight: 600; margin-bottom: 0.75rem; }
+.lesson-intro p { font-size: 14px; color: #555; line-height: 1.75; margin-bottom: 0.75rem; }
+.lesson-intro p:last-child { margin-bottom: 0; }
+
+.lesson { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+/* TABS */
+.tabs { display: flex; gap: 2px; margin-bottom: 1.5rem; border-bottom: 1px solid #ddd; flex-wrap: wrap; }
+.tab { padding: 8px 18px; font-size: 14px; font-weight: 500; border: none; background: none; cursor: pointer; color: #666; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s; }
+.tab.active { color: #1a1a1a; border-bottom-color: #1a1a1a; }
+.tab:hover:not(.active) { color: #1a1a1a; }
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* CONCEPT CARDS */
+.concepts-list { display: flex; flex-direction: column; gap: 16px; }
+.concept-card { border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; background: #fff; }
+.concept-header { padding: 1rem 1.25rem 0.85rem; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 12px; }
+.concept-number { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+.concept-header h3 { font-size: 16px; font-weight: 600; }
+.concept-body { padding: 1rem 1.25rem; }
+.concept-body p { font-size: 14px; color: #444; line-height: 1.7; margin-bottom: 0.75rem; }
+.concept-body p:last-of-type { margin-bottom: 0; }
+.concept-body .listen-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #999; margin: 1rem 0 0.5rem; }
+.video-row { display: grid; grid-template-columns: 200px 1fr; gap: 14px; align-items: start; margin-bottom: 12px; }
+.video-row:last-child { margin-bottom: 0; }
+.video-player-wrap { width: 200px; border-radius: 8px; overflow: hidden; background: #000; }
+.video-player-wrap > div { width: 200px !important; height: 113px !important; }
+.video-meta h4 { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+.video-meta .artist { font-size: 12px; color: #888; margin-bottom: 5px; }
+.video-meta .tip { font-size: 13px; color: #555; line-height: 1.5; }
+.timestamp-badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #f0f0f0; color: #666; border: 1px solid #e0e0e0; margin-bottom: 5px; }
+.replay-btn { font-size: 11px; padding: 3px 8px; border: 1px solid #ddd; border-radius: 4px; background: #f5f5f5; cursor: pointer; color: #555; margin-top: 5px; display: inline-block; }
+.replay-btn:hover { background: #eee; }
+.bonus-tag { display: inline-block; font-size: 10px; font-weight: 600; background: #EDE9FE; color: #4C1D95; border: 1px solid #C4B5FD; padding: 2px 8px; border-radius: 20px; letter-spacing: 0.05em; text-transform: uppercase; }
+
+/* ASSIGNMENT PANEL */
+.assignment-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem; }
+.assignment-header { padding: 1rem 1.25rem; background: #1a1a1a; color: #fff; }
+.assignment-header h3 { font-size: 15px; font-weight: 500; margin-bottom: 3px; }
+.assignment-header p { font-size: 12px; color: #999; }
+.assignment-body { padding: 1.25rem; }
+.assignment-body h4 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #999; margin-bottom: 8px; }
+.step { display: flex; gap: 12px; margin-bottom: 14px; align-items: start; }
+.step:last-child { margin-bottom: 0; }
+.step-num { width: 24px; height: 24px; border-radius: 50%; background: #1a1a1a; color: #fff; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.step p { font-size: 14px; color: #444; line-height: 1.6; }
+.step p strong { color: #1a1a1a; font-weight: 600; }
+.cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid #eee; }
+.cta-btn { display: inline-block; padding: 10px 24px; border-radius: 6px; font-size: 13px; font-weight: 500; text-decoration: none; transition: background 0.15s; }
+.cta-primary { background: #1a1a1a; color: #fff; }
+.cta-primary:hover { background: #333; }
+.cta-secondary { background: #fff; color: #1a1a1a; border: 1px solid #ccc; }
+.cta-secondary:hover { background: #f5f5f5; }
+
+@media (max-width: 600px) {
+  .video-row { grid-template-columns: 1fr; }
+  .video-player-wrap, .video-player-wrap > div { width: 100% !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Dynamics &amp; Intensity</h1>
+  <p>History of Rock 'n' Roll — Unit 1: What Does It Sound Like?</p>
+</div>
+
+<div class="lesson-intro">
+  <h2>What makes a song feel intense?</h2>
+  <p>Intensity in music isn't just about volume. A whispered vocal can be more unsettling than a wall of distortion. A single guitar can feel more urgent than a full orchestra. The factors that create intensity are layered and interconnected — and learning to hear them separately is one of the most powerful listening skills you can develop.</p>
+  <p>In this lesson you'll explore four key drivers of musical intensity — dynamics, texture, rhythmic density, and register — and learn to identify how each one shapes the emotional impact of a song. There's also a bonus concept for those who want to go deeper: harmonic tension, the way unresolved chords create expectation and anxiety in the listener.</p>
+</div>
+
+<div class="lesson">
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('concepts')">Concepts</button>
+  <button class="tab" onclick="showTab('assignment')">Assignment</button>
+</div>
+
+<div id="panel-concepts" class="panel active">
+  <div class="concepts-list" id="conceptsList"></div>
+</div>
+
+<div id="panel-assignment" class="panel">
+  <div class="assignment-card">
+    <div class="assignment-header">
+      <h3>Energy Map &amp; Reflection</h3>
+      <p>Use the Song Analyzer to map the intensity of a song, then write a reflection explaining what you heard.</p>
+    </div>
+    <div class="assignment-body">
+      <h4>What you'll do</h4>
+      <div class="step">
+        <div class="step-num">1</div>
+        <p><strong>Choose a song</strong> — pick any song you know well. It should be long enough to have clear changes in intensity (at least 3 minutes).</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <p><strong>Open the Song Analyzer</strong> and use the Energy Map tool to chart the intensity of your song as you listen. Submit your map from within the tool.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <p><strong>Download the graphic organizer</strong> from Google Classroom and use it to take notes on each concept as you listen — dynamics, texture, rhythmic density, and register.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <p><strong>Write your reflection</strong> using the prompts on the graphic organizer. Explain how each factor contributed to the intensity of your chosen song, with specific examples and timestamps.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <p><strong>Submit</strong> your completed graphic organizer to Google Classroom.</p>
+      </div>
+
+      <div class="cta-row">
+        <a href="https://jamesmargraf-cyber.github.io/song-analyzer-dev/" target="_blank" class="cta-btn cta-primary">Open Song Analyzer →</a>
+        <a href="https://classroom.google.com/REPLACE-WITH-ASSIGNMENT-LINK" target="_blank" class="cta-btn cta-secondary">Open in Google Classroom →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// ── YOUTUBE IFRAME API ─────────────────────────────────────────────────────
+const ytPlayers = {};
+const ytStopAt = {};
+const ytIntervals = {};
+
+window.onYouTubeIframeAPIReady = function() {
+  window.ytApiReady = true;
+  if (window.ytPendingPlayers) {
+    window.ytPendingPlayers.forEach(fn => fn());
+    window.ytPendingPlayers = [];
+  }
+};
+
+function ensureYTApi(callback) {
+  if (window.ytApiReady) { callback(); return; }
+  window.ytPendingPlayers = window.ytPendingPlayers || [];
+  window.ytPendingPlayers.push(callback);
+  if (!document.getElementById('yt-api-script')) {
+    const s = document.createElement('script');
+    s.id = 'yt-api-script';
+    s.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(s);
+  }
+}
+
+function destroyAllPlayers() {
+  Object.keys(ytPlayers).forEach(pid => {
+    try { ytPlayers[pid].destroy(); } catch(e) {}
+    clearInterval(ytIntervals[pid]);
+    delete ytPlayers[pid]; delete ytStopAt[pid]; delete ytIntervals[pid];
+  });
+}
+
+function createPlayer(divId, videoId, startSec, endSec) {
+  ensureYTApi(() => {
+    if (ytPlayers[divId]) { try { ytPlayers[divId].destroy(); } catch(e) {} clearInterval(ytIntervals[divId]); }
+    ytStopAt[divId] = endSec;
+    ytPlayers[divId] = new YT.Player(divId, {
+      width: 200, height: 113,
+      videoId: videoId,
+      playerVars: { start: startSec, rel: 0, modestbranding: 1, playsinline: 1 },
+      events: {
+        onStateChange: (e) => {
+          if (e.data === YT.PlayerState.PLAYING) {
+            clearInterval(ytIntervals[divId]);
+            ytIntervals[divId] = setInterval(() => {
+              try {
+                const cur = ytPlayers[divId].getCurrentTime();
+                const stop = ytStopAt[divId];
+                if (stop && cur >= stop) {
+                  ytPlayers[divId].pauseVideo();
+                  ytPlayers[divId].seekTo(startSec, true);
+                  clearInterval(ytIntervals[divId]);
+                }
+              } catch(err) {}
+            }, 500);
+          }
+          if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
+            clearInterval(ytIntervals[divId]);
+          }
+        }
+      }
+    });
+  });
+}
+
+function replayPlayer(divId, startSec) {
+  const p = ytPlayers[divId];
+  if (!p) return;
+  try { p.seekTo(startSec, true); p.playVideo(); } catch(e) {}
+}
+
+function fmtTime(s) { return Math.floor(s/60) + ':' + (s%60).toString().padStart(2,'0'); }
+
+// ── CONCEPT DATA ───────────────────────────────────────────────────────────
+const CONCEPTS = [
+  {
+    number: '01',
+    label: 'Dynamics',
+    color: '#F4C0D1',
+    textColor: '#72243E',
+    body: [
+      'Dynamics refers to the variation in volume throughout a piece of music — the contrast between loud and soft. But dynamics isn\'t just about how loud something is. It\'s about the relationship between loud and soft, and the rate at which volume changes.',
+      'Here\'s something important about how your ears work: your hearing constantly adapts to the volume around you. After a few seconds of loud sound, your ears actually reduce their sensitivity — which means a loud section that goes on too long stops feeling loud. But after a period of quiet, your ears become more sensitive, so when the loud returns it hits with full force. This is why loud-after-quiet is more powerful than just loud.',
+      'This principle is why some of the most devastating moments in rock music are preceded by silence or near-silence. The quiet isn\'t weakness — it\'s loading the spring.',
+    ],
+    listenLabel: 'Hear it — dynamics in action',
+    videos: [
+      { id:'hTWKbfoikeg', start:25, end:90, title:'Smells Like Teen Spirit', artist:'Nirvana (1991)', tip:'Play from the hushed verse at 0:25 through the explosion of the chorus at 1:00. The quiet verse makes the chorus feel twice as loud.' },
+      { id:'MpDrCVRaWfo', start:0, end:60, title:'Something in the Way', artist:'Nirvana (1991)', tip:'The entire song operates at near-whisper. No chorus, no release. Notice how the restraint creates a different kind of intensity — dread rather than excitement.' },
+    ]
+  },
+  {
+    number: '02',
+    label: 'Texture & Density',
+    color: '#9FE1CB',
+    textColor: '#085041',
+    body: [
+      'Texture refers to how many musical elements are happening at once and how they relate to each other. A song with one instrument playing a melody is thin in texture. A full band with layered vocals, multiple guitars, keyboards, and strings is thick in texture.',
+      'Density is closely related — it describes how much space there is (or isn\'t) in the arrangement. A dense arrangement leaves little room to breathe. A sparse one lets each element ring out.',
+      'Producers and arrangers use texture strategically. Stripping the arrangement back to a single instrument before a big moment — then bringing everything crashing back in — creates one of the most reliable intensity effects in rock music.',
+    ],
+    listenLabel: 'Hear it — texture building and stripping',
+    videos: [
+      { id:'Gu9HhYv0C7E', start:0, end:90, title:"Baba O'Riley", artist:'The Who (1971)', tip:'Start at 0:00 and listen as the texture builds — synth loop alone, then piano, then drums, then finally vocals and full band. Each addition increases intensity without changing volume significantly.' },
+      { id:'Man4Xw8Xypo', start:0, end:45, title:'Blackbird', artist:'The Beatles (1968)', tip:'Two elements only — fingerpicked guitar and voice, with bird sounds. The extreme sparseness creates intimacy and vulnerability. Intensity through absence.' },
+    ]
+  },
+  {
+    number: '03',
+    label: 'Rhythmic Density',
+    color: '#FAC775',
+    textColor: '#633806',
+    body: [
+      'Rhythmic density describes how much rhythmic activity is happening at any given moment — how many notes per beat, how much syncopation, how many different rhythmic layers are layered on top of each other.',
+      'A song with a sparse rhythm — few notes, lots of space between them — feels open and unhurried. A song with dense rhythms — busy subdivisions, interlocking patterns, syncopation — creates a sense of forward momentum and urgency that feels intense even at a moderate volume.',
+      'This is separate from tempo. A slow song can have dense rhythms. A fast song can be rhythmically sparse. The two affect intensity differently and are worth listening for separately.',
+    ],
+    listenLabel: 'Hear it — rhythmic density contrast',
+    videos: [
+      { id:'ftdZ363R9kQ', start:0, end:60, title:'Superstition', artist:'Stevie Wonder (1972)', tip:'Listen to the clavinet and drum pattern together. The rhythmic density is extraordinarily high — notes are hitting on almost every subdivision of the beat. That\'s why it feels so relentlessly driving.' },
+      { id:'Man4Xw8Xypo', start:0, end:40, title:'Blackbird', artist:'The Beatles (1968)', tip:'Compare to Superstition — Blackbird has very low rhythmic density. Notes are spaced out, breath is built in. Same example as texture, different thing to listen for.' },
+    ]
+  },
+  {
+    number: '04',
+    label: 'Register',
+    color: '#B5D4F4',
+    textColor: '#0C447C',
+    body: [
+      'Register refers to the pitch range of the music — whether the predominant sounds are high or low in pitch. High-register sounds (high guitar notes, upper vocal range, bright cymbals) tend to create a sense of urgency, tension, and excitement. Low-register sounds (bass guitar, kick drum, baritone voice) feel grounded, heavy, or ominous.',
+      'This is partly physiological — high-pitched sounds trigger alertness responses in the human nervous system, which is why screaming or a wailing guitar solo feels urgent even before you consciously process it.',
+      'The most intense moments in rock music often combine high register with loud dynamics and dense texture. But register alone can do significant work — a quiet high-register guitar melody can feel more tense than a loud low-register one.',
+      'Think about compression here too — heavily compressed music squashes the dynamic range so that quiet instruments sound almost as loud as loud ones. Everything gets pushed toward the same level, which creates a relentless, wall-of-sound intensity. Some records are so compressed that the waveform looks like a solid brick — no peaks, no valleys.',
+    ],
+    listenLabel: 'Hear it — register and compression',
+    videos: [
+      { id:'7kWl-ZGMwkQ', start:259, end:320, title:'Comfortably Numb', artist:'Pink Floyd (live)', tip:'Skip to 4:19 — the guitar solo climbs steadily into the upper register as it builds. Notice how the rising pitch creates a feeling of ascent and release that\'s independent of the volume change.' },
+      { id:'3vSPxWp-7SU', start:0, end:60, title:"Maybe You've Been Brainwashed Too", artist:'New Radicals (1998)', tip:'This is your compression example. Notice how even the quieter elements feel loud and present — there\'s no real quiet in the mix. The dynamic range has been squashed. Everything is pushed forward.' },
+    ]
+  },
+  {
+    number: 'Bonus',
+    label: 'Harmonic Tension',
+    color: '#E9D5FF',
+    textColor: '#4C1D95',
+    bonus: true,
+    body: [
+      'Harmony refers to the relationship between notes played at the same time or in sequence. When those relationships feel stable and resolved, we call it consonance. When they feel unstable, unresolved, or tense, we call it dissonance.',
+      'Harmonic tension is the use of dissonant chords or unresolved progressions to create a sense of expectation and anxiety in the listener. Our ears have been trained by centuries of Western music to expect resolution — to hear tension followed by release. Composers and songwriters exploit this expectation deliberately.',
+      'In rock music, harmonic tension is often subtle — a chord that doesn\'t quite resolve, a suspended chord that hangs in the air, a melody note that clashes with the harmony beneath it. But in more ambitious rock compositions, harmonic tension can become a major structural tool.',
+    ],
+    listenLabel: 'Hear it — harmonic tension and resolution',
+    videos: [
+      { id:'UYeV7jLBXvA', start:0, end:120, title:'A Day in the Life', artist:'The Beatles (1967)', tip:'Listen especially to the orchestral build sections (around 2:15 and the finale). The orchestra ascends chromatically — each note slightly clashing with the last — creating almost unbearable tension before the final chord resolves everything.' },
+    ]
+  },
+];
+
+function renderConcepts() {
+  document.getElementById('conceptsList').innerHTML = CONCEPTS.map((c, ci) => {
+    const videosHTML = c.videos.map((v, vi) => {
+      const pid = `player-${ci}-${vi}`;
+      const endSec = v.end || v.start + 60;
+      return `<div class="video-row">
+        <div>
+          <div class="video-player-wrap"><div id="${pid}"></div></div>
+          <button class="replay-btn" onclick="replayPlayer('${pid}', ${v.start})">↺ Replay</button>
+        </div>
+        <div class="video-meta">
+          <h4>${v.title}</h4>
+          <p class="artist">${v.artist}</p>
+          <span class="timestamp-badge">${fmtTime(v.start)} – ${fmtTime(endSec)}</span>
+          <p class="tip">${v.tip}</p>
+        </div>
+      </div>`;
+    }).join('');
+
+    return `<div class="concept-card">
+      <div class="concept-header">
+        <span class="concept-number" style="background:${c.color};color:${c.textColor};">${c.number}</span>
+        <h3>${c.label}</h3>
+        ${c.bonus ? '<span class="bonus-tag">Bonus</span>' : ''}
+      </div>
+      <div class="concept-body">
+        ${c.body.map(p => `<p>${p}</p>`).join('')}
+        <p class="listen-label">${c.listenLabel}</p>
+        ${videosHTML}
+      </div>
+    </div>`;
+  }).join('');
+
+  // Init all players
+  CONCEPTS.forEach((c, ci) => {
+    c.videos.forEach((v, vi) => {
+      const pid = `player-${ci}-${vi}`;
+      const endSec = v.end || v.start + 60;
+      createPlayer(pid, v.id, v.start, endSec);
+    });
+  });
+}
+
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`[onclick="showTab('${id}')"]`).classList.add('active');
+  document.getElementById(`panel-${id}`).classList.add('active');
+}
+
+renderConcepts();
+</script>
+</body>
+</html>
