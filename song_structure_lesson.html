@@ -148,7 +148,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; f
   <div class="detail-panel" id="detailPanel">
     <div class="placeholder">Click a section above to explore its definition and hear examples.</div>
   </div>
-  <div id="hookCallout" style="margin-top:1.5rem;border:1.5px solid #C0DD97;border-radius:12px;overflow:hidden;background:#fff;"></div>
 </div>
 
 <div id="panel-forms" class="panel">
@@ -668,59 +667,6 @@ function revealAnswer() {
   document.getElementById('checkBox').classList.remove('visible');
 }
 
-function renderHookCallout() {
-  const hookSec = SECTIONS.find(s => s.id === 'hook');
-  if (!hookSec) return;
-  const el = document.getElementById('hookCallout');
-  if (!el) return;
-
-  el.innerHTML = `
-    <div style="padding:1rem 1.25rem 0.9rem;border-bottom:1px solid #eee;display:flex;align-items:center;gap:10px;">
-      <span class="pill" style="background:#C0DD97;color:#27500A;">Hook</span>
-      <div>
-        <h2 style="font-size:16px;font-weight:600;margin-bottom:2px;">What is a Hook?</h2>
-        <p style="font-size:13px;color:#666;">A conceptual note — hooks aren't a song section, but they're worth understanding on their own</p>
-      </div>
-    </div>
-    <div style="padding:1rem 1.25rem;background:#fafafa;border-bottom:1px solid #eee;">
-      <p style="font-size:14px;color:#444;line-height:1.6;">${hookSec.purpose}</p>
-    </div>
-    <div style="padding:0.9rem 1.25rem;border-bottom:1px solid #eee;display:flex;gap:2rem;flex-wrap:wrap;">
-      <div><div class="meta-label">Typical length</div><div class="meta-value">${hookSec.length}</div></div>
-      <div><div class="meta-label">Texture</div><div class="meta-value">${hookSec.texture}</div></div>
-      <div style="flex:1;min-width:180px;"><div class="meta-label">What to listen for</div><div class="meta-value">${hookSec.whatToListen}</div></div>
-    </div>
-    <div style="padding:1.25rem;">
-      <div class="examples-label">Hear it in action</div>
-      <div class="video-list">
-        ${hookSec.videos.map((v, i) => {
-          const pid = 'yt-hook-' + i;
-          const endSec = v.end || (v.start + 45);
-          return `
-          <div class="video-item">
-            <div>
-              <div class="video-player-wrap"><div id="${pid}"></div></div>
-              <button class="replay-btn" onclick="replayPlayer('${pid}', ${v.start})">↺ Replay</button>
-            </div>
-            <div class="video-info">
-              <h4>${v.title}</h4>
-              <p class="video-artist">${v.artist}</p>
-              <span class="timestamp-badge">${fmtTime(v.start)} – ${fmtTime(endSec)}</span>
-              <p class="listen-tip">${v.tip}</p>
-            </div>
-          </div>`;
-        }).join('')}
-      </div>
-    </div>`;
-
-  // Init players
-  hookSec.videos.forEach((v, i) => {
-    const pid = 'yt-hook-' + i;
-    const endSec = v.end || (v.start + 45);
-    createPlayer(pid, v.id, v.start, endSec);
-  });
-}
-
 renderSectionGrid();
 renderForms();
 populateFormFilter();
@@ -728,7 +674,6 @@ renderSongs();
 populateActivitySong();
 renderActivityPalette();
 setupTrackDrop();
-renderHookCallout();
 </script>
 </body>
 </html>
