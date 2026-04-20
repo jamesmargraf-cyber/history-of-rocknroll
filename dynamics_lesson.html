@@ -242,7 +242,7 @@ const CONCEPTS = [
     ],
     listenLabel: 'Hear it — texture building and stripping',
     videos: [
-      { id:'Gu9HhYv0C7E', start:0, end:90, title:"Baba O'Riley", artist:'The Who (1971)', tip:'Start at 0:00 and listen as the texture builds — synth loop alone, then piano, then drums, then finally vocals and full band. Each addition increases intensity without changing volume significantly.' },
+      { id:'UYeV7jLBXvA', start:135, end:200, title:'A Day in the Life', artist:'The Beatles (1967)', tip:'Start at 2:15 — a lone orchestra begins a low murmur and climbs for nearly a minute, adding instruments and volume simultaneously. Each layer increases both texture and intensity until the sound becomes almost overwhelming. This is texture as architecture.' },
       { id:'Man4Xw8Xypo', start:0, end:45, title:'Blackbird', artist:'The Beatles (1968)', tip:'Two elements only — fingerpicked guitar and voice, with bird sounds. The extreme sparseness creates intimacy and vulnerability. Intensity through absence.' },
     ]
   },
@@ -259,7 +259,7 @@ const CONCEPTS = [
     listenLabel: 'Hear it — rhythmic density contrast',
     videos: [
       { id:'ftdZ363R9kQ', start:0, end:60, title:'Superstition', artist:'Stevie Wonder (1972)', tip:'Listen to the clavinet and drum pattern together. The rhythmic density is extraordinarily high — notes are hitting on almost every subdivision of the beat. That\'s why it feels so relentlessly driving.' },
-      { id:'Man4Xw8Xypo', start:0, end:40, title:'Blackbird', artist:'The Beatles (1968)', tip:'Compare to Superstition — Blackbird has very low rhythmic density. Notes are spaced out, breath is built in. Same example as texture, different thing to listen for.' },
+      { id:'TmDkzVvherk', start:0, end:60, title:'Only You', artist:'Portishead (1994)', tip:'Almost entirely space. The beat is slow, minimal, and deliberate — each element isolated with room to breathe. Compare to Superstition and notice how sparse rhythms create a completely different emotional quality: dread and stillness rather than urgency.' },
     ]
   },
   {
@@ -296,6 +296,62 @@ const CONCEPTS = [
     ]
   },
 ];
+
+const COMPRESSION = {
+  label: 'Challenge — Compression',
+  body: [
+    'Compression is a recording and mixing technique that reduces the dynamic range of audio — the difference between the quietest and loudest moments. A compressor automatically turns down loud sounds and (in effect) turns up quiet ones, pushing everything toward the same volume level.',
+    'Heavy compression creates a sense of relentless intensity — nothing ever really gets quiet, so everything feels loud all the time. Some records are so compressed that the audio waveform looks like a solid brick with no peaks or valleys. This is sometimes called "brick-wall limiting."',
+    'The flip side is a recording with almost no compression — natural dynamic range intact. Quiet moments are genuinely quiet. Loud moments genuinely hit. The contrast between the two is one of the most important choices a producer makes.',
+    'Listen to the two examples below and try to identify the difference. In the compressed version, notice how even background elements feel present and forward. In the uncompressed version, notice how much more space and air surrounds the sound.',
+  ],
+  videos: [
+    { id:'3vSPxWp-7SU', start:0, end:60, title:"Maybe You've Been Brainwashed Too", artist:'New Radicals (1998)', tip:'Heavily compressed. Notice how everything sits at a similar volume level — the mix is dense and relentless. There is very little true quiet anywhere in the recording. Every element is pushed forward.' },
+    { id:'hjpF8ukSrvk', start:0, end:60, title:'Wish You Were Here', artist:'Pink Floyd (1975)', tip:'Minimal compression. The fingerpicked intro guitar has natural dynamics — some notes louder, some softer, real breath in the sound. When the full band enters later, the contrast feels enormous because the dynamic range is preserved.' },
+  ]
+};
+
+function renderCompression() {
+  const videosHTML = COMPRESSION.videos.map(function(v, vi) {
+    const pid = 'comp-player-' + vi;
+    const endSec = v.end || v.start + 60;
+    return '<div class="video-row">' +
+      '<div>' +
+        '<div class="video-player-wrap"><div id="' + pid + '"></div></div>' +
+        '<button class="replay-btn" onclick="replayPlayer(\'' + pid + '\', ' + v.start + ')">↺ Replay</button>' +
+      '</div>' +
+      '<div class="video-meta">' +
+        '<h4>' + v.title + '</h4>' +
+        '<p class="artist">' + v.artist + '</p>' +
+        '<span class="timestamp-badge">' + fmtTime(v.start) + ' – ' + fmtTime(endSec) + '</span>' +
+        '<p class="tip">' + v.tip + '</p>' +
+      '</div></div>';
+  }).join('');
+
+  const bodyHTML = COMPRESSION.body.map(function(p) {
+    return '<p style="font-size:14px;color:#444;line-height:1.7;margin-bottom:0.75rem;">' + p + '</p>';
+  }).join('');
+
+  const section = document.createElement('div');
+  section.style.cssText = 'margin-top:24px;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;background:#fff;';
+  section.innerHTML =
+    '<div style="padding:1rem 1.25rem 0.85rem;background:#1a1a1a;display:flex;align-items:center;gap:12px;">' +
+      '<span style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;padding:3px 10px;border-radius:20px;background:#333;color:#f5f2ec;white-space:nowrap;">Challenge</span>' +
+      '<h3 style="font-size:16px;font-weight:600;color:#f5f2ec;">Compression</h3>' +
+    '</div>' +
+    '<div style="padding:1rem 1.25rem;">' +
+      bodyHTML +
+      '<p class="listen-label">Hear it — compressed vs. uncompressed</p>' +
+      videosHTML +
+    '</div>';
+
+  document.getElementById('conceptsList').appendChild(section);
+
+  COMPRESSION.videos.forEach(function(v, vi) {
+    const pid = 'comp-player-' + vi;
+    createPlayer(pid, v.id, v.start, v.end || v.start + 60);
+  });
+}
 
 function renderConcepts() {
   document.getElementById('conceptsList').innerHTML = CONCEPTS.map((c, ci) => {
@@ -348,6 +404,7 @@ function showTab(id) {
 }
 
 renderConcepts();
+renderCompression();
 </script>
 </body>
 </html>
