@@ -209,6 +209,30 @@ body { font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; color: #1a1a1a
       </div>
     </div>
 
+    <div class="lesson-row">
+      <div class="lesson-main">
+        <div class="lesson-info">
+          <div class="lesson-name">Lesson 6 — Chord Progressions &amp; Harmony</div>
+          <div class="lesson-url">— not yet built —</div>
+        </div>
+        <div class="lesson-controls">
+          <div class="toggle-pair">
+            <div class="toggle-item">
+              <span class="toggle-item-label">Active</span>
+              <label class="toggle"><input type="checkbox" id="active-chords" onchange="save('chords','active',this.checked)"><span class="toggle-slider"></span></label>
+              <span class="toggle-val" id="val-active-chords">Off</span>
+            </div>
+            <div class="toggle-divider"></div>
+            <div class="toggle-item">
+              <span class="toggle-item-label">Visible</span>
+              <label class="toggle"><input type="checkbox" id="vis-chords" onchange="save('chords','visible',this.checked)"><span class="toggle-slider blue"></span></label>
+              <span class="toggle-val" id="val-vis-chords">Off</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <div class="section-label">Admin tools</div>
@@ -228,13 +252,14 @@ body { font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; color: #1a1a1a
 
 <script>
 const STORAGE_KEY = 'rock_lesson_toggles';
-const LESSONS = ['stereo-maps','timbre','song-structure','dynamics','tempo'];
+const LESSONS = ['stereo-maps','timbre','song-structure','dynamics','tempo','chords'];
 const DEFAULTS = {
   'stereo-maps':    { active:true,  visible:true  },
   'timbre':         { active:true,  visible:true  },
   'song-structure': { active:true,  visible:true  },
   'dynamics':       { active:false, visible:false },
   'tempo':          { active:false, visible:false },
+  'chords':         { active:false, visible:false },
 };
 
 function loadToggles() {
