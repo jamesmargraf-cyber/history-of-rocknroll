@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rhythm Tools — History of Rock 'n' Roll</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 15px; color: #1a1a1a; background: #f5f4f0; min-height: 100vh; }
+
+.page-header { background: #1a1a1a; color: #fff; padding: 1.5rem 2rem; }
+.page-header h1 { font-size: 20px; font-weight: 500; }
+.page-header p { font-size: 13px; color: #999; margin-top: 3px; }
+
+.container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+/* TABS */
+.tabs { display: flex; gap: 2px; margin-bottom: 1.5rem; border-bottom: 1px solid #ddd; }
+.tab { padding: 8px 20px; font-size: 14px; font-weight: 500; border: none; background: none; cursor: pointer; color: #666; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s; }
+.tab.active { color: #1a1a1a; border-bottom-color: #1a1a1a; }
+.tab:hover:not(.active) { color: #1a1a1a; }
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ── TAP THE BEAT ─────────────────────────────────────────────────────────── */
+.tap-layout { display: grid; grid-template-columns: 280px 1fr; gap: 1.5rem; align-items: start; }
+
+.song-list { display: flex; flex-direction: column; gap: 4px; }
+.song-btn {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border: 1px solid #e0e0e0; border-radius: 8px;
+  background: #fff; cursor: pointer; text-align: left; width: 100%;
+  transition: border-color 0.15s, background 0.15s;
+}
+.song-btn:hover { border-color: #999; background: #fafafa; }
+.song-btn.active { border-color: #1a1a1a; background: #1a1a1a; color: #fff; }
+.song-btn.active .song-meta { color: #999; }
+.song-tag {
+  font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+  padding: 2px 6px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;
+}
+.song-info { flex: 1; min-width: 0; }
+.song-title { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.song-meta { font-size: 11px; color: #888; }
+.song-bpm { font-size: 11px; font-weight: 600; color: #aaa; flex-shrink: 0; }
+.song-btn.active .song-bpm { color: #666; }
+
+.tap-right { display: flex; flex-direction: column; gap: 1rem; }
+
+.player-wrap { background: #000; border-radius: 10px; overflow: hidden; }
+.player-wrap > div { width: 100% !important; height: 200px !important; }
+
+.tap-controls { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 1.25rem; }
+
+.tap-btn {
+  width: 100%; padding: 1.25rem; font-size: 18px; font-weight: 600;
+  background: #1a1a1a; color: #fff; border: none; border-radius: 8px;
+  cursor: pointer; letter-spacing: 0.02em; transition: background 0.1s, transform 0.05s;
+  user-select: none; -webkit-user-select: none;
+}
+.tap-btn:active { transform: scale(0.98); background: #333; }
+
+.tap-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 1rem; }
+.stat-box { background: #f5f5f5; border-radius: 8px; padding: 0.75rem; text-align: center; }
+.stat-value { font-size: 24px; font-weight: 700; color: #1a1a1a; line-height: 1; }
+.stat-label { font-size: 11px; color: #888; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+.tap-feedback { margin-top: 0.75rem; min-height: 24px; font-size: 13px; color: #555; text-align: center; }
+.tap-feedback.good { color: #1D9E75; font-weight: 500; }
+.tap-feedback.ok { color: #d4a843; font-weight: 500; }
+.tap-feedback.off { color: #c8372d; font-weight: 500; }
+
+.tap-reset { margin-top: 0.75rem; width: 100%; padding: 8px; font-size: 13px; background: none; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; color: #888; }
+.tap-reset:hover { border-color: #999; color: #333; }
+
+.tap-tip { background: #f9f9f9; border: 1px solid #eee; border-radius: 8px; padding: 0.85rem 1rem; font-size: 13px; color: #666; line-height: 1.6; }
+.tap-tip strong { color: #1a1a1a; }
+
+/* ── STEP SEQUENCER ───────────────────────────────────────────────────────── */
+.seq-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 10px; }
+.seq-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.seq-btn { padding: 8px 20px; font-size: 13px; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; transition: background 0.15s; }
+.seq-play { background: #1a1a1a; color: #fff; }
+.seq-play:hover { background: #333; }
+.seq-play.playing { background: #c8372d; }
+.seq-stop { background: #e0e0e0; color: #333; }
+.seq-stop:hover { background: #ccc; }
+.seq-clear { background: none; border: 1px solid #ddd; color: #888; padding: 7px 16px; font-size: 13px; border-radius: 6px; cursor: pointer; }
+.seq-clear:hover { border-color: #999; color: #333; }
+
+.tempo-wrap { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #555; }
+.tempo-slider { width: 100px; }
+.tempo-val { font-weight: 600; color: #1a1a1a; min-width: 50px; }
+
+.seq-grid { display: flex; flex-direction: column; gap: 4px; margin-bottom: 1rem; }
+.seq-row { display: flex; gap: 3px; align-items: center; }
+.seq-row-label { width: 80px; font-size: 12px; font-weight: 500; color: #555; flex-shrink: 0; text-align: right; padding-right: 8px; }
+.seq-steps { display: flex; gap: 3px; flex: 1; }
+.seq-step {
+  flex: 1; aspect-ratio: 1; border-radius: 4px; border: none; cursor: pointer;
+  background: #e0e0e0; transition: background 0.1s; position: relative;
+}
+.seq-step.on { background: #1a1a1a; }
+.seq-step.playing { outline: 2px solid #c8372d; outline-offset: 1px; }
+.seq-step.beat-1 { border-left: 2px solid #999; }
+
+.seq-presets { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
+.preset-btn { font-size: 12px; padding: 5px 12px; border: 1px solid #ddd; border-radius: 20px; background: #fff; cursor: pointer; color: #555; transition: border-color 0.15s, background 0.15s; }
+.preset-btn:hover { border-color: #999; background: #f5f5f5; }
+.preset-btn.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+
+.seq-info { font-size: 13px; color: #666; background: #f9f9f9; border: 1px solid #eee; border-radius: 8px; padding: 0.85rem 1rem; line-height: 1.6; }
+.seq-info strong { color: #1a1a1a; }
+
+@media (max-width: 640px) {
+  .tap-layout { grid-template-columns: 1fr; }
+  .seq-step { min-width: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Rhythm Tools</h1>
+  <p>History of Rock 'n' Roll — Unit 1: What Does It Sound Like?</p>
+</div>
+
+<div class="container">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('tap')">Tap the Beat</button>
+    <button class="tab" onclick="showTab('seq')">Step Sequencer</button>
+  </div>
+
+  <!-- TAP THE BEAT -->
+  <div id="panel-tap" class="panel active">
+    <div class="tap-layout">
+      <div>
+        <p style="font-size:13px;color:#666;margin-bottom:10px;line-height:1.6;">Choose a song, press play, then tap the button on every beat you hear. After 8 taps the tool will calculate your BPM.</p>
+        <div class="song-list" id="songList"></div>
+      </div>
+      <div class="tap-right">
+        <div class="player-wrap" id="tapPlayerWrap"><div id="tapPlayer"></div></div>
+        <div class="tap-controls">
+          <button class="tap-btn" id="tapBtn" onclick="handleTap()">TAP</button>
+          <div class="tap-stats">
+            <div class="stat-box">
+              <div class="stat-value" id="statBpm">—</div>
+              <div class="stat-label">Your BPM</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="statActual">—</div>
+              <div class="stat-label">Actual BPM</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="statTaps">0</div>
+              <div class="stat-label">Taps</div>
+            </div>
+          </div>
+          <div class="tap-feedback" id="tapFeedback"></div>
+          <button class="tap-reset" onclick="resetTap()">↺ Reset</button>
+        </div>
+        <div class="tap-tip" id="tapTip">Select a song to get started. Press play, then tap along to the beat.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP SEQUENCER -->
+  <div id="panel-seq" class="panel">
+    <div class="seq-header">
+      <div class="seq-controls">
+        <button class="seq-btn seq-play" id="seqPlayBtn" onclick="togglePlay()">▶ Play</button>
+        <button class="seq-btn seq-stop" onclick="stopSeq()">■ Stop</button>
+        <button class="seq-clear" onclick="clearAll()">Clear all</button>
+      </div>
+      <div class="tempo-wrap">
+        <span>Tempo:</span>
+        <input type="range" class="tempo-slider" id="tempoSlider" min="60" max="180" value="90" oninput="updateTempo()">
+        <span class="tempo-val" id="tempoVal">90 BPM</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom:8px;">
+      <p style="font-size:12px;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.06em;font-weight:500;">Presets</p>
+      <div class="seq-presets" id="presetBtns"></div>
+    </div>
+
+    <div class="seq-grid" id="seqGrid"></div>
+
+    <div class="seq-info">
+      <strong>How to use:</strong> Click any cell to toggle it on or off. Press Play to hear your pattern loop. Each row is a different drum sound. Each column is one sixteenth note — there are 16 steps per bar. The darker lines divide the bar into four beats. Try the presets to hear classic patterns, then modify them or start from scratch.
+    </div>
+  </div>
+</div>
+
+<script>
+// ── TAB SWITCHING ─────────────────────────────────────────────────────────
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelector('[onclick="showTab(\'' + id + '\')"]').classList.add('active');
+  document.getElementById('panel-' + id).classList.add('active');
+  if (id === 'seq' && !seqInitialized) initSeq();
+}
+
+// ── YOUTUBE IFRAME API ────────────────────────────────────────────────────
+const ytPlayers = {};
+window.onYouTubeIframeAPIReady = function() {
+  window.ytApiReady = true;
+  (window.ytPending || []).forEach(fn => fn());
+  window.ytPending = [];
+};
+function ensureYTApi(cb) {
+  if (window.ytApiReady) { cb(); return; }
+  window.ytPending = window.ytPending || [];
+  window.ytPending.push(cb);
+  if (!document.getElementById('yt-api')) {
+    const s = document.createElement('script');
+    s.id = 'yt-api';
+    s.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(s);
+  }
+}
+
+// ── SONG DATA ─────────────────────────────────────────────────────────────
+const SONGS = [
+  { id:'qgaRVvAKoqQ', title:'Black', artist:'Pearl Jam', bpm:63,  tag:'Slow',        tagColor:'#B5D4F4', tagText:'#0C447C', tip:'A slow, brooding tempo with a very steady pulse underneath. The guitar strums on every beat — tap along with those and you\'ll lock in quickly. Notice how the slow tempo creates a sense of weight and space.' },
+  { id:'Kr4EQDVETuA', title:'Billie Jean', artist:'Michael Jackson', bpm:117, tag:'Medium',      tagColor:'#9FE1CB', tagText:'#085041', tip:'One of the most precisely produced beats in pop history. The bass and kick drum lock together on the beat while the hi-hat subdivides above them. Tap to the kick drum and feel how relentlessly steady it is.' },
+  { id:'Wu4_zVxmufY', title:'Born to Run',    artist:'Springsteen',  bpm:148, tag:'Fast',        tagColor:'#FAC775', tagText:'#633806', tip:'A relentless wall of sound at high tempo. Try tapping along — at this speed you\'ll feel the urgency of a fast beat. Focus on the snare to lock in.' },
+  { id:'ftdZ363R9kQ', title:'Superstition',   artist:'Stevie Wonder', bpm:100, tag:'Syncopated',  tagColor:'#F4C0D1', tagText:'#72243E', tip:'The clavinet riff constantly pushes against the beat. The pulse is still there underneath — find the kick drum and tap to that, not the melodic instruments on top.' },
+  { id:'z3cg3IQzSqw', title:'Money',          artist:'Pink Floyd',    bpm:120, tag:'7/4 Meter',   tagColor:'#CECBF6', tagText:'#3C3489', tip:'This song is in 7/4 — there are 7 beats in each bar instead of 4. Try counting 1-2-3-4-5-6-7 and see if it fits. It will feel slightly "off" compared to everything else you\'ve tapped — that\'s the point.' },
+  { id:'Gk781Z0ErmA', title:'We Are the Champions', artist:'Queen',  bpm:63,  tag:'3/4 Meter',   tagColor:'#C0DD97', tagText:'#27500A', tip:'Triple meter — 3 beats per bar instead of 4. Try counting 1-2-3, 1-2-3 as you tap. This is the waltz feel. Notice how it creates a sense of grandeur and sweep that 4/4 doesn\'t.' },
+];
+
+let currentSong = null;
+let tapTimes = [];
+let tapTimeout = null;
+let tapPlayer = null;
+
+function renderSongList() {
+  document.getElementById('songList').innerHTML = SONGS.map((s, i) =>
+    '<button class="song-btn" id="sbtn-' + i + '" onclick="selectSong(' + i + ')">' +
+      '<span class="song-tag" style="background:' + s.tagColor + ';color:' + s.tagText + ';">' + s.tag + '</span>' +
+      '<div class="song-info">' +
+        '<div class="song-title">' + s.title + '</div>' +
+        '<div class="song-meta">' + s.artist + '</div>' +
+      '</div>' +
+      '<span class="song-bpm">' + s.bpm + '</span>' +
+    '</button>'
+  ).join('');
+}
+
+function selectSong(i) {
+  document.querySelectorAll('.song-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sbtn-' + i).classList.add('active');
+  currentSong = SONGS[i];
+  resetTap();
+  document.getElementById('statActual').textContent = currentSong.bpm;
+  document.getElementById('tapTip').textContent = currentSong.tip;
+  loadTapPlayer(currentSong.id);
+}
+
+function loadTapPlayer(videoId) {
+  ensureYTApi(() => {
+    if (tapPlayer) {
+      try { tapPlayer.loadVideoById(videoId); } catch(e) {
+        tapPlayer.destroy();
+        createTapPlayer(videoId);
+      }
+    } else {
+      createTapPlayer(videoId);
+    }
+  });
+}
+
+function createTapPlayer(videoId) {
+  const wrap = document.getElementById('tapPlayerWrap');
+  wrap.innerHTML = '<div id="tapPlayer"></div>';
+  tapPlayer = new YT.Player('tapPlayer', {
+    width: '100%', height: 200,
+    videoId: videoId,
+    playerVars: { rel: 0, modestbranding: 1, playsinline: 1 },
+    events: {
+      onReady: function(e) {
+        const iframe = e.target.getIframe();
+        if (iframe) { iframe.style.cssText = 'width:100%;height:200px;display:block;border:none;'; }
+      }
+    }
+  });
+}
+
+function handleTap() {
+  const now = performance.now();
+  tapTimes.push(now);
+
+  // Reset if gap > 3 seconds
+  if (tapTimes.length > 1 && (now - tapTimes[tapTimes.length - 2]) > 3000) {
+    tapTimes = [now];
+  }
+
+  const n = tapTimes.length;
+  document.getElementById('statTaps').textContent = n;
+
+  if (n >= 2) {
+    const intervals = [];
+    for (let i = 1; i < tapTimes.length; i++) {
+      intervals.push(tapTimes[i] - tapTimes[i - 1]);
+    }
+    const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+    const bpm = Math.round(60000 / avgInterval);
+    document.getElementById('statBpm').textContent = bpm;
+
+    if (n >= 8 && currentSong) {
+      const diff = Math.abs(bpm - currentSong.bpm);
+      const fb = document.getElementById('tapFeedback');
+      if (diff <= 4) {
+        fb.textContent = 'Excellent — right on the beat!';
+        fb.className = 'tap-feedback good';
+      } else if (diff <= 10) {
+        fb.textContent = 'Close — you\'re within ' + diff + ' BPM. Keep going!';
+        fb.className = 'tap-feedback ok';
+      } else {
+        fb.textContent = diff + ' BPM off. Try focusing on the kick drum or snare.';
+        fb.className = 'tap-feedback off';
+      }
+    }
+  }
+
+  // Flash the button
+  const btn = document.getElementById('tapBtn');
+  btn.style.background = '#c8372d';
+  setTimeout(() => { btn.style.background = '#1a1a1a'; }, 80);
+
+  // Auto-reset after 3s of inactivity
+  clearTimeout(tapTimeout);
+  tapTimeout = setTimeout(() => {
+    if (tapTimes.length < 4) resetTap();
+  }, 3000);
+}
+
+function resetTap() {
+  tapTimes = [];
+  clearTimeout(tapTimeout);
+  document.getElementById('statBpm').textContent = '—';
+  document.getElementById('statTaps').textContent = '0';
+  document.getElementById('tapFeedback').textContent = '';
+  document.getElementById('tapFeedback').className = 'tap-feedback';
+  if (currentSong) {
+    document.getElementById('statActual').textContent = currentSong.bpm;
+  } else {
+    document.getElementById('statActual').textContent = '—';
+  }
+}
+
+renderSongList();
+
+// ── STEP SEQUENCER ─────────────────────────────────────────────────────────
+const ROWS = [
+  { label: 'Kick',    color: '#c8372d', sounds: ['kick'] },
+  { label: 'Snare',   color: '#d4a843', sounds: ['snare'] },
+  { label: 'Hi-Hat',  color: '#7ab8d4', sounds: ['hihat'] },
+  { label: 'Open Hat',color: '#9FE1CB', sounds: ['openhat'] },
+  { label: 'Clap',    color: '#CECBF6', sounds: ['clap'] },
+];
+
+let numSteps = 16;
+let grid = ROWS.map(() => new Array(16).fill(false));
+let seqPlaying = false;
+let seqStep = 0;
+let seqInterval = null;
+let seqInitialized = false;
+let audioCtx = null;
+
+const PRESETS = {
+  'Basic Rock': {
+    steps: 16,
+    pattern: [
+      [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0], // kick
+      [0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0], // snare
+      [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0], // hihat
+      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], // open
+      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], // clap
+    ]
+  },
+  'Funky': {
+    steps: 16,
+    pattern: [
+      [1,0,0,1,0,0,1,0,1,0,0,0,1,0,0,0], // kick
+      [0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0], // snare
+      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], // hihat
+      [0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0], // open
+      [0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0], // clap
+    ]
+  },
+  'Shuffle': {
+    steps: 16,
+    pattern: [
+      [1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0], // kick
+      [0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0], // snare
+      [1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1], // hihat
+      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], // open
+      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], // clap
+    ]
+  },
+  'Waltz': {
+    steps: 12,
+    // 12 steps = 2 bars of 3/4 (each step = 1 eighth note, 2 steps per beat)
+    // Bar 1: steps 0-5 | Bar 2: steps 6-11
+    // Beat 1 = steps 0,6 | Beat 2 = steps 2,8 | Beat 3 = steps 4,10
+    pattern: [
+      [1,0,0,0,0,0,1,0,0,0,0,0], // kick on beat 1 of each bar
+      [0,0,1,0,1,0,0,0,1,0,1,0], // snare on beats 2 and 3
+      [1,0,1,0,1,0,1,0,1,0,1,0], // hihat on every eighth note
+      [0,0,0,0,0,0,0,0,0,0,0,0], // open
+      [0,0,0,0,0,0,0,0,0,0,0,0], // clap
+    ]
+  },
+  'Blank': {
+    steps: 16,
+    pattern: ROWS.map(() => new Array(16).fill(0))
+  },
+};
+
+let activePreset = 'Basic Rock';
+
+function initSeq() {
+  seqInitialized = true;
+  loadPreset('Basic Rock');
+  renderPresets();
+  renderGrid();
+}
+
+function renderPresets() {
+  document.getElementById('presetBtns').innerHTML = Object.keys(PRESETS).map(name =>
+    '<button class="preset-btn' + (name === activePreset ? ' active' : '') + '" onclick="loadPreset(\'' + name + '\')">' + name + '</button>'
+  ).join('');
+}
+
+function loadPreset(name) {
+  const wasPlaying = seqPlaying;
+  if (wasPlaying) stopSeq();
+  activePreset = name;
+  const preset = PRESETS[name];
+  numSteps = preset.steps;
+  grid = preset.pattern.map(row => [...row.map(v => v === 1)]);
+  seqStep = 0;
+  renderGrid();
+  renderPresets();
+  if (wasPlaying) startSeq();
+}
+
+function renderGrid() {
+  const container = document.getElementById('seqGrid');
+  // For 12-step (waltz): beat markers every 2 steps (groups of 3 eighth notes per beat × 2 beats shown)
+  // For 16-step: beat markers every 4 steps (groups of 4 sixteenth notes per beat)
+  const beatDiv = numSteps === 12 ? 2 : 4;
+  container.innerHTML = ROWS.map((row, ri) =>
+    '<div class="seq-row">' +
+      '<span class="seq-row-label">' + row.label + '</span>' +
+      '<div class="seq-steps">' +
+        Array.from({length: numSteps}, (_, si) => {
+          const on = grid[ri] && grid[ri][si];
+          const isBeat = si % beatDiv === 0;
+          return '<button class="seq-step' + (on ? ' on' : '') + (isBeat ? ' beat-1' : '') + '" ' +
+            'id="step-' + ri + '-' + si + '" ' +
+            'style="' + (on ? 'background:' + row.color + ';' : '') + '" ' +
+            'onclick="toggleStep(' + ri + ',' + si + ')"></button>';
+        }).join('') +
+      '</div>' +
+    '</div>'
+  ).join('');
+}
+
+function toggleStep(ri, si) {
+  grid[ri][si] = !grid[ri][si];
+  const el = document.getElementById('step-' + ri + '-' + si);
+  if (grid[ri][si]) {
+    el.classList.add('on');
+    el.style.background = ROWS[ri].color;
+  } else {
+    el.classList.remove('on');
+    el.style.background = '';
+  }
+  activePreset = '';
+  renderPresets();
+}
+
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function playSound(type, time) {
+  const ctx = getAudioCtx();
+  const osc = ctx.createOscillator();
+  const env = ctx.createGain();
+  osc.connect(env);
+  env.connect(ctx.destination);
+
+  switch(type) {
+    case 'kick':
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(150, time);
+      osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.5);
+      env.gain.setValueAtTime(1, time);
+      env.gain.exponentialRampToValueAtTime(0.01, time + 0.5);
+      osc.start(time); osc.stop(time + 0.5);
+      break;
+    case 'snare':
+      const noise = ctx.createBufferSource();
+      const buf = ctx.createBuffer(1, ctx.sampleRate * 0.2, ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+      noise.buffer = buf;
+      const snareFilter = ctx.createBiquadFilter();
+      snareFilter.type = 'highpass';
+      snareFilter.frequency.value = 1000;
+      noise.connect(snareFilter);
+      const snareEnv = ctx.createGain();
+      snareEnv.gain.setValueAtTime(0.8, time);
+      snareEnv.gain.exponentialRampToValueAtTime(0.01, time + 0.2);
+      snareFilter.connect(snareEnv);
+      snareEnv.connect(ctx.destination);
+      noise.start(time); noise.stop(time + 0.2);
+      return;
+    case 'hihat':
+      const hh = ctx.createOscillator();
+      const hhEnv = ctx.createGain();
+      const hhFilter = ctx.createBiquadFilter();
+      hh.type = 'square';
+      hh.frequency.value = 8000;
+      hhFilter.type = 'highpass';
+      hhFilter.frequency.value = 7000;
+      hhEnv.gain.setValueAtTime(0.3, time);
+      hhEnv.gain.exponentialRampToValueAtTime(0.01, time + 0.05);
+      hh.connect(hhFilter);
+      hhFilter.connect(hhEnv);
+      hhEnv.connect(ctx.destination);
+      hh.start(time); hh.stop(time + 0.05);
+      return;
+    case 'openhat':
+      const oh = ctx.createOscillator();
+      const ohEnv = ctx.createGain();
+      const ohFilter = ctx.createBiquadFilter();
+      oh.type = 'square';
+      oh.frequency.value = 8000;
+      ohFilter.type = 'highpass';
+      ohFilter.frequency.value = 6000;
+      ohEnv.gain.setValueAtTime(0.4, time);
+      ohEnv.gain.exponentialRampToValueAtTime(0.01, time + 0.3);
+      oh.connect(ohFilter);
+      ohFilter.connect(ohEnv);
+      ohEnv.connect(ctx.destination);
+      oh.start(time); oh.stop(time + 0.3);
+      return;
+    case 'clap':
+      const clap = ctx.createBufferSource();
+      const clapBuf = ctx.createBuffer(1, ctx.sampleRate * 0.1, ctx.sampleRate);
+      const clapData = clapBuf.getChannelData(0);
+      for (let i = 0; i < clapData.length; i++) clapData[i] = Math.random() * 2 - 1;
+      clap.buffer = clapBuf;
+      const clapFilter = ctx.createBiquadFilter();
+      clapFilter.type = 'bandpass';
+      clapFilter.frequency.value = 1200;
+      clapFilter.Q.value = 0.5;
+      const clapEnv = ctx.createGain();
+      clapEnv.gain.setValueAtTime(1, time);
+      clapEnv.gain.exponentialRampToValueAtTime(0.01, time + 0.1);
+      clap.connect(clapFilter);
+      clapFilter.connect(clapEnv);
+      clapEnv.connect(ctx.destination);
+      clap.start(time); clap.stop(time + 0.1);
+      return;
+  }
+}
+
+function updateTempo() {
+  const bpm = parseInt(document.getElementById('tempoSlider').value);
+  document.getElementById('tempoVal').textContent = bpm + ' BPM';
+  if (seqPlaying) {
+    stopSeq();
+    startSeq();
+  }
+}
+
+function togglePlay() {
+  if (seqPlaying) { stopSeq(); } else { startSeq(); }
+}
+
+function startSeq() {
+  if (!seqInitialized) initSeq();
+  getAudioCtx().resume();
+  seqPlaying = true;
+  seqStep = 0;
+  document.getElementById('seqPlayBtn').textContent = '⏸ Pause';
+  document.getElementById('seqPlayBtn').classList.add('playing');
+  const bpm = parseInt(document.getElementById('tempoSlider').value);
+  const stepMs = (60000 / bpm) / 4;
+  seqInterval = setInterval(tickSeq, stepMs);
+}
+
+function stopSeq() {
+  seqPlaying = false;
+  clearInterval(seqInterval);
+  document.getElementById('seqPlayBtn').textContent = '▶ Play';
+  document.getElementById('seqPlayBtn').classList.remove('playing');
+  document.querySelectorAll('.seq-step.playing').forEach(el => el.classList.remove('playing'));
+  seqStep = 0;
+}
+
+function tickSeq() {
+  // Clear previous highlight
+  document.querySelectorAll('.seq-step.playing').forEach(el => el.classList.remove('playing'));
+
+  const ctx = getAudioCtx();
+  const now = ctx.currentTime;
+
+  ROWS.forEach((row, ri) => {
+    const el = document.getElementById('step-' + ri + '-' + seqStep);
+    if (el) el.classList.add('playing');
+    if (grid[ri][seqStep]) {
+      playSound(row.sounds[0], now);
+    }
+  });
+
+  seqStep = (seqStep + 1) % numSteps;
+}
+
+function clearAll() {
+  grid = ROWS.map(() => new Array(numSteps).fill(false));
+  activePreset = '';
+  renderGrid();
+  renderPresets();
+}
+</script>
+</body>
+</html>
