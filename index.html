@@ -29,9 +29,36 @@ h1 .accent { color: var(--red); }
 .header-sub::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--red); }
 .vinyl-wrap { position: absolute; top: 2rem; right: 3rem; opacity: 0.12; animation: spin 20s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-main { padding: 3rem; }
-.units-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
-.unit { background: var(--black); padding: 2rem 1.75rem 1.5rem; position: relative; }
+main { padding: 2rem 0 3rem; }
+
+/* CAROUSEL */
+.carousel-wrap { position: relative; width: 100%; overflow: hidden; padding: 0 3rem; }
+.carousel-track { display: flex; gap: 12px; transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); will-change: transform; }
+.carousel-slide { flex: 0 0 calc(100% - 140px); min-width: 0; position: relative; }
+.carousel-slide.is-locked { pointer-events: none; }
+.carousel-slide.is-prev { opacity: 0.35; cursor: pointer; pointer-events: all; }
+.carousel-slide.is-next { opacity: 0.2; pointer-events: none; }
+
+.carousel-btn {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #1e1e1e; border: 1px solid #333;
+  color: var(--white); font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s, opacity 0.15s;
+  z-index: 10; user-select: none;
+}
+.carousel-btn:hover { background: #2a2a2a; }
+.carousel-btn.disabled { opacity: 0.2; cursor: default; pointer-events: none; }
+.carousel-btn-prev { left: 0.75rem; }
+.carousel-btn-next { right: 0.75rem; }
+
+.carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 1.25rem; }
+.carousel-dot { width: 6px; height: 6px; border-radius: 50%; background: #333; transition: background 0.2s; cursor: pointer; }
+.carousel-dot.active { background: var(--red); }
+
+.unit { background: var(--black); padding: 2rem 1.75rem 1.5rem; position: relative;
+  border: 1px solid var(--border); border-radius: 4px; }
 .unit-number { font-family: 'Bebas Neue', sans-serif; font-size: 72px; line-height: 1; color: #1e1e1e; position: absolute; top: 1rem; right: 1.25rem; user-select: none; }
 .unit-tag { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; display: inline-block; margin-bottom: 1rem; }
 .unit-1 .unit-tag { background: #c8372d22; color: var(--red); border: 1px solid #c8372d44; }
@@ -56,7 +83,7 @@ main { padding: 3rem; }
 .unit-locked-msg { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--dim); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #1a1a1a; }
 footer { padding: 1.5rem 3rem 2.5rem; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #1a1a1a; margin-top: 2rem; }
 footer span { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #333; letter-spacing: 0.06em; }
-@media (max-width: 768px) { header { padding: 2rem 1.5rem 0; } main { padding: 2rem 1.5rem; } .units-grid { grid-template-columns: 1fr; } .vinyl-wrap { display: none; } footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; } }
+@media (max-width: 768px) { header { padding: 2rem 1.5rem 0; } main { padding: 2rem 1.5rem; } .carousel-slide { flex: 0 0 calc(100% - 80px); } .carousel-wrap { padding: 0 2rem; } .vinyl-wrap { display: none; } footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; } }
 </style>
 </head>
 <body>
@@ -81,7 +108,12 @@ footer span { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #
 </header>
 
 <main>
-  <div class="units-grid" id="unitsGrid"></div>
+  <div class="carousel-wrap">
+    <button class="carousel-btn carousel-btn-prev" id="btnPrev" onclick="carouselPrev()">‹</button>
+    <div class="carousel-track" id="carouselTrack"></div>
+    <button class="carousel-btn carousel-btn-next" id="btnNext" onclick="carouselNext()">›</button>
+  </div>
+  <div class="carousel-dots" id="carouselDots"></div>
 </main>
 
 <footer>
@@ -111,32 +143,31 @@ function loadToggles() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e) { return {}; }
 }
 
+let currentSlide = 0;
+const TOTAL_SLIDES = 3;
+
 function render() {
   const t = loadToggles();
 
   const unit1HTML = (() => {
-    // Filter to visible lessons
     const visible = LESSONS.filter(l => {
       const visKey = l.id + '_visible';
       return visKey in t ? t[visKey] : l.defaultVisible;
     });
-
-    // Active lessons newest first, then inactive newest first
     const active = visible.filter(l => t[l.id] !== false).reverse();
     const inactive = visible.filter(l => t[l.id] === false).reverse();
     const ordered = [...active, ...inactive];
 
     const lessonsHTML = ordered.map((l, i) => {
       const isActive = t[l.id] !== false;
-      const isPast = isActive && i > 0; // first active is current, rest are past
+      const isPast = isActive && i > 0;
       const pastStyle = isPast ? 'style="color:#8a8070;"' : '';
-      const pastNameStyle = isPast ? 'style="color:#8a8070;"' : '';
       const pastArrowStyle = isPast ? 'style="color:#4a4540;"' : '';
       return `<a href="${isActive && l.url ? l.url : '#'}"
         class="tool-link ${isActive ? '' : 'inactive'}"
         ${isActive && l.url ? 'target="_blank"' : ''}
         ${pastStyle}>
-        <span class="tool-name" ${pastNameStyle}>${l.name}</span>
+        <span class="tool-name" ${pastStyle}>${l.name}</span>
         <span class="tool-type">${l.type}</span>
         <span class="arrow" ${pastArrowStyle}>→</span>
       </a>`;
@@ -170,14 +201,75 @@ function render() {
       <p class="unit-locked-msg">Not yet unlocked</p>
     </div>`;
 
-  document.getElementById('unitsGrid').innerHTML =
-    unit1HTML +
-    lockedUnit('02', 'unit-2', 'Unit 2', "What Does It Say?") +
-    lockedUnit('03', 'unit-3', 'Unit 3', "Why Was It Made?");
+  const slides = [
+    { html: unit1HTML, locked: false },
+    { html: lockedUnit('02', 'unit-2', 'Unit 2', "What Does It Say?"), locked: true },
+    { html: lockedUnit('03', 'unit-3', 'Unit 3', "Why Was It Made?"), locked: true },
+  ];
+
+  // Render track
+  document.getElementById('carouselTrack').innerHTML = slides.map((s, i) => {
+    let cls = 'carousel-slide';
+    if (i < currentSlide) cls += ' is-prev';
+    else if (i > currentSlide) cls += ' is-next';
+    if (s.locked) cls += ' is-locked';
+    const click = i < currentSlide ? `onclick="goToSlide(${i})"` : '';
+    return `<div class="${cls}" ${click}>${s.html}</div>`;
+  }).join('');
+
+  // Render dots
+  document.getElementById('carouselDots').innerHTML = slides.map((_, i) =>
+    `<div class="carousel-dot ${i === currentSlide ? 'active' : ''}" onclick="goToSlide(${i})"></div>`
+  ).join('');
+
+  // Position track
+  positionTrack();
+  updateButtons();
 }
+
+function positionTrack() {
+  const track = document.getElementById('carouselTrack');
+  const wrap = document.querySelector('.carousel-wrap');
+  if (!track || !wrap) return;
+  const slideWidth = track.children[0] ? track.children[0].offsetWidth + 12 : 0;
+  track.style.transform = `translateX(${-currentSlide * slideWidth}px)`;
+}
+
+function updateButtons() {
+  const prev = document.getElementById('btnPrev');
+  const next = document.getElementById('btnNext');
+  if (!prev || !next) return;
+  // Prev disabled on first slide
+  prev.classList.toggle('disabled', currentSlide === 0);
+  // Next always disabled — students can't advance past current unit
+  next.classList.add('disabled');
+}
+
+function carouselPrev() {
+  if (currentSlide > 0) { currentSlide--; render(); }
+}
+
+function goToSlide(i) {
+  if (i <= currentSlide) { currentSlide = i; render(); }
+}
+
+// Handle resize
+window.addEventListener('resize', positionTrack);
+
+// Touch/swipe support
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 40) {
+    if (dx > 0 && currentSlide > 0) { currentSlide--; render(); }
+    // Swipe left (advance) disabled
+  }
+}, { passive: true });
 
 render();
 window.addEventListener('storage', render);
+
 </script>
 </body>
 </html>
