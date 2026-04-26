@@ -269,7 +269,7 @@ function loadToggles() {
 function save(id, type, value) {
   const t = loadToggles();
   const key = type === 'active' ? id : id + '_visible';
-  if (value) delete t[key]; else t[key] = false;
+  t[key] = value;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(t));
   updateLabel(id, type, value);
   showToast();

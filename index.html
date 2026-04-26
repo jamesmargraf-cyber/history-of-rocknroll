@@ -152,14 +152,14 @@ function render() {
   const unit1HTML = (() => {
     const visible = LESSONS.filter(l => {
       const visKey = l.id + '_visible';
-      return visKey in t ? t[visKey] : l.defaultVisible;
+      return visKey in t ? !!t[visKey] : l.defaultVisible;
     });
-    const active = visible.filter(l => t[l.id] !== false).reverse();
-    const inactive = visible.filter(l => t[l.id] === false).reverse();
+    const active = visible.filter(l => l.id in t ? !!t[l.id] : true).reverse();
+    const inactive = visible.filter(l => l.id in t ? !t[l.id] : false).reverse();
     const ordered = [...active, ...inactive];
 
     const lessonsHTML = ordered.map((l, i) => {
-      const isActive = t[l.id] !== false;
+      const isActive = l.id in t ? !!t[l.id] : true;
       const isPast = isActive && i > 0;
       const pastStyle = isPast ? 'style="color:#8a8070;"' : '';
       const pastArrowStyle = isPast ? 'style="color:#4a4540;"' : '';
