@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chord Progressions & Harmony — History of Rock 'n' Roll</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 15px; color: #1a1a1a; line-height: 1.6; background: #f5f4f0; }
+
+.page-header { background: #1a1a1a; color: #fff; padding: 1.5rem 2rem; }
+.page-header h1 { font-size: 20px; font-weight: 500; letter-spacing: 0.02em; }
+.page-header p { font-size: 13px; color: #999; margin-top: 3px; }
+
+.lesson { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+.lesson-intro { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 0; }
+.lesson-intro h2 { font-size: 17px; font-weight: 600; margin-bottom: 0.75rem; color: #1a1a1a; }
+.lesson-intro p { font-size: 14px; color: #555; line-height: 1.75; margin-bottom: 0.75rem; }
+.lesson-intro p:last-child { margin-bottom: 0; }
+
+.tabs { display: flex; gap: 2px; margin-bottom: 1.5rem; border-bottom: 1px solid #ddd; flex-wrap: wrap; }
+.tab { padding: 8px 18px; font-size: 14px; font-weight: 500; border: none; background: none; cursor: pointer; color: #666; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s; }
+.tab.active { color: #1a1a1a; border-bottom-color: #1a1a1a; }
+.tab:hover:not(.active) { color: #1a1a1a; }
+
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* CONCEPTS PANEL */
+.concepts-list { display: flex; flex-direction: column; gap: 16px; }
+.concept-card { border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; background: #fff; }
+.concept-header { padding: 1rem 1.25rem 0.85rem; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 12px; }
+.concept-number { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+.concept-header h3 { font-size: 16px; font-weight: 600; }
+.concept-body { padding: 1rem 1.25rem; }
+.concept-body p { font-size: 14px; color: #444; line-height: 1.7; margin-bottom: 0.75rem; }
+.concept-body p:last-of-type { margin-bottom: 0; }
+.listen-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #999; margin: 1rem 0 0.5rem !important; }
+
+.distinction-box { background: #f9f9f9; border: 1px solid #eee; border-left: 3px solid #1a1a1a; border-radius: 0 8px 8px 0; padding: 0.85rem 1rem; margin: 0.75rem 0; }
+.distinction-box p { font-size: 13px; color: #444; line-height: 1.6; margin: 0 !important; }
+.distinction-box strong { color: #1a1a1a; }
+
+.video-row { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.video-row:last-child { margin-bottom: 0; }
+.video-player-wrap { width: 100%; border-radius: 8px; overflow: hidden; background: #000; }
+.video-player-wrap > div { width: 100% !important; height: 220px !important; }
+.video-player-wrap iframe, .video-player-wrap2 iframe, .clip-player iframe { width: 100% !important; height: 100% !important; display: block; border: none; }
+.video-meta h4 { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+.video-meta .artist { font-size: 12px; color: #888; margin-bottom: 5px; }
+.video-meta .tip { font-size: 13px; color: #555; line-height: 1.5; }
+.timestamp-badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #f0f0f0; color: #666; border: 1px solid #e0e0e0; margin-bottom: 5px; }
+.replay-btn { font-size: 11px; padding: 3px 8px; border: 1px solid #ddd; border-radius: 4px; background: #f5f5f5; cursor: pointer; color: #555; margin-top: 5px; display: inline-block; }
+.replay-btn:hover { background: #eee; }
+.bonus-tag { display: inline-block; font-size: 10px; font-weight: 600; background: #EDE9FE; color: #4C1D95; border: 1px solid #C4B5FD; padding: 2px 8px; border-radius: 20px; letter-spacing: 0.05em; text-transform: uppercase; }
+
+/* PROGRESSIONS PANEL */
+.prog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; margin-bottom: 1.25rem; }
+.prog-btn { border: 1.5px solid transparent; border-radius: 12px; padding: 10px 12px; cursor: pointer; background: #fff; text-align: left; transition: border-color 0.15s, box-shadow 0.15s; }
+.prog-btn:hover { box-shadow: 0 1px 6px rgba(0,0,0,0.1); }
+.prog-btn.active { border-width: 2px; }
+.prog-label { font-size: 12px; font-weight: 700; font-family: 'Courier New', monospace; letter-spacing: 0.04em; margin-bottom: 5px; }
+.prog-name { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+.prog-tagline { font-size: 11px; color: #666; line-height: 1.4; }
+
+.prog-detail { border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; background: #fff; }
+.prog-detail-header { padding: 1rem 1.25rem 0.9rem; border-bottom: 1px solid #eee; }
+.prog-detail-header h2 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+.prog-detail-header .prog-formula { font-family: 'Courier New', monospace; font-size: 15px; font-weight: 700; margin-bottom: 5px; }
+.prog-detail-header .purpose { font-size: 14px; color: #444; }
+.prog-detail-meta { display: flex; gap: 1.5rem; padding: 0.9rem 1.25rem; border-bottom: 1px solid #eee; flex-wrap: wrap; background: #fafafa; }
+.meta-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #999; margin-bottom: 3px; }
+.meta-value { font-size: 13px; color: #555; }
+.prog-examples-section { padding: 1.25rem; }
+.prog-examples-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #999; margin-bottom: 14px; }
+.video-list { display: flex; flex-direction: column; gap: 18px; }
+.video-item { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.video-player-wrap2 { width: 100%; border-radius: 8px; overflow: hidden; background: #000; }
+.video-player-wrap2 > div { width: 100% !important; height: 220px !important; }
+.video-info h4 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+.video-artist { font-size: 12px; color: #888; margin-bottom: 6px; }
+.listen-tip { font-size: 13px; color: #555; line-height: 1.55; }
+.placeholder { padding: 2.5rem 1.25rem; color: #aaa; font-size: 14px; font-style: italic; text-align: center; }
+
+/* CHORD CHIPS */
+.chord-row { display: flex; gap: 6px; flex-wrap: wrap; margin: 0.75rem 0; align-items: center; }
+.chord-chip { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; font-family: 'Courier New', monospace; }
+.chord-arrow { font-size: 11px; color: #bbb; }
+
+.songs-list { display: flex; flex-direction: column; gap: 10px; }
+.song-row { border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; background: #fff; }
+.song-row-top { display: grid; grid-template-columns: 200px 1fr 1fr; gap: 14px; padding: 1rem 1.25rem; align-items: start; }
+.song-player-wrap { border-top: 1px solid #eee; background: #000; border-radius: 0 0 12px 12px; overflow: hidden; min-height: 220px; }
+.song-player-wrap iframe { width: 100% !important; height: 220px !important; display: block; border: none; }
+.song-info h4 { font-size: 14px; font-weight: 600; }
+.song-artist { font-size: 12px; color: #888; }
+.song-year { font-size: 11px; color: #aaa; }
+.song-prog-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #aaa; margin-bottom: 5px; }
+.song-chords { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.small-chip { padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: 700; font-family: 'Courier New', monospace; }
+.song-notes { font-size: 12px; color: #666; line-height: 1.55; }
+
+/* EAR TRAINING ACTIVITY */
+.activity-intro { font-size: 14px; color: #555; margin-bottom: 1.25rem; line-height: 1.6; }
+.ear-training-card { border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; background: #fff; margin-bottom: 1rem; }
+.ear-training-header { padding: 1rem 1.25rem; background: #1a1a1a; color: #fff; }
+.ear-training-header h3 { font-size: 15px; font-weight: 500; margin-bottom: 3px; }
+.ear-training-header p { font-size: 12px; color: #999; }
+.ear-training-body { padding: 1.25rem; }
+.clip-player { border: 1px solid #eee; border-radius: 8px; overflow: hidden; background: #000; margin-bottom: 1rem; }
+.clip-player iframe { width: 100%; height: 200px; display: block; border: none; }
+.question-text { font-size: 15px; font-weight: 600; margin-bottom: 1rem; }
+.choices { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1rem; }
+.choice-btn { padding: 10px 16px; border: 1.5px solid #e0e0e0; border-radius: 8px; background: #fff; cursor: pointer; font-size: 14px; text-align: left; transition: border-color 0.15s, background 0.15s; }
+.choice-btn:hover { border-color: #999; }
+.choice-btn.correct { border-color: #1D9E75; background: #f0fdf8; color: #1D9E75; font-weight: 600; }
+.choice-btn.incorrect { border-color: #D85A30; background: #fff5f0; color: #D85A30; font-weight: 600; }
+.choice-btn.revealed { border-color: #1D9E75; background: #f0fdf8; color: #1D9E75; }
+.feedback-box { border: 1px solid #e0e0e0; border-radius: 8px; padding: 0.85rem 1rem; background: #fafafa; font-size: 13px; color: #444; line-height: 1.6; display: none; margin-bottom: 1rem; }
+.feedback-box.visible { display: block; }
+.activity-nav { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.nav-btn { font-size: 13px; padding: 8px 18px; cursor: pointer; border: 1px solid #ccc; border-radius: 8px; background: #fff; }
+.nav-btn:hover { background: #f0f0f0; }
+.nav-btn.primary { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+.nav-btn.primary:hover { background: #333; }
+.progress-text { font-size: 12px; color: #aaa; margin-left: auto; }
+
+@media (max-width: 600px) {
+  .song-row-top { grid-template-columns: 1fr; }
+  .video-row { grid-template-columns: 1fr; }
+
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Chord Progressions &amp; Harmony</h1>
+  <p>History of Rock 'n' Roll — Unit 1: What Does It Sound Like?</p>
+</div>
+
+<div class="lesson-intro">
+  <h2>What is harmony, and why does it matter?</h2>
+  <p>A melody is a single line of notes moving through time. Harmony is what happens beneath it — the chords that give that melody color, tension, and emotional direction. Most of what you feel when a song seems "happy" or "sad," "resolved" or "unresolved," comes not from the melody alone but from the harmony underneath it.</p>
+  <p>A chord progression is a sequence of chords that repeats throughout a song or a section of it. Progressions are among the most powerful tools a songwriter has. Certain progressions create such a recognizable emotional effect that they appear across hundreds — sometimes thousands — of songs, spanning decades and genres. Once you can hear them, you'll start noticing them everywhere.</p>
+</div>
+
+<div class="lesson">
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('concepts')">Concepts</button>
+  <button class="tab" onclick="showTab('progressions')">Common progressions</button>
+  <button class="tab" onclick="showTab('activity')">Ear training</button>
+</div>
+
+<!-- CONCEPTS PANEL -->
+<div id="panel-concepts" class="panel active">
+  <div class="concepts-list" id="conceptsList"></div>
+</div>
+
+<!-- PROGRESSIONS PANEL -->
+<div id="panel-progressions" class="panel">
+  <div class="prog-grid" id="progGrid"></div>
+  <div class="prog-detail" id="progDetail">
+    <div class="placeholder">Click a progression above to explore how it works and hear it in action.</div>
+  </div>
+</div>
+
+<!-- EAR TRAINING PANEL -->
+<div id="panel-activity" class="panel">
+  <p class="activity-intro">Listen to each clip and identify the chord progression you hear. Focus on the <em>emotional quality</em> — does it feel resolved and stable? Hopeful? Dark and circular? Anthemic? Use what you learned in the Concepts tab to guide your ear.</p>
+  <div class="ear-training-card">
+    <div class="ear-training-header">
+      <h3>Progression Ear Training</h3>
+      <p>Identify the progression in each song clip — 6 questions total.</p>
+    </div>
+    <div class="ear-training-body">
+      <div class="clip-player" id="clipPlayer"></div>
+      <div class="question-text" id="questionText"></div>
+      <div class="choices" id="choicesContainer"></div>
+      <div class="feedback-box" id="feedbackBox"></div>
+      <div class="activity-nav">
+        <button class="nav-btn" onclick="prevQuestion()">← Previous</button>
+        <button class="nav-btn primary" id="nextBtn" onclick="nextQuestion()">Next →</button>
+        <span class="progress-text" id="progressText"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// ── YOUTUBE IFRAME API ────────────────────────────────────────────────────────
+const ytPlayers = {};
+const ytStopAt  = {};
+const ytIntervals = {};
+
+window.onYouTubeIframeAPIReady = function() {
+  window.ytApiReady = true;
+  if (window.ytPendingPlayers) {
+    window.ytPendingPlayers.forEach(fn => fn());
+    window.ytPendingPlayers = [];
+  }
+};
+
+function ensureYTApi(cb) {
+  if (window.YT && window.YT.Player) { cb(); return; }
+  if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
+    const s = document.createElement('script');
+    s.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(s);
+  }
+  window.ytPendingPlayers = window.ytPendingPlayers || [];
+  window.ytPendingPlayers.push(cb);
+}
+
+function createPlayer(divId, videoId, startSec, endSec) {
+  if (ytPlayers[divId]) return;
+  ensureYTApi(() => {
+    ytPlayers[divId] = new YT.Player(divId, {
+      videoId,
+      playerVars: { start: startSec || 0, controls: 1, rel: 0, modestbranding: 1, origin: location.origin },
+      events: {
+        onReady: e => { if (startSec) e.target.seekTo(startSec); },
+        onStateChange: e => {
+          if (e.data === YT.PlayerState.PLAYING && endSec) {
+            ytStopAt[divId] = endSec;
+            if (!ytIntervals[divId]) {
+              ytIntervals[divId] = setInterval(() => {
+                const p = ytPlayers[divId];
+                if (p && p.getCurrentTime && p.getCurrentTime() >= ytStopAt[divId]) {
+                  p.pauseVideo(); p.seekTo(startSec || 0);
+                  clearInterval(ytIntervals[divId]); delete ytIntervals[divId];
+                }
+              }, 500);
+            }
+          }
+        }
+      }
+    });
+  });
+}
+
+// ── DATA ──────────────────────────────────────────────────────────────────────
+
+const CONCEPTS = [
+  {
+    id: 'chords',
+    label: 'Concept 1',
+    bg: '#DBEAFE', text: '#1E3A8A',
+    title: 'What is a chord?',
+    body: [
+      "A chord is two or more notes played simultaneously, though the most commonly used chords are triads — three-note chords built by stacking intervals. On its own, a chord has a quality — it sounds bright and stable (major), dark or tense (minor), jazzy (seventh), unresolved (suspended). But chords rarely appear alone. In almost all rock music, they appear in sequences called progressions, and the movement between chords is what creates emotional momentum.",
+      "In rock, chords are typically built from a scale — a set of notes organized around a home base pitch. The chords built on different steps of that scale are referred to by Roman numerals: I (one) is the home chord, IV (four) is the chord built four steps up, V (five) is built five steps up, and so on. This numbering system lets musicians talk about a progression's structure regardless of what scale or starting pitch a song uses."
+    ],
+    distinction: "<strong>Major vs. minor:</strong> Major chords tend to sound bright, stable, or resolved. Minor chords tend to sound darker, sadder, or more tense. The same progression built from a major scale versus a minor scale can feel completely different — same structure, opposite emotional color.",
+    videos: [
+      { id: 'gSWInYFVksg', start: 0, end: 35, title: "Wild Thing", artist: "The Troggs (1966)", tip: "Three chords — I, IV, and V — and the changes are about as clear as they get. Listen for the moment each new chord arrives. You can almost feel the shift in the ground beneath the melody. This is what a chord change sounds like at its most basic." },
+      { id: 'y8AWFf7EAc4', start: 0, end: 120, title: "Hallelujah", artist: "Jeff Buckley (1994)", tip: "Now listen to what happens when chords do more complex emotional work. The melody stays in a fairly narrow range throughout, but the chords shifting underneath it pull it from hopeful to aching to triumphant and back. That emotional journey isn't coming from the notes of the melody — it's coming from the harmony beneath it." }
+    ]
+  },
+  {
+    id: 'tension',
+    label: 'Concept 2',
+    bg: '#FEF3C7', text: '#78350F',
+    title: 'Tension and resolution',
+    body: [
+      "The emotional power of harmony comes from tension and resolution — the feeling of moving away from stability and then returning to it. The I chord is stable. The V chord (dominant) is the most tense and unstable, creating a strong pull back to the I. When a V chord resolves to a I chord, the harmonic tension releases. That release is one of the most satisfying moments in all of Western music, and rock uses it constantly.",
+      "Not all progressions resolve cleanly. Some are designed to stay in a state of gentle tension — looping without ever fully landing. These circular progressions feel hypnotic or unresolved, like something is always just out of reach. Whether a song resolves its harmony or refuses to is one of the most meaningful choices a songwriter makes."
+    ],
+    distinction: "<strong>The V–I move:</strong> The pull of V back to I is so strong that it forms the foundation of the 12-bar blues, the verse-chorus structure of countless pop-rock songs, and virtually all of Western tonal music. Learning to hear when a song is on the V chord — and anticipating the return to I — is one of the most important ear-training skills in music.",
+    videos: [
+      { id: '2RicaUqd9Hg', start: 0, end: 40, title: "Twist and Shout", artist: "The Beatles (1963)", tip: "A clear example of harmonic resolution. Listen for the V chord — it arrives with a feeling of urgency and incompleteness, then snaps back to the I chord with a satisfaction that's almost physical. The call-and-response vocal structure makes the tension-and-release cycle easy to follow." },
+      { id: '1uYWYWPc9HU', start: 0, end: 45, title: "Karma Police", artist: "Radiohead (1997)", tip: "Now listen to what unresolved harmony feels like. The progression loops without ever fully landing — each cycle ends in a place that feels slightly wrong, slightly unsettled. That harmonic restlessness is the whole emotional point of the song. Compare it to Twist and Shout: same concept of tension, but Radiohead never gives you the release." }
+    ]
+  },
+  {
+    id: 'keys',
+    label: 'Concept 3',
+    bg: '#D1FAE5', text: '#065F46',
+    title: 'Keys, major and minor',
+    body: [
+      "A scale gives a song its tonal home. Every note and chord in a song is heard in relation to the scale — some feel stable (tonic), some feel active (dominant), some feel somewhere in between. Rock songs are built from either major scales (which tend to feel bright, stable, or triumphant) or minor scales (which tend to feel darker, more urgent, or mournful).",
+      "Many rock songs mix major and minor in creative ways — a song might be built from a major scale overall but use a minor IV or borrowed chords from the parallel minor to add darkness or complexity. Learning to hear whether a song sounds major or minor is a foundational skill, and noticing when a songwriter reaches outside the scale is an advanced one."
+    ],
+    videos: [
+      { id: 'apBWI6xrbLY', start: 0, end: 45, title: "Good Vibrations", artist: "The Beach Boys (1966)", tip: "As bright and major as it gets — the opening is almost dizzyingly sunny. Notice how every chord feels stable and resolved, pulling you upward. This is what a major scale sounds like at its most expressive: warmth, openness, forward motion." },
+      { id: 'iPUmE-tne5U', start: 0, end: 40, title: "Walking on Sunshine", artist: "Katrina and the Waves (1985)", tip: "Another unmistakably major-scale song — the harmony is so bright it almost has no shadow at all. Now compare both of these to Paint It Black below. Same idea — chords built from a scale — completely opposite emotional world." },
+      { id: 'O4irXQhgMqg', start: 0, end: 45, title: "Paint It Black", artist: "The Rolling Stones (1966)", tip: "A clear example of a minor-scale song — built in E minor, which gives it its dark, urgent, almost menacing quality. Compare this to Good Vibrations and Walking on Sunshine above: same concept of chords built from a scale, completely opposite emotional color. The sitar and the minor harmony together make the darkness feel inescapable." }
+    ]
+  },
+];
+
+const PROGRESSIONS = [
+  {
+    id: 'I-IV-V',
+    label: 'I – IV – V',
+    name: '12-bar blues / Classic rock',
+    bg: '#FEE2E2', text: '#7F1D1D',
+    tagline: 'The foundation of rock',
+    purpose: 'The oldest and most fundamental progression in rock. Built from just three chords — the tonic (I), subdominant (IV), and dominant (V) — arranged in a 12-bar cycle. Almost every song from the early rock era uses some version of this.',
+    era: 'Blues origins → 1950s–present',
+    feel: 'Driving, familiar, satisfying, endlessly flexible',
+    whatToListen: 'Count the bars — every 12 bars, the cycle resets. The V chord creates the strongest pull back home to I. Notice how the IV and V chords feel different even though they\'re the same three chords every time.',
+    chords: ['I', 'IV', 'V'],
+    videos: [
+      { id: 'Y-9Y4CCIWnM', start: 0, end: 55, title: "Johnny B. Goode", artist: "Chuck Berry (1958)", tip: "A textbook 12-bar blues in B♭. The guitar solo rides the same I–IV–V cycle as the verses. Three chords, endlessly repeating, completely satisfying." },
+      { id: 'Vppbdf-qtGU', start: 0, end: 50, title: "La Grange", artist: "ZZ Top (1973)", tip: "Strips the blues to its absolute minimum — essentially one riff on the I chord for verses, then the IV and V arrive hard. Power through economy." }
+    ]
+  },
+  {
+    id: 'I-V-vi-IV',
+    label: 'I – V – vi – IV',
+    name: 'The "Axis of Awesome" progression',
+    bg: '#DBEAFE', text: '#1E3A8A',
+    tagline: 'Dozens of hits, four chords',
+    purpose: 'Possibly the most common chord progression in popular music since the 1980s. The minor vi chord (six minor) gives it a bittersweet quality between the major chords around it — never too dark, never too bright. Anthemic and eternal-feeling.',
+    era: '1980s–present (ubiquitous in pop and rock)',
+    feel: 'Anthemic, triumphant, bittersweet, universal',
+    whatToListen: 'Pay attention to the vi chord — it\'s the only minor chord in the progression. It creates just enough shade to keep things interesting. Notice how the IV at the end leads right back to the I — the loop is seamless.',
+    chords: ['I', 'V', 'vi', 'IV'],
+    videos: [
+      { id: 'hLQl3WQQoQ0', start: 0, end: 50, title: "Someone Like You", artist: "Adele (2011)", tip: "One of the clearest modern examples of the I–V–vi–IV loop. The piano plays it bare at the opening before anything else enters. Notice how the vi chord in the third position gives it that bittersweet, aching quality — the progression does as much emotional work as the vocal." },
+      { id: 't4QK8RxCAwo', start: 0, end: 50, title: "More Than a Feeling", artist: "Boston (1976)", tip: "An earlier example that shows how anthemic this progression can sound with full rock instrumentation. The guitar riff rides the same four-chord cycle. Compare the emotional feel here to Adele — same chords, completely different world." },
+      { id: 'nIjVuRTm-dc', start: 0, end: 50, title: "She Will Be Loved", artist: "Maroon 5 (2004)", tip: "A pop-rock take on the same progression. Listen to how the vi chord lands each time — it pulls the song slightly into shadow before the IV brings it back around. The loop feels effortless because it resolves so cleanly every time." }
+    ]
+  },
+  {
+    id: 'I-vi-IV-V',
+    label: 'I – vi – IV – V',
+    name: 'The "50s progression" / Doo-wop',
+    bg: '#D1FAE5', text: '#065F46',
+    tagline: 'The sound of early rock',
+    purpose: 'The defining harmonic sound of 1950s rock, doo-wop, and early pop. The I–vi move has a nostalgic, yearning quality. The IV–V at the end creates a push back to I. This progression appeared in dozens of hits between 1955 and 1965.',
+    era: 'Mid-1950s–1960s (foundational to early rock)',
+    feel: 'Nostalgic, romantic, yearning, hopeful',
+    whatToListen: 'The vi chord is the pivot — going from bright I to the relative minor vi is what gives this progression its signature longing quality. Then IV–V pulls you back. It\'s one of the most satisfying loops in pop music.',
+    chords: ['I', 'vi', 'IV', 'V'],
+    videos: [
+      { id: 'VJcGi4-n_Yw', start: 0, end: 45, title: "Earth Angel", artist: "The Penguins (1954)", tip: "One of the defining doo-wop recordings — the I–vi–IV–V loop is right on the surface, played straight and unhurried. Listen to how the vocal harmonies lock into the chord changes. This is the progression in its purest form." },
+      { id: 'hwZNL7QVJjE', start: 0, end: 45, title: "Stand By Me", artist: "Ben E. King (1961)", tip: "The bass line literally walks through the I–vi–IV–V changes, making the progression easier to hear than almost any other recording. Notice how the same four chords that feel romantic in Earth Angel feel steadfast and protective here — same harmony, different emotional context." },
+      { id: 'uJ_1HMAGb4k', start: 0, end: 45, title: "Riptide", artist: "Vance Joy (2013)", tip: "A contemporary example that shows the I–vi–IV–V progression is very much alive. The ukulele keeps the texture light, but the chord cycle is the same one The Penguins were using sixty years earlier. Compare the three recordings — same four chords across three decades, three completely different sounds." }
+    ]
+  },
+  {
+    id: 'i-VII-VI-VII',
+    label: 'i – ♭VII – ♭VI – ♭VII',
+    name: 'Aeolian / Minor modal',
+    bg: '#FEE2E2', text: '#7F1D1D',
+    tagline: 'Dark, powerful, anthemic in minor',
+    purpose: 'A minor-key progression that avoids the traditional V chord entirely, instead using the ♭VII and ♭VI chords borrowed from the Aeolian mode. This gives it a raw, ancient sound that feels simultaneously heavy and majestic — common in classic rock, metal, and grunge.',
+    era: '1960s hard rock → metal → grunge → alternative',
+    feel: 'Dark, heavy, powerful, modal, epic',
+    whatToListen: 'Notice the absence of the dominant V chord — this progression never creates the classic tension-resolution pull. Instead it moves in a flat, modal way that feels more like a chant or a riff than a traditional harmony. That\'s the aeolian quality.',
+    chords: ['i', '♭VII', '♭VI', '♭VII'],
+    videos: [
+      { id: 'TLV4_xaYynY', start: 0, end: 50, title: "All Along the Watchtower", artist: "Jimi Hendrix (1968)", tip: "The definitive Aeolian shuttle in rock. The three-chord loop — i, ♭VII, ♭VI — cycles endlessly without ever resolving. That refusal to land is exactly the point: the song feels urgent and inevitable at the same time, like something is always about to happen." },
+      { id: 'YkADj0TPrJA', start: 0, end: 50, title: "In the Air Tonight", artist: "Phil Collins (1981)", tip: "The chorus runs a clean i–♭VII–♭VI–♭VII loop in D minor. The sparse, cold production makes the harmonic movement easy to hear. Compare to Watchtower: same Aeolian shuttle, completely different mood and texture." },
+      { id: 'eauZzwt8Ci8', start: 0, end: 50, title: "Psycho Killer", artist: "Talking Heads (1977)", tip: "The chorus uses the Aeolian cadence — ♭VI–♭VII–i — on the iconic 'qu'est-ce que c'est' lines. It's a slightly different arrangement of the same chords, but the effect is identical: dark, circular, unresolved. Three very different bands, three very different sounds, one harmonic idea." }
+    ]
+  },
+  {
+    id: 'i-VII-VI-V',
+    label: 'i – ♭VII – ♭VI – V',
+    name: 'Andalusian Cadence',
+    bg: '#FEF3C7', text: '#78350F',
+    tagline: 'Flamenco roots, rock energy',
+    purpose: 'One of the oldest harmonic patterns in Western music, the Andalusian cadence descends stepwise through four chords from the tonic minor down to the dominant. It has deep roots in Spanish flamenco and Moorish music, and was absorbed into rock and R&B through the blues. The V chord at the end creates a strong pull back to the i — making the whole thing feel like an inevitable, circular descent.',
+    era: 'Ancient origins → 1950s–60s rock & R&B → present',
+    feel: 'Descending, inevitable, dramatic, circular',
+    whatToListen: 'Follow the bass line — it steps down four notes, one per chord. That descending motion is the defining feature of the Andalusian cadence. The V chord at the bottom creates tension that pulls you back to the top and starts the descent again.',
+    chords: ['i', '♭VII', '♭VI', 'V'],
+    videos: [
+      { id: 'uSiHqxgE2d0', start: 0, end: 50, title: "Hit the Road Jack", artist: "Ray Charles (1961)", tip: "A textbook Andalusian cadence. The descending bass line is right on the surface — you can hear it in the piano and in the vocal call-and-response. Notice how the V chord at the bottom of each cycle creates an irresistible pull back to the top." },
+      { id: 'vEtbfzMLVWU', start: 0, end: 50, title: "Stray Cat Strut", artist: "Stray Cats (1981)", tip: "The guitar riff is built entirely on the descending Andalusian cadence. The rockabilly feel and minor key give it a cool, swaggering menace. Compare the mood here to Hit the Road Jack — same four chords, completely different attitude." },
+      { id: 'wSWMJxbxj7c', start: 0, end: 50, title: "Runaway", artist: "Del Shannon (1961)", tip: "Another early rock example, best heard in the famous keyboard solo. The descending progression drives the whole song forward. All three of these recordings came within a year of each other — the Andalusian cadence was everywhere in early 1960s rock and R&B." }
+    ]
+  },
+  {
+    id: 'I-bVII-IV',
+    label: 'I – ♭VII – IV',
+    name: 'Rock anthemic / Mixolydian',
+    bg: '#E0E7FF', text: '#312E81',
+    tagline: 'Raw rock power with a modal twist',
+    purpose: 'One of the most recognizable sounds in hard rock and classic rock — the ♭VII chord (one step below the root) gives this progression a raw, slightly "outside" sound that feels powerful and ancient at the same time. It comes from the Mixolydian mode, which dominated British blues-rock and still appears constantly.',
+    era: '1960s British rock → 1970s classic rock → grunge',
+    feel: 'Raw, earthy, modal, powerful, triumphant',
+    whatToListen: 'The ♭VII is the key. In the key of A, it\'s a G major chord. Notice how it doesn\'t create the same tension as the V chord — it\'s darker and heavier. When it moves to the IV and then back to I, the whole thing feels like a rotating machine.',
+    chords: ['I', '♭VII', 'IV'],
+    videos: [
+      { id: '3RmQTYLD398', start: 0, end: 45, title: "Fortunate Son", artist: "Creedence Clearwater Revival (1969)", tip: "The guitar riff rides the I–♭VII–IV loop with a raw, driving energy. The Mixolydian ♭VII chord is what gives it that gritty, rebellious feel — bright enough to be anthemic, flat enough to have an edge." },
+      { id: 'HOYLkf3lZQo', start: 0, end: 45, title: "Sympathy for the Devil", artist: "The Rolling Stones (1968)", tip: "A very different mood from Fortunate Son — slower, more hypnotic — but built on the same Mixolydian harmony. Compare the two: same I–♭VII–IV loop, but one feels like a protest shout and the other feels like a slow, dangerous groove." }
+    ]
+  }
+];
+
+const EAR_TRAINING = [
+  {
+    videoId: 'Y-9Y4CCIWnM',
+    start: 10,
+    question: "This song uses the foundational harmonic structure of early rock. Which progression do you hear?",
+    choices: ['I – IV – V (12-bar blues)', 'I – V – vi – IV (pop anthem)', 'I – ♭VII – IV (Mixolydian)', 'i – ♭VII – ♭VI – ♭VII (minor modal)'],
+    correct: 0,
+    feedback: "Correct — this is Chuck Berry's \"Johnny B. Goode,\" built entirely on the I–IV–V blues progression. The three-chord cycle is the engine of early rock and roll."
+  },
+  {
+    videoId: '1k8craCGpgs',
+    start: 210,
+    question: "Listen to the piano figure that drives this song from the very beginning. Which four chords are you hearing?",
+    choices: ['I – vi – IV – V (50s progression)', 'I – V – vi – IV (Axis progression)', 'I – IV – V (12-bar blues)', 'i – ♭VII – ♭VI – ♭VII (minor modal)'],
+    correct: 1,
+    feedback: "This is Journey's \"Don't Stop Believin'\" — I – V – vi – IV, the \"Axis of Awesome\" progression. The piano plays it relentlessly throughout. Notice the minor vi chord giving it that bittersweet quality."
+  },
+  {
+    videoId: '3RmQTYLD398',
+    start: 0,
+    question: "The guitar riff in this song uses a borrowed chord that doesn't belong to the standard major scale. Which progression is it?",
+    choices: ['I – V – vi – IV (Axis progression)', 'I – IV – V (12-bar blues)', 'I – ♭VII – IV (Mixolydian/rock anthemic)', 'I – vi – IV – V (50s progression)'],
+    correct: 2,
+    feedback: "\"Fortunate Son\" by CCR — I – ♭VII – IV, the Mixolydian progression. The ♭VII chord is what gives the riff its gritty, rebellious edge — neither fully resolved nor fully dark."
+  },
+  {
+    videoId: 'ImKY6TZEyrI',
+    start: 5,
+    question: "This dreamy, slow song uses a classic progression from the 1950s that creates a feeling of yearning. What is it?",
+    choices: ['I – ♭VII – IV (Mixolydian)', 'i – ♭VII – ♭VI – ♭VII (minor modal)', 'I – vi – IV – V (50s progression)', 'I – IV – V (12-bar blues)'],
+    correct: 2,
+    feedback: "\"Fade Into You\" by Mazzy Star — I – vi – IV – V, the same harmonic language as hundreds of 1950s rock songs, played at a languid pace. The vi chord creates the longing that defines the song."
+  },
+  {
+    videoId: 'u6pnlq0JMko',
+    start: 0,
+    question: "This song descends through a chain of borrowed chords that feel 'outside' the key. The result is dark and mysterious. Which description fits?",
+    choices: ['I – IV – V (12-bar blues)', 'I – V – vi – IV (pop anthem)', 'Descending borrowed-chord progression (♭VI – ♭III – ♭VII – IV – I)', 'I – ♭VII – IV (Mixolydian)'],
+    correct: 2,
+    feedback: "\"Hey Joe\" by Jimi Hendrix — the chords C – G – D – A – E descend through borrowed chords from the parallel major. None of them belong to the key of E major, which creates the song's dark, cinematic quality."
+  },
+  {
+    videoId: 'hTWKbfoikeg',
+    start: 49,
+    question: "The chorus of this song is one of the most recognizable moments in 90s rock. Listen to the harmonic quality — is it major, minor, or somewhere in between?",
+    choices: ['Clearly major — bright and resolved', 'Clearly minor — dark and tense', 'Ambiguous — uses borrowed chords that feel neither fully major nor minor', 'Pure 12-bar blues'],
+    correct: 2,
+    feedback: "\"Smells Like Teen Spirit\" by Nirvana — the progression uses borrowed chords (♭III and ♭VI) that create harmonic ambiguity. It's not quite major, not quite minor. That unresolved quality perfectly matches the lyrical alienation."
+  }
+];
+
+// ── CHORD COLORS ─────────────────────────────────────────────────────────────
+function chordColor(symbol) {
+  const map = {
+    'I':   { bg: '#DBEAFE', text: '#1E3A8A' },
+    'IV':  { bg: '#D1FAE5', text: '#065F46' },
+    'V':   { bg: '#FEE2E2', text: '#7F1D1D' },
+    'vi':  { bg: '#F3E8FF', text: '#4C1D95' },
+    'i':   { bg: '#E9D5FF', text: '#4C1D95' },
+    '♭VII': { bg: '#FEF3C7', text: '#78350F' },
+    '♭VI': { bg: '#FFEDD5', text: '#7C2D12' },
+    '♭III': { bg: '#FCE7F3', text: '#701A75' },
+    '♭VI': { bg: '#FFEDD5', text: '#7C2D12' },
+    '♭III': { bg: '#FCE7F3', text: '#701A75' },
+    'VII': { bg: '#FEF3C7', text: '#78350F' },
+    'II':  { bg: '#ECFDF5', text: '#065F46' },
+  };
+  // Normalize
+  const key = symbol.replace('b', '♭');
+  return map[key] || { bg: '#E5E7EB', text: '#374151' };
+}
+
+function chordChip(symbol, small) {
+  const c = chordColor(symbol);
+  return `<span class="${small ? 'small-chip' : 'chord-chip'}" style="background:${c.bg};color:${c.text};">${symbol}</span>`;
+}
+
+// ── TAB LOGIC ─────────────────────────────────────────────────────────────────
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`[onclick="showTab('${id}')"]`).classList.add('active');
+  document.getElementById(`panel-${id}`).classList.add('active');
+}
+
+// ── CONCEPTS ─────────────────────────────────────────────────────────────────
+function renderConcepts() {
+  const colors = [
+    { bg: '#DBEAFE', text: '#1E3A8A' },
+    { bg: '#FEF3C7', text: '#78350F' },
+    { bg: '#D1FAE5', text: '#065F46' },
+    { bg: '#F3E8FF', text: '#4C1D95' },
+  ];
+  document.getElementById('conceptsList').innerHTML = CONCEPTS.map((c, i) => {
+    const col = colors[i] || colors[0];
+    return `
+    <div class="concept-card">
+      <div class="concept-header">
+        <span class="concept-number" style="background:${col.bg};color:${col.text};">${c.label}</span>
+        <h3>${c.title}</h3>
+      </div>
+      <div class="concept-body">
+        ${c.body.map(p => `<p>${p}</p>`).join('')}
+        ${c.distinction ? `<div class="distinction-box"><p>${c.distinction}</p></div>` : ''}
+        <p class="listen-label">Listen: examples</p>
+        ${c.videos.map((v, j) => {
+          const pid = `concept-${c.id}-v${j}`;
+          return `
+          <div class="video-row">
+            <div class="video-player-wrap"><div id="${pid}"></div></div>
+            <div class="video-meta">
+              <h4>${v.title}</h4>
+              <div class="artist">${v.artist}</div>
+              <span class="timestamp-badge">▶ ${fmtTime(v.start)}–${fmtTime(v.end)}</span>
+              <button class="replay-btn" onclick="replayConceptClip('${pid}','${v.id}',${v.start},${v.end})">↺ Replay clip</button>
+              <div class="tip">${v.tip}</div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('');
+
+  // Init players
+  CONCEPTS.forEach(c => {
+    c.videos.forEach((v, j) => {
+      const pid = `concept-${c.id}-v${j}`;
+      setTimeout(() => createPlayer(pid, v.id, v.start, v.end), 300);
+    });
+  });
+}
+
+function replayConceptClip(divId, videoId, start, end) {
+  if (ytPlayers[divId]) {
+    ytPlayers[divId].seekTo(start);
+    ytPlayers[divId].playVideo();
+    ytStopAt[divId] = end;
+  } else {
+    createPlayer(divId, videoId, start, end);
+  }
+}
+
+// ── PROGRESSIONS ─────────────────────────────────────────────────────────────
+let activeProgId = null;
+
+function renderProgGrid() {
+  document.getElementById('progGrid').innerHTML = PROGRESSIONS.map(p => `
+    <button class="prog-btn" id="pbtn-${p.id}" onclick="showProg('${p.id}')"
+      style="${activeProgId === p.id ? `border-color:${p.text};` : ''}">
+      <div class="prog-label" style="color:${p.text};">${p.label}</div>
+      <div class="prog-name">${p.name}</div>
+      <div class="prog-tagline">${p.tagline}</div>
+    </button>`).join('');
+}
+
+function showProg(id) {
+  activeProgId = id;
+  const p = PROGRESSIONS.find(x => x.id === id);
+
+  // Update grid active state
+  document.querySelectorAll('.prog-btn').forEach(b => {
+    b.style.borderColor = 'transparent';
+    b.classList.remove('active');
+  });
+  const activeBtn = document.getElementById('pbtn-' + id);
+  if (activeBtn) {
+    activeBtn.style.borderColor = p.text;
+    activeBtn.classList.add('active');
+  }
+
+  const chordRowHtml = p.chords.map((ch, i) =>
+    chordChip(ch, false) + (i < p.chords.length - 1 ? '<span class="chord-arrow">→</span>' : '')
+  ).join('');
+
+  document.getElementById('progDetail').innerHTML = `
+    <div class="prog-detail-header">
+      <div class="prog-formula" style="color:${p.text};">${p.label}</div>
+      <h2>${p.name}</h2>
+      <p class="purpose">${p.purpose}</p>
+    </div>
+    <div class="prog-detail-meta">
+      <div><div class="meta-label">Era</div><div class="meta-value">${p.era}</div></div>
+      <div><div class="meta-label">Feel</div><div class="meta-value">${p.feel}</div></div>
+    </div>
+    <div class="prog-examples-section">
+      <div style="margin-bottom:1rem;">
+        <div class="meta-label" style="margin-bottom:8px;">Chord sequence</div>
+        <div class="chord-row">${chordRowHtml}</div>
+      </div>
+      <div class="distinction-box" style="margin-bottom:1.25rem;"><p><strong>What to listen for:</strong> ${p.whatToListen}</p></div>
+      <div class="prog-examples-label">Listen: songs that use this progression</div>
+      <div class="video-list">
+        ${p.videos.map((v, j) => {
+          const pid = `prog-${id}-v${j}`;
+          return `
+          <div class="video-item">
+            <div class="video-player-wrap2"><div id="${pid}"></div></div>
+            <div class="video-info">
+              <h4>${v.title}</h4>
+              <div class="video-artist">${v.artist}</div>
+              <span class="timestamp-badge">▶ ${fmtTime(v.start)}–${fmtTime(v.end)}</span>
+              <button class="replay-btn" onclick="replayProgClip('${pid}','${v.id}',${v.start},${v.end})">↺ Replay clip</button>
+              <div class="listen-tip">${v.tip}</div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+
+  // Init players after DOM paints
+  p.videos.forEach((v, j) => {
+    const pid = `prog-${id}-v${j}`;
+    setTimeout(() => createPlayer(pid, v.id, v.start, v.end), 300);
+  });
+}
+
+function replayProgClip(divId, videoId, start, end) {
+  if (ytPlayers[divId]) {
+    ytPlayers[divId].seekTo(start);
+    ytPlayers[divId].playVideo();
+    ytStopAt[divId] = end;
+  } else {
+    createPlayer(divId, videoId, start, end);
+  }
+}
+
+// ── EAR TRAINING ─────────────────────────────────────────────────────────────
+let currentQ = 0;
+let answered = new Array(EAR_TRAINING.length).fill(null); // null | index of chosen answer
+let etPlayer = null;
+
+function renderQuestion() {
+  const q = EAR_TRAINING[currentQ];
+  document.getElementById('progressText').textContent = `${currentQ + 1} of ${EAR_TRAINING.length}`;
+
+  // Player
+  const playerDiv = document.getElementById('clipPlayer');
+  playerDiv.innerHTML = `<div id="etPlayerDiv"></div>`;
+  if (etPlayer && etPlayer.destroy) { try { etPlayer.destroy(); } catch(e) {} etPlayer = null; }
+  setTimeout(() => {
+    ensureYTApi(() => {
+      etPlayer = new YT.Player('etPlayerDiv', {
+        videoId: q.videoId,
+        width: '100%', height: 200,
+        playerVars: { start: q.start, controls: 1, rel: 0, modestbranding: 1, origin: location.origin },
+        events: { onReady: e => e.target.seekTo(q.start) }
+      });
+    });
+  }, 200);
+
+  document.getElementById('questionText').textContent = q.question;
+
+  const chosen = answered[currentQ];
+  document.getElementById('choicesContainer').innerHTML = q.choices.map((ch, i) => {
+    let cls = 'choice-btn';
+    if (chosen !== null) {
+      if (i === q.correct) cls += ' correct';
+      else if (i === chosen && chosen !== q.correct) cls += ' incorrect';
+    }
+    return `<button class="${cls}" onclick="selectChoice(${i})" ${chosen !== null ? 'disabled' : ''}>${ch}</button>`;
+  }).join('');
+
+  const fb = document.getElementById('feedbackBox');
+  if (chosen !== null) {
+    fb.classList.add('visible');
+    const isRight = chosen === q.correct;
+    fb.innerHTML = `<strong style="color:${isRight ? '#1D9E75' : '#D85A30'}">${isRight ? 'Correct.' : 'Not quite.'}</strong> ${q.feedback}`;
+  } else {
+    fb.classList.remove('visible');
+    fb.innerHTML = '';
+  }
+
+  document.getElementById('nextBtn').textContent = currentQ === EAR_TRAINING.length - 1 ? 'Finish' : 'Next →';
+}
+
+function selectChoice(i) {
+  if (answered[currentQ] !== null) return;
+  answered[currentQ] = i;
+  renderQuestion();
+}
+
+function nextQuestion() {
+  if (currentQ < EAR_TRAINING.length - 1) { currentQ++; renderQuestion(); }
+  else { showResults(); }
+}
+
+function prevQuestion() {
+  if (currentQ > 0) { currentQ--; renderQuestion(); }
+}
+
+function showResults() {
+  const correct = answered.filter((a, i) => a === EAR_TRAINING[i].correct).length;
+  const box = document.getElementById('feedbackBox');
+  box.classList.add('visible');
+  box.innerHTML = `<strong>You got ${correct} of ${EAR_TRAINING.length} correct.</strong> ${
+    correct === EAR_TRAINING.length ? ' Excellent ear — you\'re hearing the harmonic structure clearly.' :
+    correct >= 4 ? ' Strong work. Review the progressions you missed in the Progressions tab.' :
+    ' Keep practicing. Use the Concepts and Progressions tabs to build your ear, then try again.'
+  }`;
+}
+
+function fmtTime(s) { return `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, '0')}`; }
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderConcepts();
+renderProgGrid();
+renderQuestion();
+</script>
+</body>
+</html>

@@ -97,12 +97,17 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; f
 .drag-chip:active { cursor: grabbing; transform: scale(0.95); }
 .timeline-wrap { border: 1px solid #e0e0e0; border-radius: 12px; padding: 1rem; background: #fafafa; margin-bottom: 1rem; }
 .timeline-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.timeline-track { position: relative; height: 56px; background: #fff; border-radius: 8px; border: 1px solid #e0e0e0; overflow: hidden; }
+.timeline-scroll { overflow-x: auto; border-radius: 8px; }
+.timeline-scroll::-webkit-scrollbar { height: 4px; }
+.timeline-scroll::-webkit-scrollbar-track { background: #f0f0f0; border-radius: 2px; }
+.timeline-scroll::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
+.timeline-track { display: flex; align-items: stretch; gap: 3px; min-height: 68px; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 6px; width: 100%; box-sizing: border-box; }
 .timeline-track.drag-over { border-style: dashed; border-color: #999; }
-.placed-block { position: absolute; top: 6px; height: 44px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; cursor: grab; user-select: none; }
-.placed-block .remove-x { position: absolute; top: 2px; right: 4px; font-size: 10px; cursor: pointer; opacity: 0.6; }
+.placed-block { flex: 1 1 0; height: 52px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; cursor: default; user-select: none; position: relative; padding: 0 8px; text-align: center; }
+.placed-block .remove-x { position: absolute; top: 3px; right: 5px; font-size: 10px; cursor: pointer; opacity: 0.5; line-height: 1; }
 .placed-block .remove-x:hover { opacity: 1; }
-.resize-handle { position: absolute; right: 0; top: 0; bottom: 0; width: 8px; cursor: ew-resize; }
+.timeline-drop-zone { flex: 1; height: 52px; border: 2px dashed #e0e0e0; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #ccc; font-size: 11px; transition: border-color 0.15s, background 0.15s; }
+.timeline-drop-zone.drag-over { border-color: #999; background: #f5f5f5; color: #999; }
 .form-readout { font-size: 14px; margin-bottom: 1rem; min-height: 24px; }
 .form-string { font-weight: 600; color: #1a1a1a; }
 .form-empty { color: #aaa; font-style: italic; }
@@ -169,14 +174,23 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; f
     <select id="activitySong" onchange="loadActivitySong()"></select>
     <button onclick="clearTimeline()">Clear</button>
   </div>
+  <div id="activity-video-wrap" style="margin-bottom:0;border-radius:10px 10px 0 0;overflow:hidden;background:#000;display:none;">
+    <div id="activity-yt-player"></div>
+  </div>
+  <div id="activity-clues" style="display:none;margin-bottom:1.25rem;border:1px solid #e0e0e0;border-top:none;border-radius:0 0 10px 10px;background:#fff;padding:1rem 1.25rem;">
+    <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#aaa;margin-bottom:0.6rem;">🎧 What to listen for</div>
+    <div id="activity-clues-body"></div>
+  </div>
   <div class="palette-label">Section palette</div>
   <div class="palette" id="activityPalette"></div>
   <div class="timeline-wrap">
     <div class="timeline-header">
       <span style="font-size:13px;font-weight:600;color:#555;">Timeline</span>
-      <span style="font-size:12px;color:#aaa;">Drop sections here — drag right edge to resize</span>
+      
     </div>
-    <div class="timeline-track" id="timelineTrack"></div>
+    <div class="timeline-scroll">
+      <div class="timeline-track" id="timelineTrack"></div>
+    </div>
   </div>
   <div class="form-readout" id="formReadout"><span class="form-empty">Your form will appear here as you build it.</span></div>
   <div class="activity-footer">
@@ -318,6 +332,10 @@ function showTab(id) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelector(`[onclick="showTab('${id}')"]`).classList.add('active');
   document.getElementById(`panel-${id}`).classList.add('active');
+  // Pause activity player when leaving activity tab
+  if (id !== 'activity' && activityPlayer) {
+    try { activityPlayer.pauseVideo(); } catch(e) {}
+  }
   if (id === 'examples') {
     // Use both requestAnimationFrame and a fallback timeout
     const initPlayers = () => {
@@ -575,6 +593,7 @@ function renderSongs() {
 
 function populateActivitySong() {
   document.getElementById('activitySong').innerHTML = SONGS.map((s,i) => `<option value="${i}">${s.title} — ${s.artist}</option>`).join('');
+  loadActivitySong();
 }
 
 function renderActivityPalette() {
@@ -585,64 +604,108 @@ function renderActivityPalette() {
   }).join('');
 }
 
-let timeline = [], resizingBlock = null, resizeStartX = 0, resizeStartW = 0, trackWidth = 0;
+let timeline = [];
 
-function loadActivitySong() { clearTimeline(); }
+let activityPlayer = null;
+
+function loadActivitySong() {
+  clearTimeline();
+  const song = SONGS[parseInt(document.getElementById('activitySong').value)];
+  const wrap = document.getElementById('activity-video-wrap');
+  const clues = document.getElementById('activity-clues');
+  if (!song || !song.videoId) { wrap.style.display = 'none'; clues.style.display = 'none'; return; }
+
+  // Video player
+  wrap.style.display = 'block';
+  wrap.innerHTML = '<div id="activity-yt-player"></div>';
+  ensureYTApi(() => {
+    if (activityPlayer) { try { activityPlayer.destroy(); } catch(e) {} }
+    activityPlayer = new YT.Player('activity-yt-player', {
+      videoId: song.videoId,
+      playerVars: { rel: 0, modestbranding: 1, playsinline: 1 },
+      events: {
+        onReady: function(e) {
+          const iframe = e.target.getIframe();
+          if (iframe) iframe.style.cssText = 'width:100%;height:220px;display:block;border:none;';
+        }
+      }
+    });
+  });
+
+  // Clue panel
+  const sectionCount = song.structure.length;
+  const uniqueSections = [...new Set(song.structure)];
+  const chipsHtml = uniqueSections.map(a => {
+    const c = getColor(a);
+    return `<span style="display:inline-block;padding:2px 9px;border-radius:12px;font-size:11px;font-weight:600;background:${c.bg};color:${c.text};margin:1px 2px;">${a}</span>`;
+  }).join(' ');
+  document.getElementById('activity-clues-body').innerHTML = `
+    <div style="margin-bottom:0.6rem;">
+      <span style="font-size:11px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:0.05em;">How many sections:</span>
+      <span style="font-size:13px;color:#444;margin-left:6px;line-height:1.6;">This song has <strong>${sectionCount} sections</strong> total — some section types repeat.</span>
+    </div>
+    <div style="margin-bottom:0.6rem;">
+      <span style="font-size:11px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:0.05em;">Section types used:</span>
+      <span style="font-size:13px;color:#444;margin-left:6px;line-height:1.6;">${chipsHtml}</span>
+    </div>
+    <div style="margin-bottom:0.75rem;">
+      <span style="font-size:11px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:0.05em;">Hint:</span>
+      <span style="font-size:13px;color:#444;margin-left:6px;line-height:1.6;">${song.notes}</span>
+    </div>
+    <div id="form-type-hint">
+      <button onclick="revealFormType()" style="font-size:12px;padding:5px 14px;cursor:pointer;border:1px solid #ccc;border-radius:20px;background:none;color:#666;">Need a hint? Reveal form type</button>
+    </div>`;
+  document.getElementById('activity-clues-body').dataset.form = song.form;
+  clues.style.display = 'block';
+}
+
+function revealFormType() {
+  const form = document.getElementById('activity-clues-body').dataset.form;
+  document.getElementById('form-type-hint').innerHTML = `
+    <span style="font-size:11px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:0.05em;">Form type:</span>
+    <span style="font-size:13px;color:#444;margin-left:6px;">${form}</span>`;
+}
 
 function startChipDrag(e, abbr) { e.dataTransfer.setData('text/plain', abbr); }
 
 function setupTrackDrop() {
   const t = document.getElementById('timelineTrack');
   t.addEventListener('dragover', e => { e.preventDefault(); t.classList.add('drag-over'); });
-  t.addEventListener('dragleave', () => t.classList.remove('drag-over'));
+  t.addEventListener('dragleave', e => { if (!t.contains(e.relatedTarget)) t.classList.remove('drag-over'); });
   t.addEventListener('drop', e => {
     e.preventDefault(); t.classList.remove('drag-over');
     const abbr = e.dataTransfer.getData('text/plain');
     if (!abbr) return;
-    const rect = t.getBoundingClientRect();
-    const xPct = (e.clientX - rect.left) / rect.width;
-    const w = 0.15;
-    const left = Math.min(Math.max(0, xPct - w/2), 1 - w);
-    timeline.push({ abbr, left, width: w, id: Date.now() });
+    timeline.push({ abbr, id: Date.now() });
     renderTimeline();
   });
 }
 
 function renderTimeline() {
   const t = document.getElementById('timelineTrack');
-  t.querySelectorAll('.placed-block').forEach(b => b.remove());
-  timeline.forEach(block => {
-    const c = getColor(block.abbr);
-    const el = document.createElement('div');
-    el.className = 'placed-block';
-    el.style.cssText = `left:${block.left*100}%;width:${block.width*100}%;background:${c.bg};color:${c.text};`;
-    el.innerHTML = `${block.abbr}<span class="remove-x" onclick="removeBlock(${block.id})">✕</span><span class="resize-handle" onmousedown="startResize(event,${block.id})"></span>`;
-    t.appendChild(el);
-  });
+  t.innerHTML = '';
+  if (timeline.length === 0) {
+    const zone = document.createElement('div');
+    zone.className = 'timeline-drop-zone';
+    zone.textContent = 'Drop sections here';
+    t.appendChild(zone);
+  } else {
+    timeline.forEach(block => {
+      const c = getColor(block.abbr);
+      const el = document.createElement('div');
+      el.className = 'placed-block';
+      el.style.cssText = `background:${c.bg};color:${c.text};`;
+      el.innerHTML = `${block.abbr}<span class="remove-x" onclick="removeBlock(${block.id})">✕</span>`;
+      t.appendChild(el);
+    });
+  }
   updateFormReadout();
 }
 
 function removeBlock(id) { timeline = timeline.filter(b => b.id !== id); renderTimeline(); }
 
-function startResize(e, id) {
-  e.preventDefault(); e.stopPropagation();
-  const block = timeline.find(b => b.id === id); if (!block) return;
-  resizingBlock = id; resizeStartX = e.clientX; resizeStartW = block.width;
-  trackWidth = document.getElementById('timelineTrack').getBoundingClientRect().width;
-  window.addEventListener('mousemove', doResize);
-  window.addEventListener('mouseup', stopResize);
-}
-function doResize(e) {
-  if (!resizingBlock) return;
-  const block = timeline.find(b => b.id === resizingBlock); if (!block) return;
-  block.width = Math.max(0.06, Math.min(1 - block.left, resizeStartW + (e.clientX - resizeStartX) / trackWidth));
-  renderTimeline();
-}
-function stopResize() { resizingBlock = null; window.removeEventListener('mousemove', doResize); window.removeEventListener('mouseup', stopResize); }
-
 function updateFormReadout() {
-  const sorted = [...timeline].sort((a,b) => a.left - b.left);
-  const str = sorted.map(b => b.abbr).join(' → ');
+  const str = timeline.map(b => b.abbr).join(' → ');
   document.getElementById('formReadout').innerHTML = str
     ? `<span class="form-string">${str}</span>`
     : '<span class="form-empty">Your form will appear here as you build it.</span>';
@@ -652,8 +715,7 @@ function clearTimeline() { timeline = []; renderTimeline(); document.getElementB
 
 function checkAnswer() {
   const song = SONGS[parseInt(document.getElementById('activitySong').value)];
-  const sorted = [...timeline].sort((a,b) => a.left - b.left);
-  const student = sorted.map(b => b.abbr).join('-');
+  const student = timeline.map(b => b.abbr).join('-');
   const box = document.getElementById('checkBox');
   box.classList.add('visible');
   box.innerHTML = student === song.structure.join('-')
@@ -663,7 +725,7 @@ function checkAnswer() {
 
 function revealAnswer() {
   const song = SONGS[parseInt(document.getElementById('activitySong').value)];
-  timeline = song.structure.map((abbr,i) => ({ abbr, left: i/song.structure.length, width: 0.9/song.structure.length, id: Date.now()+i }));
+  timeline = song.structure.map((abbr, i) => ({ abbr, id: Date.now() + i }));
   renderTimeline();
   document.getElementById('checkBox').classList.remove('visible');
 }
