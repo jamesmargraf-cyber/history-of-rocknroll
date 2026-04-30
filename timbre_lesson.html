@@ -1,104 +1,159 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timbre & Tone Color — History of Rock 'n' Roll</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;color:var(--color-text-primary);line-height:1.6;background:transparent;}
-.tabs{display:flex;gap:2px;border-bottom:1px solid var(--color-border-tertiary);margin-bottom:1.5rem;flex-wrap:wrap;}
-.tab{padding:8px 18px;font-size:14px;font-weight:500;border:none;background:none;cursor:pointer;color:var(--color-text-secondary);border-bottom:2px solid transparent;margin-bottom:-1px;transition:color 0.15s;}
-.tab.active{color:var(--color-text-primary);border-bottom-color:var(--color-text-primary);}
-.tab:hover:not(.active){color:var(--color-text-primary);}
-.panel{display:none;padding:0 0 2rem;}
-.panel.active{display:block;}
-.intro-block{margin-bottom:1.5rem;}
-.intro-block p{font-size:14px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:0.75rem;}
-.intro-block p:last-child{margin-bottom:0;}
-.section-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--color-text-tertiary);margin-bottom:0.75rem;margin-top:1.25rem;}
-.concept-block{border:1px solid var(--color-border-tertiary);border-radius:12px;background:var(--color-background-primary);padding:1rem 1.1rem;margin-bottom:1rem;}
-.concept-block h3{font-size:15px;font-weight:500;margin-bottom:0.5rem;}
-.concept-block p{font-size:13px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:0.6rem;}
-.concept-block p:last-child{margin-bottom:0;}
-.stacking-visual{margin:1rem 0;border:1px solid var(--color-border-tertiary);border-radius:10px;overflow:hidden;background:var(--color-background-secondary);padding:0.75rem;}
-.stacking-visual canvas{width:100%;display:block;border-radius:6px;}
-.stack-labels{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;}
-.stack-label{font-size:11px;display:flex;align-items:center;gap:5px;color:var(--color-text-secondary);}
-.stack-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-.play-btn{padding:6px 16px;border-radius:20px;border:1px solid var(--color-border-secondary);background:var(--color-background-secondary);font-size:13px;cursor:pointer;color:var(--color-text-primary);white-space:nowrap;margin-top:8px;}
-.play-btn:hover{background:var(--color-background-tertiary);}
-.play-btn.playing{border-color:#1D9E75;color:#1D9E75;}
-.wave-cards{display:flex;flex-direction:column;gap:12px;margin-bottom:1rem;}
-.wave-card{border:1px solid var(--color-border-tertiary);border-radius:12px;background:var(--color-background-primary);overflow:hidden;}
-.wave-card-header{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:1rem 1.1rem 0.75rem;}
-.wave-card-title{font-size:15px;font-weight:500;}
-.wave-card-sub{font-size:12px;color:var(--color-text-secondary);margin-top:2px;}
-.wave-canvas-wrap{padding:0 1.1rem;margin-bottom:0.75rem;}
-canvas.wave{width:100%;height:70px;display:block;border-radius:8px;background:var(--color-background-secondary);}
-.wave-body{padding:0 1.1rem 1rem;}
-.wave-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.75;margin-bottom:0.6rem;}
-.harmonic-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
-.h-pill{font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid var(--color-border-tertiary);color:var(--color-text-secondary);}
-.consonance-block{border:1px solid var(--color-border-tertiary);border-radius:12px;padding:1rem 1.1rem;background:var(--color-background-primary);margin-bottom:1rem;}
-.consonance-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:0.75rem;}
-.c-box{border-radius:8px;padding:0.75rem 0.9rem;}
-.c-box h4{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px;}
-.c-box p{font-size:13px;line-height:1.65;}
-.word-bank-wrap{border:1px solid var(--color-border-tertiary);border-radius:12px;padding:1rem 1.1rem;background:var(--color-background-primary);}
-.wb-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
-.wb-pill{font-size:13px;font-weight:500;padding:5px 14px;border-radius:20px;border:1.5px solid var(--color-border-secondary);background:var(--color-background-secondary);}
-.song-cards{display:flex;flex-direction:column;gap:14px;}
-.song-card{border:1px solid var(--color-border-tertiary);border-radius:12px;background:var(--color-background-primary);overflow:hidden;}
-.song-card-header{padding:1rem 1.1rem 0.75rem;border-bottom:1px solid var(--color-border-tertiary);}
-.song-card-header h3{font-size:15px;font-weight:500;}
-.song-card-header .artist{font-size:12px;color:var(--color-text-secondary);margin-top:2px;}
-.song-video iframe{width:100%;height:220px;display:block;border:none;}
-.song-prompts{padding:1rem 1.1rem;}
-.prompt-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-text-tertiary);margin-bottom:8px;}
-.prompt-item{font-size:13px;color:var(--color-text-secondary);line-height:1.7;padding:5px 0;border-bottom:1px solid var(--color-border-tertiary);}
-.prompt-item:last-child{border-bottom:none;padding-bottom:0;}
-.prompt-item::before{content:"→ ";color:var(--color-text-tertiary);}
-.wb-ref{border:1px solid var(--color-border-tertiary);border-radius:8px;padding:0.6rem 0.9rem;margin-bottom:1.25rem;background:var(--color-background-secondary);}
-.wb-ref-label{font-size:11px;color:var(--color-text-tertiary);margin-bottom:5px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;}
-.wb-ref-pills{display:flex;flex-wrap:wrap;gap:5px;}
-.wb-ref-pill{font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--color-border-tertiary);color:var(--color-text-secondary);}
-.explore-card{border:1px solid var(--color-border-tertiary);border-radius:12px;padding:1rem 1.1rem;background:var(--color-background-primary);margin-bottom:1rem;}
-.explore-card h3{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--color-text-secondary);margin-bottom:0.75rem;}
-.wave-selector{display:flex;gap:6px;flex-wrap:wrap;}
-.wave-sel-btn{padding:6px 14px;border-radius:20px;border:1px solid var(--color-border-secondary);background:var(--color-background-secondary);font-size:13px;cursor:pointer;color:var(--color-text-primary);}
-.wave-sel-btn.active{border-color:#1D9E75;color:#1D9E75;}
-.slider-row{margin-bottom:10px;}
-.slider-row:last-child{margin-bottom:0;}
-.slider-row label{display:flex;justify-content:space-between;font-size:12px;color:var(--color-text-secondary);margin-bottom:3px;}
-.slider-row input[type=range]{width:100%;accent-color:#1D9E75;}
-.explore-canvas-wrap{border:1px solid var(--color-border-tertiary);border-radius:12px;padding:0.75rem;background:var(--color-background-primary);margin-bottom:1rem;}
-canvas#exploreWave{width:100%;height:110px;display:block;border-radius:6px;background:var(--color-background-secondary);}
-.explore-play-row{display:flex;align-items:center;gap:8px;margin-bottom:1rem;flex-wrap:wrap;}
-.big-play-btn{padding:8px 24px;border-radius:20px;border:1px solid var(--color-border-secondary);background:var(--color-background-secondary);font-size:14px;cursor:pointer;color:var(--color-text-primary);}
-.big-play-btn:hover{background:var(--color-background-tertiary);}
-.big-play-btn.playing{border-color:#1D9E75;color:#1D9E75;}
-.big-play-btn:disabled{opacity:0.4;cursor:not-allowed;}
-.source-toggle{display:flex;border:1px solid var(--color-border-secondary);border-radius:20px;overflow:hidden;flex-shrink:0;}
-.src-btn{padding:7px 16px;font-size:13px;border:none;background:var(--color-background-secondary);cursor:pointer;color:var(--color-text-secondary);transition:background 0.15s,color 0.15s;}
-.src-btn.active{background:var(--color-text-primary);color:var(--color-background-primary);}
-.src-btn:first-child{border-right:1px solid var(--color-border-secondary);}
-.explore-status{font-size:12px;color:var(--color-text-tertiary);flex:1;min-width:120px;}
-.explore-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.7;border:1px solid var(--color-border-tertiary);border-radius:8px;padding:0.75rem 0.9rem;background:var(--color-background-secondary);margin-bottom:1rem;}
-.synth-controls{transition:opacity 0.2s;}
-.synth-controls.dimmed{opacity:0.35;pointer-events:none;}
-.mic-hint{font-size:13px;color:var(--color-text-secondary);line-height:1.7;border:1px solid var(--color-border-tertiary);border-radius:8px;padding:0.75rem 0.9rem;background:var(--color-background-secondary);margin-bottom:1rem;display:none;}
-.mic-hint.visible{display:block;}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 15px; color: #1a1a1a; line-height: 1.6; background: #f5f4f0; }
 
-/* Permission status banner */
-.perm-banner{border-radius:10px;padding:0.85rem 1rem;margin-bottom:1rem;font-size:13px;line-height:1.7;display:none;}
-.perm-banner.visible{display:block;}
-.perm-banner.granted{background:#E1F5EE;border:1px solid #9FE1CB;color:#085041;}
-.perm-banner.prompt{background:#FEF9EC;border:1px solid #FAC775;color:#633806;}
-.perm-banner.denied{background:#FAECE7;border:1px solid #F5C4B3;color:#712B13;}
-.perm-banner.unavailable{background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);color:var(--color-text-secondary);}
-.perm-banner strong{display:block;margin-bottom:3px;}
-.perm-steps{margin-top:6px;padding-left:1.1rem;}
-.perm-steps li{margin-bottom:3px;}
+.page-header { background: #1a1a1a; color: #fff; padding: 1.5rem 2rem; }
+.page-header h1 { font-size: 20px; font-weight: 500; letter-spacing: 0.02em; }
+.page-header p { font-size: 13px; color: #999; margin-top: 3px; }
 
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem;}
-@media(max-width:560px){.two-col{grid-template-columns:1fr;}.consonance-grid{grid-template-columns:1fr;}}
+.lesson-intro { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 0; }
+.lesson-intro h2 { font-size: 17px; font-weight: 600; margin-bottom: 0.75rem; color: #1a1a1a; }
+
+.lesson { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+/* ── Tab shell ── */
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid #ddd; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.tab { padding: 8px 18px; font-size: 14px; font-weight: 500; border: none; background: none; cursor: pointer; color: #666; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s; }
+.tab.active { color: #1a1a1a; border-bottom-color: #1a1a1a; }
+.tab:hover:not(.active) { color: #1a1a1a; }
+.panel { display: none; padding: 0 0 2rem; }
+.panel.active { display: block; }
+
+/* ── Shared components ── */
+.intro-block { margin-bottom: 1.5rem; }
+.intro-block p { font-size: 14px; color: #555; line-height: 1.8; margin-bottom: 0.75rem; }
+.intro-block p:last-child { margin-bottom: 0; }
+
+.section-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #aaa; margin-bottom: 0.75rem; margin-top: 1.25rem; }
+
+.concept-block { border: 1px solid #e0e0e0; border-radius: 12px; background: #fff; padding: 1rem 1.1rem; margin-bottom: 1rem; }
+.concept-block h3 { font-size: 15px; font-weight: 500; margin-bottom: 0.5rem; }
+.concept-block p { font-size: 13px; color: #555; line-height: 1.8; margin-bottom: 0.6rem; }
+.concept-block p:last-child { margin-bottom: 0; }
+
+.stacking-visual { margin: 1rem 0; border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden; background: #fafafa; padding: 0.75rem; }
+.stacking-visual canvas { width: 100%; display: block; border-radius: 6px; }
+.stack-labels { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
+.stack-label { font-size: 11px; display: flex; align-items: center; gap: 5px; color: #666; }
+.stack-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+.play-btn { padding: 6px 16px; border-radius: 20px; border: 1px solid #ddd; background: #f5f5f5; font-size: 13px; cursor: pointer; color: #333; white-space: nowrap; margin-top: 8px; }
+.play-btn:hover { background: #eee; }
+.play-btn.playing { border-color: #1D9E75; color: #1D9E75; }
+
+.wave-cards { display: flex; flex-direction: column; gap: 12px; margin-bottom: 1rem; }
+.wave-card { border: 1px solid #e0e0e0; border-radius: 12px; background: #fff; overflow: hidden; }
+.wave-card-header { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; padding: 1rem 1.1rem 0.75rem; }
+.wave-card-title { font-size: 15px; font-weight: 500; }
+.wave-card-sub { font-size: 12px; color: #888; margin-top: 2px; }
+.wave-canvas-wrap { padding: 0 1.1rem; margin-bottom: 0.75rem; }
+canvas.wave { width: 100%; height: 70px; display: block; border-radius: 8px; background: #fafafa; }
+.wave-body { padding: 0 1.1rem 1rem; }
+.wave-desc { font-size: 13px; color: #555; line-height: 1.75; margin-bottom: 0.6rem; }
+.harmonic-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.h-pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; border: 1px solid #e0e0e0; color: #666; }
+
+.consonance-block { border: 1px solid #e0e0e0; border-radius: 12px; padding: 1rem 1.1rem; background: #fff; margin-bottom: 1rem; }
+.consonance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 0.75rem; }
+.c-box { border-radius: 8px; padding: 0.75rem 0.9rem; }
+.c-box h4 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 5px; }
+.c-box p { font-size: 13px; line-height: 1.65; }
+
+.word-bank-wrap { border: 1px solid #e0e0e0; border-radius: 12px; padding: 1rem 1.1rem; background: #fff; }
+.wb-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.wb-pill { font-size: 13px; font-weight: 500; padding: 5px 14px; border-radius: 20px; border: 1.5px solid #ddd; background: #fafafa; }
+
+/* ── Examples tab ── */
+.wb-ref { border: 1px solid #e0e0e0; border-radius: 8px; padding: 0.6rem 0.9rem; margin-bottom: 1.25rem; background: #fafafa; }
+.wb-ref-label { font-size: 11px; color: #aaa; margin-bottom: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+.wb-ref-pills { display: flex; flex-wrap: wrap; gap: 5px; }
+.wb-ref-pill { font-size: 11px; padding: 2px 8px; border-radius: 20px; border: 1px solid #e0e0e0; color: #666; }
+
+.song-cards { display: flex; flex-direction: column; gap: 14px; }
+.song-card { border: 1px solid #e0e0e0; border-radius: 12px; background: #fff; overflow: hidden; }
+.song-card-header { padding: 1rem 1.1rem 0.75rem; border-bottom: 1px solid #eee; }
+.song-card-header h3 { font-size: 15px; font-weight: 500; }
+.song-card-header .artist { font-size: 12px; color: #888; margin-top: 2px; }
+.song-video { background: #000; }
+.song-video iframe { width: 100%; height: 220px; display: block; border: none; }
+.song-prompts { padding: 1rem 1.1rem; }
+.prompt-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #aaa; margin-bottom: 8px; }
+.prompt-item { font-size: 13px; color: #555; line-height: 1.7; padding: 5px 0; border-bottom: 1px solid #f0f0f0; }
+.prompt-item:last-child { border-bottom: none; padding-bottom: 0; }
+.prompt-item::before { content: "→ "; color: #aaa; }
+
+/* ── Explore tab ── */
+.explore-card { border: 1px solid #e0e0e0; border-radius: 12px; padding: 1rem 1.1rem; background: #fff; margin-bottom: 1rem; }
+.explore-card h3 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #aaa; margin-bottom: 0.75rem; }
+
+.wave-selector { display: flex; gap: 6px; flex-wrap: wrap; }
+.wave-sel-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid #ddd; background: #fafafa; font-size: 13px; cursor: pointer; color: #333; }
+.wave-sel-btn.active { border-color: #1D9E75; color: #1D9E75; }
+
+.slider-row { margin-bottom: 10px; }
+.slider-row:last-child { margin-bottom: 0; }
+.slider-row label { display: flex; justify-content: space-between; font-size: 12px; color: #666; margin-bottom: 3px; }
+.slider-row input[type=range] { width: 100%; accent-color: #1D9E75; }
+
+.explore-canvas-wrap { border: 1px solid #e0e0e0; border-radius: 12px; padding: 0.75rem; background: #fff; margin-bottom: 1rem; }
+canvas#exploreWave { width: 100%; height: 110px; display: block; border-radius: 6px; background: #fafafa; }
+
+.explore-play-row { display: flex; align-items: center; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; }
+.big-play-btn { padding: 8px 24px; border-radius: 20px; border: 1px solid #ddd; background: #fafafa; font-size: 14px; cursor: pointer; color: #333; }
+.big-play-btn:hover { background: #eee; }
+.big-play-btn.playing { border-color: #1D9E75; color: #1D9E75; }
+.big-play-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.source-toggle { display: flex; border: 1px solid #ddd; border-radius: 20px; overflow: hidden; flex-shrink: 0; }
+.src-btn { padding: 7px 16px; font-size: 13px; border: none; background: #fafafa; cursor: pointer; color: #666; transition: background 0.15s, color 0.15s; }
+.src-btn.active { background: #1a1a1a; color: #fff; }
+.src-btn:first-child { border-right: 1px solid #ddd; }
+
+.explore-status { font-size: 12px; color: #aaa; flex: 1; min-width: 120px; }
+.explore-desc { font-size: 13px; color: #555; line-height: 1.7; border: 1px solid #e0e0e0; border-radius: 8px; padding: 0.75rem 0.9rem; background: #fafafa; margin-bottom: 1rem; }
+
+.synth-controls { transition: opacity 0.2s; }
+.synth-controls.dimmed { opacity: 0.35; pointer-events: none; }
+
+.mic-hint { font-size: 13px; color: #555; line-height: 1.7; border: 1px solid #e0e0e0; border-radius: 8px; padding: 0.75rem 0.9rem; background: #fafafa; margin-bottom: 1rem; display: none; }
+.mic-hint.visible { display: block; }
+
+.perm-banner { border-radius: 10px; padding: 0.85rem 1rem; margin-bottom: 1rem; font-size: 13px; line-height: 1.7; display: none; }
+.perm-banner.visible { display: block; }
+.perm-banner.granted { background: #E1F5EE; border: 1px solid #9FE1CB; color: #085041; }
+.perm-banner.prompt { background: #FEF9EC; border: 1px solid #FAC775; color: #633806; }
+.perm-banner.denied { background: #FAECE7; border: 1px solid #F5C4B3; color: #712B13; }
+.perm-banner.unavailable { background: #fafafa; border: 1px solid #e0e0e0; color: #666; }
+.perm-banner strong { display: block; margin-bottom: 3px; }
+.perm-steps { margin-top: 6px; padding-left: 1.1rem; }
+.perm-steps li { margin-bottom: 3px; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
+
+@media (max-width: 600px) {
+  .two-col { grid-template-columns: 1fr; }
+  .consonance-grid { grid-template-columns: 1fr; }
+}
 </style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Timbre &amp; Tone Color</h1>
+  <p>History of Rock 'n' Roll</p>
+</div>
+
+<div class="lesson-intro">
+  <h2>What does a sound actually look like?</h2>
+</div>
+
+<div class="lesson">
 
 <div class="tabs">
   <button class="tab active" onclick="showTab('concepts')">Concepts</button>
@@ -113,15 +168,17 @@ canvas#exploreWave{width:100%;height:110px;display:block;border-radius:6px;backg
     <p>In rock music, timbre is one of the most powerful tools an artist has. The choice of instrument, amplifier, effects pedal, and recording technique all shape timbre. When Chuck Berry played with a bright, clean tone and Jimi Hendrix played with heavy distortion, they weren't just making different sounds — they were making different statements about what rock could feel like.</p>
     <p>To understand timbre, we need to understand what sound actually is — and that means starting with the simplest possible sound: the sine wave.</p>
   </div>
+
   <div class="section-label">The fundamental tone</div>
   <div class="concept-block">
     <h3>Sine waves — the building block of all sound</h3>
     <p>The simplest possible sound is a pure, single frequency — a smooth, repeating vibration called a <strong>sine wave</strong>. It has one pitch, one speed, and nothing extra. You can think of it as a single voice singing one sustained note in a completely empty room. Every sound in the world — every instrument, every voice, every noise — is built from combinations of sine waves.</p>
     <div style="text-align:center;margin:0.75rem 0;">
-      <canvas id="sineDemo" style="width:100%;height:70px;border-radius:8px;background:var(--color-background-secondary);display:block;"></canvas>
+      <canvas id="sineDemo" style="width:100%;height:70px;border-radius:8px;background:#fafafa;display:block;"></canvas>
     </div>
     <button class="play-btn" id="sineDemoBtn" onclick="playDemo('sine',this)">▶ Hear a pure sine wave</button>
   </div>
+
   <div class="section-label">How overtones create timbre</div>
   <div class="concept-block">
     <h3>Real sounds are stacks of sine waves</h3>
@@ -137,25 +194,29 @@ canvas#exploreWave{width:100%;height:110px;display:block;border-radius:6px;backg
       </div>
     </div>
   </div>
+
   <div class="section-label">Why instruments sound different</div>
   <div class="concept-block">
     <h3>Different overtone profiles</h3>
     <p>Every instrument emphasizes a different set of overtones — and that's what makes each one sound unique. The shape of a violin body amplifies certain overtones and dampens others. A trumpet's brass tube does the same thing in a completely different way. Even two guitars can sound different from each other depending on the wood they're made from, the thickness of the strings, and how hard or softly they're played.</p>
     <p>The way a sound is produced matters too. A bowed string produces a different overtone profile than a plucked one, even on the same instrument. A singer's vocal tract changes shape as they move through vowels, boosting different overtones with each sound. This is why timbre is so expressive — it responds to every small physical choice a musician makes.</p>
   </div>
+
   <div class="section-label">Consonance &amp; dissonance in harmonics</div>
   <div class="consonance-block">
-    <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.8;">When overtones are simple mathematical multiples of the fundamental — 2×, 3×, 4× the frequency — they tend to blend smoothly. When frequencies clash at more complex ratios, the result feels tense or unresolved. We call these two qualities <strong>consonance</strong> and <strong>dissonance</strong>.</p>
+    <p style="font-size:13px;color:#555;line-height:1.8;">When overtones are simple mathematical multiples of the fundamental — 2×, 3×, 4× the frequency — they tend to blend smoothly. When frequencies clash at more complex ratios, the result feels tense or unresolved. We call these two qualities <strong>consonance</strong> and <strong>dissonance</strong>.</p>
     <div class="consonance-grid">
       <div class="c-box" style="background:#E1F5EE;"><h4 style="color:#0F6E56;">Consonance — smooth, at rest</h4><p style="color:#085041;">Harmonics that divide evenly into each other feel stable and resolved together. A pure sine wave is the ultimate consonance — just one frequency, nothing clashing. We hear consonance as warmth and rest. It's why a major chord feels "finished."</p></div>
       <div class="c-box" style="background:#FAECE7;"><h4 style="color:#993C1D;">Dissonance — tense, unresolved</h4><p style="color:#712B13;">When harmonics clash at complex ratios, the result is tension. Heavy guitar distortion generates dense harmonic clashing — which is exactly what gives rock its aggression and energy. Neither is "better": the art is knowing which to reach for.</p></div>
     </div>
   </div>
+
   <div class="section-label">Synthesized waves — hearing harmonics in action</div>
   <div class="intro-block">
     <p>Synthesizers build sounds by combining sine waves in predictable patterns. The wave shapes below aren't the basic shapes of all sound — they're shortcuts that synthesizers use to produce specific harmonic combinations. Each one has a characteristic timbre you can hear immediately. Use the <strong>Exploration tab</strong> to build and shape these sounds yourself.</p>
   </div>
   <div class="wave-cards" id="waveCards"></div>
+
   <div class="word-bank-wrap">
     <div class="section-label" style="margin-top:0;">Word bank — use these when describing timbre</div>
     <div class="wb-pills" id="wordBankPills"></div>
@@ -173,7 +234,7 @@ canvas#exploreWave{width:100%;height:110px;display:block;border-radius:6px;backg
 
 <!-- EXPLORATION -->
 <div id="panel-explore" class="panel">
-  <p style="font-size:14px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:1.25rem;">Build and shape synthesized sounds — or switch to <strong>Live input</strong> to see the waveform of your own voice or any sound around you in real time.</p>
+  <p style="font-size:14px;color:#555;line-height:1.8;margin-bottom:1.25rem;">Build and shape synthesized sounds — or switch to <strong>Live input</strong> to see the waveform of your own voice or any sound around you in real time.</p>
 
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem;flex-wrap:wrap;">
     <div class="section-label" style="margin:0;">Input source</div>
@@ -183,7 +244,6 @@ canvas#exploreWave{width:100%;height:110px;display:block;border-radius:6px;backg
     </div>
   </div>
 
-  <!-- Permission status banner — shown only in mic mode -->
   <div class="perm-banner" id="permBanner"></div>
 
   <div class="mic-hint" id="micHint">
@@ -232,7 +292,7 @@ canvas#exploreWave{width:100%;height:110px;display:block;border-radius:6px;backg
   </div>
 
   <div class="explore-canvas-wrap">
-    <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-text-tertiary);margin-bottom:6px;" id="waveformLabel">Live waveform — synthesizer output</div>
+    <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:#aaa;margin-bottom:6px;" id="waveformLabel">Live waveform — synthesizer output</div>
     <canvas id="exploreWave"></canvas>
   </div>
 
@@ -266,18 +326,31 @@ canvas#exploreWave{width:100%;height:110px;display:block;border-radius:6px;backg
   <div class="explore-desc" id="exploreDesc">Choose a wave shape above to see a description.</div>
 </div>
 
+</div><!-- /.lesson -->
+
 <script>
 const WAVES=[
-  {type:'sine',label:'Sine wave',sub:'The purest sound — one single frequency',color:'#4A90D9',desc:'A sine wave contains only the fundamental frequency — no harmonics, no overtones. The result is a smooth, pure tone. In nature, pure sine waves are rare; most real sounds are combinations of many sine waves. In synthesis, the sine wave is the starting point for building any other sound.',harmonics:['Fundamental only','No overtones','Maximum consonance','Pure, smooth character']},
-  {type:'sawtooth',label:'Sawtooth wave',sub:'Rich and bright — all harmonics present',color:'#E8834A',desc:'A sawtooth wave contains every harmonic — both even and odd multiples of the fundamental. The result is a bright, buzzy, cutting sound with a lot of presence. In synthesis, sawtooth waves are the foundation of many lead and bass sounds. Think of it as the full choir rather than a single voice.',harmonics:['All harmonics (odd + even)','Very bright and rich','Complex but not harsh','Buzzy, cutting character']},
-  {type:'square',label:'Square wave',sub:'Hollow and reedy — odd harmonics only',color:'#9B59B6',desc:'A square wave contains only odd harmonics (1st, 3rd, 5th, 7th...). This gives it a hollow, slightly nasal quality — like a clarinet or a vintage video game sound. The absence of even harmonics creates a distinctive gap in the overtone series that your ear picks up as a kind of hollowness.',harmonics:['Odd harmonics only','Hollow, reedy quality','Nasal character','Less bright than sawtooth']},
-  {type:'triangle',label:'Triangle wave',sub:'Soft and flute-like — weak odd harmonics',color:'#1D9E75',desc:'A triangle wave contains odd harmonics like a square wave, but they decrease in strength much more quickly as they go higher. The result is a softer, rounder sound — closer to a sine wave than a square wave, but with a subtle hollow edge. Think of a flute or a soft whistle.',harmonics:['Odd harmonics, rapidly fading','Very soft, flute-like','Nearly as pure as sine','Gentle, rounded character']},
+  {type:'sine',label:'Sine wave',sub:'The purest sound — one single frequency',color:'#4A90D9',
+   desc:'A sine wave contains only the fundamental frequency — no harmonics, no overtones. The result is a smooth, pure tone. In nature, pure sine waves are rare; most real sounds are combinations of many sine waves. In synthesis, the sine wave is the starting point for building any other sound.',
+   harmonics:['Fundamental only','No overtones','Maximum consonance','Pure, smooth character']},
+  {type:'sawtooth',label:'Sawtooth wave',sub:'Rich and bright — all harmonics present',color:'#E8834A',
+   desc:'A sawtooth wave contains every harmonic — both even and odd multiples of the fundamental. The result is a bright, buzzy, cutting sound with a lot of presence. In synthesis, sawtooth waves are the foundation of many lead and bass sounds. Think of it as the full choir rather than a single voice.',
+   harmonics:['All harmonics (odd + even)','Very bright and rich','Complex but not harsh','Buzzy, cutting character']},
+  {type:'square',label:'Square wave',sub:'Hollow and reedy — odd harmonics only',color:'#9B59B6',
+   desc:'A square wave contains only odd harmonics (1st, 3rd, 5th, 7th...). This gives it a hollow, slightly nasal quality — like a clarinet or a vintage video game sound. The absence of even harmonics creates a distinctive gap in the overtone series that your ear picks up as a kind of hollowness.',
+   harmonics:['Odd harmonics only','Hollow, reedy quality','Nasal character','Less bright than sawtooth']},
+  {type:'triangle',label:'Triangle wave',sub:'Soft and flute-like — weak odd harmonics',color:'#1D9E75',
+   desc:'A triangle wave contains odd harmonics like a square wave, but they decrease in strength much more quickly as they go higher. The result is a softer, rounder sound — closer to a sine wave than a square wave, but with a subtle hollow edge. Think of a flute or a soft whistle.',
+   harmonics:['Odd harmonics, rapidly fading','Very soft, flute-like','Nearly as pure as sine','Gentle, rounded character']},
 ];
 
 const SONGS=[
-  {title:'Johnny B. Goode',artist:'Chuck Berry',year:'1958',videoId:'Y-9Y4CCIWnM',prompts:['How would you describe the timbre of the guitar? Use at least two descriptors from the word bank.','Listen to Berry\'s vocal tone. What descriptors fit — and what does that timbre add to the feeling of the song?','Does the overall tone color feel tense (dissonant) or smooth (consonant)? Where do you hear distortion, if any?']},
-  {title:'Sunshine of Your Love',artist:'Cream',year:'1967',videoId:'K6QOB1BKUJA',prompts:['Clapton\'s guitar tone here is famously thick and distorted. What descriptors from the word bank fit? How does it compare to Berry\'s tone?','Listen to the bass. Is it thin or fat? Clean or gritty? How does it support the guitar\'s timbre?','Does the heavy distortion create more consonance or dissonance? How does that tension connect to the mood of the song?']},
-  {title:'Dreams',artist:'Fleetwood Mac',year:'1977',videoId:'mrZRURcb1cM',prompts:['Stevie Nicks\'s voice is one of the most distinctive in rock. What timbre descriptors fit? What makes her tone immediately recognizable?','Compare the guitar and bass timbre here to Cream\'s Sunshine of Your Love. What\'s different — and why might those choices fit this song?','How does the overall timbre of Dreams connect to the mood and emotional message of the song?']},
+  {title:'Johnny B. Goode',artist:'Chuck Berry',year:'1958',videoId:'Y-9Y4CCIWnM',
+   prompts:['How would you describe the timbre of the guitar? Use at least two descriptors from the word bank.','Listen to Berry\'s vocal tone. What descriptors fit — and what does that timbre add to the feeling of the song?','Does the overall tone color feel tense (dissonant) or smooth (consonant)? Where do you hear distortion, if any?']},
+  {title:'Sunshine of Your Love',artist:'Cream',year:'1967',videoId:'K6QOB1BKUJA',
+   prompts:['Clapton\'s guitar tone here is famously thick and distorted. What descriptors from the word bank fit? How does it compare to Berry\'s tone?','Listen to the bass. Is it thin or fat? Clean or gritty? How does it support the guitar\'s timbre?','Does the heavy distortion create more consonance or dissonance? How does that tension connect to the mood of the song?']},
+  {title:'Dreams',artist:'Fleetwood Mac',year:'1977',videoId:'mrZRURcb1cM',
+   prompts:['Stevie Nicks\'s voice is one of the most distinctive in rock. What timbre descriptors fit? What makes her tone immediately recognizable?','Compare the guitar and bass timbre here to Cream\'s Sunshine of Your Love. What\'s different — and why might those choices fit this song?','How does the overall timbre of Dreams connect to the mood and emotional message of the song?']},
 ];
 
 const WB=['bright','warm','dark','clean','gritty','distorted','thin','fat','thick','nasal','breathy','airy','cutting','mellow','harsh','smooth','raw','polished'];
@@ -285,33 +358,19 @@ const WB=['bright','warm','dark','clean','gritty','distorted','thin','fat','thic
 let audioCtx=null,masterGain=null,bassF,lowmidF,highmidF,trebleF;
 let harmonicOscs=[null,null,null,null],harmonicGains=[null,null,null,null];
 let analyser=null,explorePlaying=false,animFrame=null,currentWaveType='sine';
-let currentSource='synth';
-let micStream=null,micSourceNode=null;
-let isHandlingPlay=false;
-let micPermState='unknown'; // 'unknown' | 'granted' | 'prompt' | 'denied' | 'unavailable'
+let currentSource='synth',micStream=null,micSourceNode=null,isHandlingPlay=false,micPermState='unknown';
 
 function getCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
 
-// ── Permission detection ──────────────────────────────────────────────────────
 async function checkMicPermission(){
-  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
-    micPermState='unavailable';
-    return;
-  }
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){micPermState='unavailable';return;}
   if(navigator.permissions&&navigator.permissions.query){
     try{
       const result=await navigator.permissions.query({name:'microphone'});
-      micPermState=result.state; // 'granted' | 'prompt' | 'denied'
-      // Watch for changes (e.g. user changes setting in browser)
-      result.onchange=()=>{
-        micPermState=result.state;
-        if(currentSource==='mic') updatePermBanner();
-      };
+      micPermState=result.state;
+      result.onchange=()=>{micPermState=result.state;if(currentSource==='mic')updatePermBanner();};
       return;
-    }catch(e){
-      // permissions.query not supported for microphone in all browsers (e.g. Firefox)
-      micPermState='unknown';
-    }
+    }catch(e){micPermState='unknown';}
   }
   micPermState='unknown';
 }
@@ -320,27 +379,25 @@ function updatePermBanner(){
   const banner=document.getElementById('permBanner');
   const btn=document.getElementById('explorePlayBtn');
   if(currentSource!=='mic'){banner.className='perm-banner';return;}
-
   if(micPermState==='granted'){
     banner.className='perm-banner granted visible';
     banner.innerHTML='<strong>✓ Microphone access granted</strong>Press "Start listening" to activate the waveform display.';
     btn.disabled=false;
-  } else if(micPermState==='prompt'||micPermState==='unknown'){
+  }else if(micPermState==='prompt'||micPermState==='unknown'){
     banner.className='perm-banner prompt visible';
     banner.innerHTML='<strong>⚠ Microphone permission required</strong>When you press "Start listening" your browser will ask for microphone access. Click <em>Allow</em> in that dialog to continue.';
     btn.disabled=false;
-  } else if(micPermState==='denied'){
+  }else if(micPermState==='denied'){
     banner.className='perm-banner denied visible';
-    banner.innerHTML=`<strong>✗ Microphone access blocked</strong>Your browser has blocked microphone access for this page. To fix it:<ul class="perm-steps"><li><strong>Chrome / Edge:</strong> Click the lock icon in the address bar → Microphone → Allow, then refresh.</li><li><strong>Firefox:</strong> Click the lock icon → Clear permissions → refresh and allow when prompted.</li><li><strong>Safari:</strong> Go to Settings → Websites → Microphone → find this site → Allow.</li></ul>`;
+    banner.innerHTML='<strong>✗ Microphone access blocked</strong>Your browser has blocked microphone access for this page. To fix it:<ul class="perm-steps"><li><strong>Chrome / Edge:</strong> Click the lock icon in the address bar → Microphone → Allow, then refresh.</li><li><strong>Firefox:</strong> Click the lock icon → Clear permissions → refresh and allow when prompted.</li><li><strong>Safari:</strong> Go to Settings → Websites → Microphone → find this site → Allow.</li></ul>';
     btn.disabled=true;
-  } else if(micPermState==='unavailable'){
+  }else{
     banner.className='perm-banner unavailable visible';
     banner.innerHTML='<strong>Microphone not available</strong>Your browser or device does not support microphone access. This feature works best in Chrome or Edge over HTTPS.';
     btn.disabled=true;
   }
 }
 
-// ── Audio engine ──────────────────────────────────────────────────────────────
 function buildFilterChain(ctx){
   bassF=ctx.createBiquadFilter();bassF.type='lowshelf';bassF.frequency.value=80;
   lowmidF=ctx.createBiquadFilter();lowmidF.type='peaking';lowmidF.frequency.value=500;lowmidF.Q.value=1;
@@ -365,13 +422,11 @@ function buildSynthChain(){
 }
 
 async function buildMicChain(){
-  const ctx=getCtx();
-  stopSynth();
+  const ctx=getCtx();stopSynth();
   if(micStream){micStream.getTracks().forEach(t=>t.stop());micStream=null;}
   if(micSourceNode){try{micSourceNode.disconnect();}catch(e){}micSourceNode=null;}
   micStream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
-  micPermState='granted';
-  updatePermBanner();
+  micPermState='granted';updatePermBanner();
   analyser=ctx.createAnalyser();analyser.fftSize=2048;
   micSourceNode=ctx.createMediaStreamSource(micStream);
   micSourceNode.connect(analyser);
@@ -386,8 +441,7 @@ function stopAll(){stopSynth();stopMic();explorePlaying=false;if(animFrame){canc
 
 function startPlaying(){
   const btn=document.getElementById('explorePlayBtn');
-  explorePlaying=true;
-  btn.textContent='■ Stop';btn.classList.add('playing');
+  explorePlaying=true;btn.textContent='■ Stop';btn.classList.add('playing');
   document.getElementById('exploreStatus').textContent=currentSource==='mic'?'Listening — make any sound and watch the wave':'Playing — adjust harmonics or EQ to reshape the sound';
   drawLiveWave();
 }
@@ -398,7 +452,7 @@ function stopPlaying(){
   btn.textContent=currentSource==='mic'?'🎤 Start listening':'▶ Play';
   btn.classList.remove('playing');
   document.getElementById('exploreStatus').textContent=currentSource==='mic'?'Microphone stopped':'Press play to hear the sound';
-  if(currentSource==='synth') drawStaticWave();
+  if(currentSource==='synth')drawStaticWave();
 }
 
 function handlePlayBtn(){
@@ -411,13 +465,9 @@ function handlePlayBtn(){
 function startMicAsync(){
   isHandlingPlay=true;
   document.getElementById('exploreStatus').textContent='Requesting microphone access...';
-  buildMicChain().then(()=>{
-    isHandlingPlay=false;
-    startPlaying();
-  }).catch(err=>{
-    isHandlingPlay=false;
-    micPermState='denied';
-    updatePermBanner();
+  buildMicChain().then(()=>{isHandlingPlay=false;startPlaying();})
+  .catch(()=>{
+    isHandlingPlay=false;micPermState='denied';updatePermBanner();
     document.getElementById('exploreStatus').textContent='Microphone access blocked — see instructions above.';
     document.getElementById('explorePlayBtn').classList.remove('playing');
     document.getElementById('explorePlayBtn').textContent='🎤 Start listening';
@@ -442,8 +492,7 @@ function drawLiveWave(){
   if(canvas.width!==canvas.offsetWidth*dpr){canvas.width=canvas.offsetWidth*dpr;canvas.height=canvas.offsetHeight*dpr;}
   ctx2.setTransform(dpr,0,0,dpr,0,0);
   const w=canvas.offsetWidth,h=canvas.offsetHeight;
-  const buf=new Float32Array(analyser.fftSize);
-  analyser.getFloatTimeDomainData(buf);
+  const buf=new Float32Array(analyser.fftSize);analyser.getFloatTimeDomainData(buf);
   ctx2.clearRect(0,0,w,h);
   ctx2.strokeStyle=currentSource==='mic'?'#E8834A':'#1D9E75';ctx2.lineWidth=2;ctx2.beginPath();
   const sliceW=w/buf.length;
@@ -486,13 +535,8 @@ async function setSource(src){
   btn.textContent=src==='mic'?'🎤 Start listening':'▶ Play';
   btn.classList.remove('playing');btn.disabled=false;
   document.getElementById('exploreStatus').textContent=src==='mic'?'Press start to activate the microphone':'Press play to hear the sound';
-  if(src==='mic'){
-    await checkMicPermission();
-    updatePermBanner();
-  } else {
-    document.getElementById('permBanner').className='perm-banner';
-    drawStaticWave();
-  }
+  if(src==='mic'){await checkMicPermission();updatePermBanner();}
+  else{document.getElementById('permBanner').className='perm-banner';drawStaticWave();}
 }
 
 let demoOsc=null,demoTimeout=null;
@@ -532,6 +576,14 @@ function drawStackCanvas(){
   ctx2.stroke();
 }
 
+function drawSineDemoCanvas(){
+  const canvas=document.getElementById('sineDemo');if(!canvas)return;
+  const dpr=window.devicePixelRatio||1;canvas.width=canvas.offsetWidth*dpr;canvas.height=canvas.offsetHeight*dpr;
+  const ctx2=canvas.getContext('2d');ctx2.setTransform(dpr,0,0,dpr,0,0);
+  ctx2.strokeStyle='#4A90D9';ctx2.lineWidth=2;ctx2.beginPath();
+  drawWaveShape(ctx2,'sine',canvas.offsetWidth,canvas.offsetHeight,3);ctx2.stroke();
+}
+
 function renderWaveCards(){
   document.getElementById('waveCards').innerHTML=WAVES.map(w=>`
     <div class="wave-card">
@@ -548,13 +600,6 @@ function renderWaveCards(){
     });
     drawSineDemoCanvas();drawStackCanvas();
   });
-}
-
-function drawSineDemoCanvas(){
-  const canvas=document.getElementById('sineDemo');if(!canvas)return;
-  const dpr=window.devicePixelRatio||1;canvas.width=canvas.offsetWidth*dpr;canvas.height=canvas.offsetHeight*dpr;
-  const ctx2=canvas.getContext('2d');ctx2.setTransform(dpr,0,0,dpr,0,0);
-  ctx2.strokeStyle='#4A90D9';ctx2.lineWidth=2;ctx2.beginPath();drawWaveShape(ctx2,'sine',canvas.offsetWidth,canvas.offsetHeight,3);ctx2.stroke();
 }
 
 function renderWordBank(){
@@ -599,3 +644,5 @@ document.querySelectorAll('.wave-sel-btn').forEach(b=>{b.addEventListener('click
 
 renderWaveCards();renderWordBank();renderSongCards();setExploreWave('sine');
 </script>
+</body>
+</html>
