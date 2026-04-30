@@ -399,7 +399,7 @@ const PROGRESSIONS = [
 const EAR_TRAINING = [
   {
     videoId: 'Y-9Y4CCIWnM',
-    start: 10,
+    start: 0,
     question: "This song uses the foundational harmonic structure of early rock. Which progression do you hear?",
     choices: ['I – IV – V (12-bar blues)', 'I – V – vi – IV (pop anthem)', 'I – ♭VII – IV (Mixolydian)', 'i – ♭VII – ♭VI – ♭VII (minor modal)'],
     correct: 0,
@@ -637,24 +637,48 @@ let currentQ = 0;
 let answered = new Array(EAR_TRAINING.length).fill(null); // null | index of chosen answer
 let etPlayer = null;
 
+function loadEtPlayer(videoId, start) {
+  // Destroy any existing player first
+  if (etPlayer && etPlayer.destroy) { try { etPlayer.destroy(); } catch(e) {} etPlayer = null; }
+  const playerDiv = document.getElementById('clipPlayer');
+  playerDiv.innerHTML = `<div id="etPlayerDiv"></div>`;
+  ensureYTApi(() => {
+    etPlayer = new YT.Player('etPlayerDiv', {
+      videoId,
+      width: '100%', height: 200,
+      playerVars: { start, autoplay: 1, controls: 1, rel: 0, modestbranding: 1, origin: location.origin },
+      events: { onReady: e => { e.target.seekTo(start); e.target.playVideo(); } }
+    });
+  });
+}
+
+function renderEtThumbnail(videoId, start) {
+  if (etPlayer && etPlayer.destroy) { try { etPlayer.destroy(); } catch(e) {} etPlayer = null; }
+  const playerDiv = document.getElementById('clipPlayer');
+  const thumbUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+  const startLabel = start > 0 ? ` (starts at ${fmtTime(start)})` : '';
+  playerDiv.innerHTML = `
+    <div style="position:relative;width:100%;height:200px;background:#000;border-radius:8px;overflow:hidden;cursor:pointer;"
+         onclick="loadEtPlayer('${videoId}', ${start})">
+      <img src="${thumbUrl}" alt="Video thumbnail"
+           style="width:100%;height:100%;object-fit:cover;opacity:0.7;display:block;">
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+        <div style="width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,0.4);">
+          <span style="font-size:22px;margin-left:4px;">▶</span>
+        </div>
+        <div style="font-size:12px;color:#fff;background:rgba(0,0,0,0.55);padding:3px 10px;border-radius:20px;letter-spacing:0.03em;">
+          Click to play${startLabel}
+        </div>
+      </div>
+    </div>`;
+}
+
 function renderQuestion() {
   const q = EAR_TRAINING[currentQ];
   document.getElementById('progressText').textContent = `${currentQ + 1} of ${EAR_TRAINING.length}`;
 
-  // Player
-  const playerDiv = document.getElementById('clipPlayer');
-  playerDiv.innerHTML = `<div id="etPlayerDiv"></div>`;
-  if (etPlayer && etPlayer.destroy) { try { etPlayer.destroy(); } catch(e) {} etPlayer = null; }
-  setTimeout(() => {
-    ensureYTApi(() => {
-      etPlayer = new YT.Player('etPlayerDiv', {
-        videoId: q.videoId,
-        width: '100%', height: 200,
-        playerVars: { start: q.start, controls: 1, rel: 0, modestbranding: 1, origin: location.origin },
-        events: { onReady: e => e.target.seekTo(q.start) }
-      });
-    });
-  }, 200);
+  // Show thumbnail — student must click to initiate playback
+  renderEtThumbnail(q.videoId, q.start);
 
   document.getElementById('questionText').textContent = q.question;
 
