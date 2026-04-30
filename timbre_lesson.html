@@ -1,0 +1,601 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;color:var(--color-text-primary);line-height:1.6;background:transparent;}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--color-border-tertiary);margin-bottom:1.5rem;flex-wrap:wrap;}
+.tab{padding:8px 18px;font-size:14px;font-weight:500;border:none;background:none;cursor:pointer;color:var(--color-text-secondary);border-bottom:2px solid transparent;margin-bottom:-1px;transition:color 0.15s;}
+.tab.active{color:var(--color-text-primary);border-bottom-color:var(--color-text-primary);}
+.tab:hover:not(.active){color:var(--color-text-primary);}
+.panel{display:none;padding:0 0 2rem;}
+.panel.active{display:block;}
+.intro-block{margin-bottom:1.5rem;}
+.intro-block p{font-size:14px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:0.75rem;}
+.intro-block p:last-child{margin-bottom:0;}
+.section-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--color-text-tertiary);margin-bottom:0.75rem;margin-top:1.25rem;}
+.concept-block{border:1px solid var(--color-border-tertiary);border-radius:12px;background:var(--color-background-primary);padding:1rem 1.1rem;margin-bottom:1rem;}
+.concept-block h3{font-size:15px;font-weight:500;margin-bottom:0.5rem;}
+.concept-block p{font-size:13px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:0.6rem;}
+.concept-block p:last-child{margin-bottom:0;}
+.stacking-visual{margin:1rem 0;border:1px solid var(--color-border-tertiary);border-radius:10px;overflow:hidden;background:var(--color-background-secondary);padding:0.75rem;}
+.stacking-visual canvas{width:100%;display:block;border-radius:6px;}
+.stack-labels{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;}
+.stack-label{font-size:11px;display:flex;align-items:center;gap:5px;color:var(--color-text-secondary);}
+.stack-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.play-btn{padding:6px 16px;border-radius:20px;border:1px solid var(--color-border-secondary);background:var(--color-background-secondary);font-size:13px;cursor:pointer;color:var(--color-text-primary);white-space:nowrap;margin-top:8px;}
+.play-btn:hover{background:var(--color-background-tertiary);}
+.play-btn.playing{border-color:#1D9E75;color:#1D9E75;}
+.wave-cards{display:flex;flex-direction:column;gap:12px;margin-bottom:1rem;}
+.wave-card{border:1px solid var(--color-border-tertiary);border-radius:12px;background:var(--color-background-primary);overflow:hidden;}
+.wave-card-header{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:1rem 1.1rem 0.75rem;}
+.wave-card-title{font-size:15px;font-weight:500;}
+.wave-card-sub{font-size:12px;color:var(--color-text-secondary);margin-top:2px;}
+.wave-canvas-wrap{padding:0 1.1rem;margin-bottom:0.75rem;}
+canvas.wave{width:100%;height:70px;display:block;border-radius:8px;background:var(--color-background-secondary);}
+.wave-body{padding:0 1.1rem 1rem;}
+.wave-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.75;margin-bottom:0.6rem;}
+.harmonic-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.h-pill{font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid var(--color-border-tertiary);color:var(--color-text-secondary);}
+.consonance-block{border:1px solid var(--color-border-tertiary);border-radius:12px;padding:1rem 1.1rem;background:var(--color-background-primary);margin-bottom:1rem;}
+.consonance-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:0.75rem;}
+.c-box{border-radius:8px;padding:0.75rem 0.9rem;}
+.c-box h4{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px;}
+.c-box p{font-size:13px;line-height:1.65;}
+.word-bank-wrap{border:1px solid var(--color-border-tertiary);border-radius:12px;padding:1rem 1.1rem;background:var(--color-background-primary);}
+.wb-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.wb-pill{font-size:13px;font-weight:500;padding:5px 14px;border-radius:20px;border:1.5px solid var(--color-border-secondary);background:var(--color-background-secondary);}
+.song-cards{display:flex;flex-direction:column;gap:14px;}
+.song-card{border:1px solid var(--color-border-tertiary);border-radius:12px;background:var(--color-background-primary);overflow:hidden;}
+.song-card-header{padding:1rem 1.1rem 0.75rem;border-bottom:1px solid var(--color-border-tertiary);}
+.song-card-header h3{font-size:15px;font-weight:500;}
+.song-card-header .artist{font-size:12px;color:var(--color-text-secondary);margin-top:2px;}
+.song-video iframe{width:100%;height:220px;display:block;border:none;}
+.song-prompts{padding:1rem 1.1rem;}
+.prompt-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-text-tertiary);margin-bottom:8px;}
+.prompt-item{font-size:13px;color:var(--color-text-secondary);line-height:1.7;padding:5px 0;border-bottom:1px solid var(--color-border-tertiary);}
+.prompt-item:last-child{border-bottom:none;padding-bottom:0;}
+.prompt-item::before{content:"→ ";color:var(--color-text-tertiary);}
+.wb-ref{border:1px solid var(--color-border-tertiary);border-radius:8px;padding:0.6rem 0.9rem;margin-bottom:1.25rem;background:var(--color-background-secondary);}
+.wb-ref-label{font-size:11px;color:var(--color-text-tertiary);margin-bottom:5px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;}
+.wb-ref-pills{display:flex;flex-wrap:wrap;gap:5px;}
+.wb-ref-pill{font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--color-border-tertiary);color:var(--color-text-secondary);}
+.explore-card{border:1px solid var(--color-border-tertiary);border-radius:12px;padding:1rem 1.1rem;background:var(--color-background-primary);margin-bottom:1rem;}
+.explore-card h3{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--color-text-secondary);margin-bottom:0.75rem;}
+.wave-selector{display:flex;gap:6px;flex-wrap:wrap;}
+.wave-sel-btn{padding:6px 14px;border-radius:20px;border:1px solid var(--color-border-secondary);background:var(--color-background-secondary);font-size:13px;cursor:pointer;color:var(--color-text-primary);}
+.wave-sel-btn.active{border-color:#1D9E75;color:#1D9E75;}
+.slider-row{margin-bottom:10px;}
+.slider-row:last-child{margin-bottom:0;}
+.slider-row label{display:flex;justify-content:space-between;font-size:12px;color:var(--color-text-secondary);margin-bottom:3px;}
+.slider-row input[type=range]{width:100%;accent-color:#1D9E75;}
+.explore-canvas-wrap{border:1px solid var(--color-border-tertiary);border-radius:12px;padding:0.75rem;background:var(--color-background-primary);margin-bottom:1rem;}
+canvas#exploreWave{width:100%;height:110px;display:block;border-radius:6px;background:var(--color-background-secondary);}
+.explore-play-row{display:flex;align-items:center;gap:8px;margin-bottom:1rem;flex-wrap:wrap;}
+.big-play-btn{padding:8px 24px;border-radius:20px;border:1px solid var(--color-border-secondary);background:var(--color-background-secondary);font-size:14px;cursor:pointer;color:var(--color-text-primary);}
+.big-play-btn:hover{background:var(--color-background-tertiary);}
+.big-play-btn.playing{border-color:#1D9E75;color:#1D9E75;}
+.big-play-btn:disabled{opacity:0.4;cursor:not-allowed;}
+.source-toggle{display:flex;border:1px solid var(--color-border-secondary);border-radius:20px;overflow:hidden;flex-shrink:0;}
+.src-btn{padding:7px 16px;font-size:13px;border:none;background:var(--color-background-secondary);cursor:pointer;color:var(--color-text-secondary);transition:background 0.15s,color 0.15s;}
+.src-btn.active{background:var(--color-text-primary);color:var(--color-background-primary);}
+.src-btn:first-child{border-right:1px solid var(--color-border-secondary);}
+.explore-status{font-size:12px;color:var(--color-text-tertiary);flex:1;min-width:120px;}
+.explore-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.7;border:1px solid var(--color-border-tertiary);border-radius:8px;padding:0.75rem 0.9rem;background:var(--color-background-secondary);margin-bottom:1rem;}
+.synth-controls{transition:opacity 0.2s;}
+.synth-controls.dimmed{opacity:0.35;pointer-events:none;}
+.mic-hint{font-size:13px;color:var(--color-text-secondary);line-height:1.7;border:1px solid var(--color-border-tertiary);border-radius:8px;padding:0.75rem 0.9rem;background:var(--color-background-secondary);margin-bottom:1rem;display:none;}
+.mic-hint.visible{display:block;}
+
+/* Permission status banner */
+.perm-banner{border-radius:10px;padding:0.85rem 1rem;margin-bottom:1rem;font-size:13px;line-height:1.7;display:none;}
+.perm-banner.visible{display:block;}
+.perm-banner.granted{background:#E1F5EE;border:1px solid #9FE1CB;color:#085041;}
+.perm-banner.prompt{background:#FEF9EC;border:1px solid #FAC775;color:#633806;}
+.perm-banner.denied{background:#FAECE7;border:1px solid #F5C4B3;color:#712B13;}
+.perm-banner.unavailable{background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);color:var(--color-text-secondary);}
+.perm-banner strong{display:block;margin-bottom:3px;}
+.perm-steps{margin-top:6px;padding-left:1.1rem;}
+.perm-steps li{margin-bottom:3px;}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem;}
+@media(max-width:560px){.two-col{grid-template-columns:1fr;}.consonance-grid{grid-template-columns:1fr;}}
+</style>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('concepts')">Concepts</button>
+  <button class="tab" onclick="showTab('examples')">Examples</button>
+  <button class="tab" onclick="showTab('explore')">Exploration</button>
+</div>
+
+<!-- CONCEPTS -->
+<div id="panel-concepts" class="panel active">
+  <div class="intro-block">
+    <p>Every sound has three basic qualities: <strong>amplitude</strong>, or how loud it sounds; <strong>pitch</strong>, or how high or low it sounds; and <strong>timbre</strong> (pronounced TAM-ber). The third quality — timbre — is the texture, color, and personality of a sound. Timbre is why a guitar, a piano, or a cello can play the exact same note at the exact same volume and still sound completely different.</p>
+    <p>In rock music, timbre is one of the most powerful tools an artist has. The choice of instrument, amplifier, effects pedal, and recording technique all shape timbre. When Chuck Berry played with a bright, clean tone and Jimi Hendrix played with heavy distortion, they weren't just making different sounds — they were making different statements about what rock could feel like.</p>
+    <p>To understand timbre, we need to understand what sound actually is — and that means starting with the simplest possible sound: the sine wave.</p>
+  </div>
+  <div class="section-label">The fundamental tone</div>
+  <div class="concept-block">
+    <h3>Sine waves — the building block of all sound</h3>
+    <p>The simplest possible sound is a pure, single frequency — a smooth, repeating vibration called a <strong>sine wave</strong>. It has one pitch, one speed, and nothing extra. You can think of it as a single voice singing one sustained note in a completely empty room. Every sound in the world — every instrument, every voice, every noise — is built from combinations of sine waves.</p>
+    <div style="text-align:center;margin:0.75rem 0;">
+      <canvas id="sineDemo" style="width:100%;height:70px;border-radius:8px;background:var(--color-background-secondary);display:block;"></canvas>
+    </div>
+    <button class="play-btn" id="sineDemoBtn" onclick="playDemo('sine',this)">▶ Hear a pure sine wave</button>
+  </div>
+  <div class="section-label">How overtones create timbre</div>
+  <div class="concept-block">
+    <h3>Real sounds are stacks of sine waves</h3>
+    <p>When a guitar string vibrates, it doesn't just produce one frequency. It vibrates along its full length — producing the fundamental tone — and simultaneously along halves, thirds, and quarters of its length, producing higher frequencies called <strong>overtones</strong> (or harmonics). These overtones are quieter than the fundamental, but they're always there, layering on top of each other.</p>
+    <p>The result is a richer, more complex wave. That complexity is timbre. The visual below shows how a fundamental sine wave and two overtones combine into a single more complex waveform — the kind of shape you'd see coming from a real instrument.</p>
+    <div class="stacking-visual">
+      <canvas id="stackCanvas" height="160"></canvas>
+      <div class="stack-labels">
+        <div class="stack-label"><div class="stack-dot" style="background:#4A90D9;"></div>Fundamental (1st harmonic)</div>
+        <div class="stack-label"><div class="stack-dot" style="background:#E8834A;"></div>2nd harmonic (octave above)</div>
+        <div class="stack-label"><div class="stack-dot" style="background:#9B59B6;"></div>3rd harmonic</div>
+        <div class="stack-label"><div class="stack-dot" style="background:#1D9E75;"></div>Combined wave (what you hear)</div>
+      </div>
+    </div>
+  </div>
+  <div class="section-label">Why instruments sound different</div>
+  <div class="concept-block">
+    <h3>Different overtone profiles</h3>
+    <p>Every instrument emphasizes a different set of overtones — and that's what makes each one sound unique. The shape of a violin body amplifies certain overtones and dampens others. A trumpet's brass tube does the same thing in a completely different way. Even two guitars can sound different from each other depending on the wood they're made from, the thickness of the strings, and how hard or softly they're played.</p>
+    <p>The way a sound is produced matters too. A bowed string produces a different overtone profile than a plucked one, even on the same instrument. A singer's vocal tract changes shape as they move through vowels, boosting different overtones with each sound. This is why timbre is so expressive — it responds to every small physical choice a musician makes.</p>
+  </div>
+  <div class="section-label">Consonance &amp; dissonance in harmonics</div>
+  <div class="consonance-block">
+    <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.8;">When overtones are simple mathematical multiples of the fundamental — 2×, 3×, 4× the frequency — they tend to blend smoothly. When frequencies clash at more complex ratios, the result feels tense or unresolved. We call these two qualities <strong>consonance</strong> and <strong>dissonance</strong>.</p>
+    <div class="consonance-grid">
+      <div class="c-box" style="background:#E1F5EE;"><h4 style="color:#0F6E56;">Consonance — smooth, at rest</h4><p style="color:#085041;">Harmonics that divide evenly into each other feel stable and resolved together. A pure sine wave is the ultimate consonance — just one frequency, nothing clashing. We hear consonance as warmth and rest. It's why a major chord feels "finished."</p></div>
+      <div class="c-box" style="background:#FAECE7;"><h4 style="color:#993C1D;">Dissonance — tense, unresolved</h4><p style="color:#712B13;">When harmonics clash at complex ratios, the result is tension. Heavy guitar distortion generates dense harmonic clashing — which is exactly what gives rock its aggression and energy. Neither is "better": the art is knowing which to reach for.</p></div>
+    </div>
+  </div>
+  <div class="section-label">Synthesized waves — hearing harmonics in action</div>
+  <div class="intro-block">
+    <p>Synthesizers build sounds by combining sine waves in predictable patterns. The wave shapes below aren't the basic shapes of all sound — they're shortcuts that synthesizers use to produce specific harmonic combinations. Each one has a characteristic timbre you can hear immediately. Use the <strong>Exploration tab</strong> to build and shape these sounds yourself.</p>
+  </div>
+  <div class="wave-cards" id="waveCards"></div>
+  <div class="word-bank-wrap">
+    <div class="section-label" style="margin-top:0;">Word bank — use these when describing timbre</div>
+    <div class="wb-pills" id="wordBankPills"></div>
+  </div>
+</div>
+
+<!-- EXAMPLES -->
+<div id="panel-examples" class="panel">
+  <div class="wb-ref">
+    <div class="wb-ref-label">Word bank — keep these in mind as you listen</div>
+    <div class="wb-ref-pills" id="wbRef"></div>
+  </div>
+  <div class="song-cards" id="songCards"></div>
+</div>
+
+<!-- EXPLORATION -->
+<div id="panel-explore" class="panel">
+  <p style="font-size:14px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:1.25rem;">Build and shape synthesized sounds — or switch to <strong>Live input</strong> to see the waveform of your own voice or any sound around you in real time.</p>
+
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem;flex-wrap:wrap;">
+    <div class="section-label" style="margin:0;">Input source</div>
+    <div class="source-toggle">
+      <button class="src-btn active" id="srcSynth" onclick="setSource('synth')">🎛 Synthesizer</button>
+      <button class="src-btn" id="srcMic" onclick="setSource('mic')">🎤 Live input</button>
+    </div>
+  </div>
+
+  <!-- Permission status banner — shown only in mic mode -->
+  <div class="perm-banner" id="permBanner"></div>
+
+  <div class="mic-hint" id="micHint">
+    <strong>Live input active.</strong> The waveform below shows the real signal from your microphone. Try speaking, singing, humming, clapping, or whistling — watch how the wave shape changes. A steady hum produces a smooth repeating wave. A sharp clap produces a burst of noise with no clear shape.
+  </div>
+
+  <div class="synth-controls" id="synthControls">
+    <div class="two-col">
+      <div class="explore-card" style="margin-bottom:0;">
+        <h3>Wave shape</h3>
+        <div class="wave-selector" id="waveSelector">
+          <button class="wave-sel-btn active" data-wave="sine">Sine</button>
+          <button class="wave-sel-btn" data-wave="sawtooth">Sawtooth</button>
+          <button class="wave-sel-btn" data-wave="square">Square</button>
+          <button class="wave-sel-btn" data-wave="triangle">Triangle</button>
+        </div>
+      </div>
+      <div class="explore-card" style="margin-bottom:0;">
+        <h3>Pitch</h3>
+        <div class="slider-row">
+          <label><span>Frequency</span><span id="freqVal">220 Hz</span></label>
+          <input type="range" id="freqSlider" min="80" max="880" value="220" step="10">
+        </div>
+      </div>
+    </div>
+    <div style="height:1rem;"></div>
+    <div class="explore-card">
+      <h3>Harmonics — add overtones to the fundamental</h3>
+      <div class="slider-row">
+        <label><span style="display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#4A90D9;"></span>Fundamental (1st harmonic)</span><span id="h1Val">100%</span></label>
+        <input type="range" id="h1Slider" min="0" max="100" value="100" step="1">
+      </div>
+      <div class="slider-row">
+        <label><span style="display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#E8834A;"></span>2nd harmonic (octave above)</span><span id="h2Val">0%</span></label>
+        <input type="range" id="h2Slider" min="0" max="100" value="0" step="1">
+      </div>
+      <div class="slider-row">
+        <label><span style="display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#9B59B6;"></span>3rd harmonic</span><span id="h3Val">0%</span></label>
+        <input type="range" id="h3Slider" min="0" max="100" value="0" step="1">
+      </div>
+      <div class="slider-row">
+        <label><span style="display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#C0392B;"></span>4th harmonic</span><span id="h4Val">0%</span></label>
+        <input type="range" id="h4Slider" min="0" max="100" value="0" step="1">
+      </div>
+    </div>
+  </div>
+
+  <div class="explore-canvas-wrap">
+    <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-text-tertiary);margin-bottom:6px;" id="waveformLabel">Live waveform — synthesizer output</div>
+    <canvas id="exploreWave"></canvas>
+  </div>
+
+  <div class="explore-play-row">
+    <button class="big-play-btn" id="explorePlayBtn" onclick="handlePlayBtn()">▶ Play</button>
+    <span class="explore-status" id="exploreStatus">Press play to hear the sound</span>
+  </div>
+
+  <div class="synth-controls" id="synthControls2">
+    <div class="explore-card">
+      <h3>EQ — shape the timbre by frequency</h3>
+      <div class="slider-row">
+        <label><span>Bass (80 Hz)</span><span id="bassVal">0 dB</span></label>
+        <input type="range" id="bassSlider" min="-24" max="24" value="0" step="1">
+      </div>
+      <div class="slider-row">
+        <label><span>Low mids (500 Hz)</span><span id="lowmidVal">0 dB</span></label>
+        <input type="range" id="lowmidSlider" min="-24" max="24" value="0" step="1">
+      </div>
+      <div class="slider-row">
+        <label><span>High mids (2 kHz)</span><span id="highmidVal">0 dB</span></label>
+        <input type="range" id="highmidSlider" min="-24" max="24" value="0" step="1">
+      </div>
+      <div class="slider-row">
+        <label><span>Treble (8 kHz)</span><span id="trebleVal">0 dB</span></label>
+        <input type="range" id="trebleSlider" min="-24" max="24" value="0" step="1">
+      </div>
+    </div>
+  </div>
+
+  <div class="explore-desc" id="exploreDesc">Choose a wave shape above to see a description.</div>
+</div>
+
+<script>
+const WAVES=[
+  {type:'sine',label:'Sine wave',sub:'The purest sound — one single frequency',color:'#4A90D9',desc:'A sine wave contains only the fundamental frequency — no harmonics, no overtones. The result is a smooth, pure tone. In nature, pure sine waves are rare; most real sounds are combinations of many sine waves. In synthesis, the sine wave is the starting point for building any other sound.',harmonics:['Fundamental only','No overtones','Maximum consonance','Pure, smooth character']},
+  {type:'sawtooth',label:'Sawtooth wave',sub:'Rich and bright — all harmonics present',color:'#E8834A',desc:'A sawtooth wave contains every harmonic — both even and odd multiples of the fundamental. The result is a bright, buzzy, cutting sound with a lot of presence. In synthesis, sawtooth waves are the foundation of many lead and bass sounds. Think of it as the full choir rather than a single voice.',harmonics:['All harmonics (odd + even)','Very bright and rich','Complex but not harsh','Buzzy, cutting character']},
+  {type:'square',label:'Square wave',sub:'Hollow and reedy — odd harmonics only',color:'#9B59B6',desc:'A square wave contains only odd harmonics (1st, 3rd, 5th, 7th...). This gives it a hollow, slightly nasal quality — like a clarinet or a vintage video game sound. The absence of even harmonics creates a distinctive gap in the overtone series that your ear picks up as a kind of hollowness.',harmonics:['Odd harmonics only','Hollow, reedy quality','Nasal character','Less bright than sawtooth']},
+  {type:'triangle',label:'Triangle wave',sub:'Soft and flute-like — weak odd harmonics',color:'#1D9E75',desc:'A triangle wave contains odd harmonics like a square wave, but they decrease in strength much more quickly as they go higher. The result is a softer, rounder sound — closer to a sine wave than a square wave, but with a subtle hollow edge. Think of a flute or a soft whistle.',harmonics:['Odd harmonics, rapidly fading','Very soft, flute-like','Nearly as pure as sine','Gentle, rounded character']},
+];
+
+const SONGS=[
+  {title:'Johnny B. Goode',artist:'Chuck Berry',year:'1958',videoId:'Y-9Y4CCIWnM',prompts:['How would you describe the timbre of the guitar? Use at least two descriptors from the word bank.','Listen to Berry\'s vocal tone. What descriptors fit — and what does that timbre add to the feeling of the song?','Does the overall tone color feel tense (dissonant) or smooth (consonant)? Where do you hear distortion, if any?']},
+  {title:'Sunshine of Your Love',artist:'Cream',year:'1967',videoId:'K6QOB1BKUJA',prompts:['Clapton\'s guitar tone here is famously thick and distorted. What descriptors from the word bank fit? How does it compare to Berry\'s tone?','Listen to the bass. Is it thin or fat? Clean or gritty? How does it support the guitar\'s timbre?','Does the heavy distortion create more consonance or dissonance? How does that tension connect to the mood of the song?']},
+  {title:'Dreams',artist:'Fleetwood Mac',year:'1977',videoId:'mrZRURcb1cM',prompts:['Stevie Nicks\'s voice is one of the most distinctive in rock. What timbre descriptors fit? What makes her tone immediately recognizable?','Compare the guitar and bass timbre here to Cream\'s Sunshine of Your Love. What\'s different — and why might those choices fit this song?','How does the overall timbre of Dreams connect to the mood and emotional message of the song?']},
+];
+
+const WB=['bright','warm','dark','clean','gritty','distorted','thin','fat','thick','nasal','breathy','airy','cutting','mellow','harsh','smooth','raw','polished'];
+
+let audioCtx=null,masterGain=null,bassF,lowmidF,highmidF,trebleF;
+let harmonicOscs=[null,null,null,null],harmonicGains=[null,null,null,null];
+let analyser=null,explorePlaying=false,animFrame=null,currentWaveType='sine';
+let currentSource='synth';
+let micStream=null,micSourceNode=null;
+let isHandlingPlay=false;
+let micPermState='unknown'; // 'unknown' | 'granted' | 'prompt' | 'denied' | 'unavailable'
+
+function getCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
+
+// ── Permission detection ──────────────────────────────────────────────────────
+async function checkMicPermission(){
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+    micPermState='unavailable';
+    return;
+  }
+  if(navigator.permissions&&navigator.permissions.query){
+    try{
+      const result=await navigator.permissions.query({name:'microphone'});
+      micPermState=result.state; // 'granted' | 'prompt' | 'denied'
+      // Watch for changes (e.g. user changes setting in browser)
+      result.onchange=()=>{
+        micPermState=result.state;
+        if(currentSource==='mic') updatePermBanner();
+      };
+      return;
+    }catch(e){
+      // permissions.query not supported for microphone in all browsers (e.g. Firefox)
+      micPermState='unknown';
+    }
+  }
+  micPermState='unknown';
+}
+
+function updatePermBanner(){
+  const banner=document.getElementById('permBanner');
+  const btn=document.getElementById('explorePlayBtn');
+  if(currentSource!=='mic'){banner.className='perm-banner';return;}
+
+  if(micPermState==='granted'){
+    banner.className='perm-banner granted visible';
+    banner.innerHTML='<strong>✓ Microphone access granted</strong>Press "Start listening" to activate the waveform display.';
+    btn.disabled=false;
+  } else if(micPermState==='prompt'||micPermState==='unknown'){
+    banner.className='perm-banner prompt visible';
+    banner.innerHTML='<strong>⚠ Microphone permission required</strong>When you press "Start listening" your browser will ask for microphone access. Click <em>Allow</em> in that dialog to continue.';
+    btn.disabled=false;
+  } else if(micPermState==='denied'){
+    banner.className='perm-banner denied visible';
+    banner.innerHTML=`<strong>✗ Microphone access blocked</strong>Your browser has blocked microphone access for this page. To fix it:<ul class="perm-steps"><li><strong>Chrome / Edge:</strong> Click the lock icon in the address bar → Microphone → Allow, then refresh.</li><li><strong>Firefox:</strong> Click the lock icon → Clear permissions → refresh and allow when prompted.</li><li><strong>Safari:</strong> Go to Settings → Websites → Microphone → find this site → Allow.</li></ul>`;
+    btn.disabled=true;
+  } else if(micPermState==='unavailable'){
+    banner.className='perm-banner unavailable visible';
+    banner.innerHTML='<strong>Microphone not available</strong>Your browser or device does not support microphone access. This feature works best in Chrome or Edge over HTTPS.';
+    btn.disabled=true;
+  }
+}
+
+// ── Audio engine ──────────────────────────────────────────────────────────────
+function buildFilterChain(ctx){
+  bassF=ctx.createBiquadFilter();bassF.type='lowshelf';bassF.frequency.value=80;
+  lowmidF=ctx.createBiquadFilter();lowmidF.type='peaking';lowmidF.frequency.value=500;lowmidF.Q.value=1;
+  highmidF=ctx.createBiquadFilter();highmidF.type='peaking';highmidF.frequency.value=2000;highmidF.Q.value=1;
+  trebleF=ctx.createBiquadFilter();trebleF.type='highshelf';trebleF.frequency.value=8000;
+  analyser=ctx.createAnalyser();analyser.fftSize=2048;
+  masterGain=ctx.createGain();masterGain.gain.value=0.18;
+  bassF.connect(lowmidF);lowmidF.connect(highmidF);highmidF.connect(trebleF);
+  trebleF.connect(analyser);analyser.connect(masterGain);masterGain.connect(ctx.destination);
+  updateEQ();
+}
+
+function buildSynthChain(){
+  const ctx=getCtx();stopSynth();buildFilterChain(ctx);
+  const baseFreq=parseInt(document.getElementById('freqSlider').value);
+  [1,2,3,4].forEach((mult,i)=>{
+    const osc=ctx.createOscillator();osc.type=currentWaveType;osc.frequency.value=baseFreq*mult;
+    const g=ctx.createGain();g.gain.value=parseInt(document.getElementById('h'+(i+1)+'Slider').value)/100*(1/mult);
+    osc.connect(g);g.connect(bassF);osc.start();
+    harmonicOscs[i]=osc;harmonicGains[i]=g;
+  });
+}
+
+async function buildMicChain(){
+  const ctx=getCtx();
+  stopSynth();
+  if(micStream){micStream.getTracks().forEach(t=>t.stop());micStream=null;}
+  if(micSourceNode){try{micSourceNode.disconnect();}catch(e){}micSourceNode=null;}
+  micStream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
+  micPermState='granted';
+  updatePermBanner();
+  analyser=ctx.createAnalyser();analyser.fftSize=2048;
+  micSourceNode=ctx.createMediaStreamSource(micStream);
+  micSourceNode.connect(analyser);
+}
+
+function stopSynth(){harmonicOscs.forEach((o,i)=>{if(o){try{o.stop();}catch(e){}harmonicOscs[i]=null;}});}
+function stopMic(){
+  if(micSourceNode){try{micSourceNode.disconnect();}catch(e){}micSourceNode=null;}
+  if(micStream){micStream.getTracks().forEach(t=>t.stop());micStream=null;}
+}
+function stopAll(){stopSynth();stopMic();explorePlaying=false;if(animFrame){cancelAnimationFrame(animFrame);animFrame=null;}}
+
+function startPlaying(){
+  const btn=document.getElementById('explorePlayBtn');
+  explorePlaying=true;
+  btn.textContent='■ Stop';btn.classList.add('playing');
+  document.getElementById('exploreStatus').textContent=currentSource==='mic'?'Listening — make any sound and watch the wave':'Playing — adjust harmonics or EQ to reshape the sound';
+  drawLiveWave();
+}
+
+function stopPlaying(){
+  const btn=document.getElementById('explorePlayBtn');
+  stopAll();
+  btn.textContent=currentSource==='mic'?'🎤 Start listening':'▶ Play';
+  btn.classList.remove('playing');
+  document.getElementById('exploreStatus').textContent=currentSource==='mic'?'Microphone stopped':'Press play to hear the sound';
+  if(currentSource==='synth') drawStaticWave();
+}
+
+function handlePlayBtn(){
+  if(isHandlingPlay)return;
+  if(explorePlaying){stopPlaying();return;}
+  if(currentSource==='synth'){buildSynthChain();startPlaying();}
+  else startMicAsync();
+}
+
+function startMicAsync(){
+  isHandlingPlay=true;
+  document.getElementById('exploreStatus').textContent='Requesting microphone access...';
+  buildMicChain().then(()=>{
+    isHandlingPlay=false;
+    startPlaying();
+  }).catch(err=>{
+    isHandlingPlay=false;
+    micPermState='denied';
+    updatePermBanner();
+    document.getElementById('exploreStatus').textContent='Microphone access blocked — see instructions above.';
+    document.getElementById('explorePlayBtn').classList.remove('playing');
+    document.getElementById('explorePlayBtn').textContent='🎤 Start listening';
+    micStream=null;micSourceNode=null;
+  });
+}
+
+function updateEQ(){
+  if(!bassF)return;
+  bassF.gain.value=parseFloat(document.getElementById('bassSlider').value);
+  lowmidF.gain.value=parseFloat(document.getElementById('lowmidSlider').value);
+  highmidF.gain.value=parseFloat(document.getElementById('highmidSlider').value);
+  trebleF.gain.value=parseFloat(document.getElementById('trebleSlider').value);
+  const baseFreq=parseInt(document.getElementById('freqSlider').value);
+  harmonicOscs.forEach((o,i)=>{if(o){o.type=currentWaveType;o.frequency.value=baseFreq*(i+1);}});
+  harmonicGains.forEach((g,i)=>{if(g){g.gain.value=parseInt(document.getElementById('h'+(i+1)+'Slider').value)/100*(1/(i+1));}});
+}
+
+function drawLiveWave(){
+  const canvas=document.getElementById('exploreWave');if(!canvas||!analyser)return;
+  const ctx2=canvas.getContext('2d');const dpr=window.devicePixelRatio||1;
+  if(canvas.width!==canvas.offsetWidth*dpr){canvas.width=canvas.offsetWidth*dpr;canvas.height=canvas.offsetHeight*dpr;}
+  ctx2.setTransform(dpr,0,0,dpr,0,0);
+  const w=canvas.offsetWidth,h=canvas.offsetHeight;
+  const buf=new Float32Array(analyser.fftSize);
+  analyser.getFloatTimeDomainData(buf);
+  ctx2.clearRect(0,0,w,h);
+  ctx2.strokeStyle=currentSource==='mic'?'#E8834A':'#1D9E75';ctx2.lineWidth=2;ctx2.beginPath();
+  const sliceW=w/buf.length;
+  buf.forEach((v,i)=>{const x=i*sliceW,y=h/2-v*(h*0.42);i===0?ctx2.moveTo(x,y):ctx2.lineTo(x,y);});
+  ctx2.stroke();
+  if(explorePlaying)animFrame=requestAnimationFrame(drawLiveWave);
+}
+
+function drawStaticWave(){
+  const canvas=document.getElementById('exploreWave');if(!canvas)return;
+  const dpr=window.devicePixelRatio||1;
+  canvas.width=canvas.offsetWidth*dpr||400;canvas.height=canvas.offsetHeight*dpr||110;
+  const ctx2=canvas.getContext('2d');ctx2.setTransform(dpr,0,0,dpr,0,0);
+  const w=canvas.offsetWidth||400,h=canvas.offsetHeight||110;
+  ctx2.clearRect(0,0,w,h);
+  const wave=WAVES.find(wv=>wv.type===currentWaveType);
+  ctx2.strokeStyle=wave?wave.color:'#1D9E75';ctx2.lineWidth=2;ctx2.beginPath();
+  drawWaveShape(ctx2,currentWaveType,w,h);ctx2.stroke();
+}
+
+function drawWaveShape(ctx2,type,w,h,cycles){
+  cycles=cycles||4;
+  if(type==='sine'){for(let x=0;x<w;x++){const t=x/w*Math.PI*2*cycles;const y=h/2-Math.sin(t)*(h*0.38);x===0?ctx2.moveTo(x,y):ctx2.lineTo(x,y);}}
+  else if(type==='sawtooth'){for(let x=0;x<w;x++){const t=(x/w*cycles)%1;const y=h/2-(0.5-t)*(h*0.76);x===0?ctx2.moveTo(x,y):ctx2.lineTo(x,y);}}
+  else if(type==='square'){const cw=w/cycles;for(let c=0;c<cycles;c++){const x0=c*cw,x1=x0+cw/2,x2=x0+cw,top=h*0.12,bot=h*0.88;if(c===0)ctx2.moveTo(x0,top);ctx2.lineTo(x1,top);ctx2.lineTo(x1,bot);ctx2.lineTo(x2,bot);ctx2.lineTo(x2,top);}}
+  else if(type==='triangle'){const cw=w/cycles;for(let c=0;c<cycles;c++){const x0=c*cw,top=h*0.12,bot=h*0.88;if(c===0)ctx2.moveTo(x0,h/2);ctx2.lineTo(x0+cw/4,top);ctx2.lineTo(x0+cw*3/4,bot);ctx2.lineTo(x0+cw,h/2);}}
+}
+
+async function setSource(src){
+  if(explorePlaying)stopPlaying();
+  currentSource=src;
+  document.getElementById('srcSynth').classList.toggle('active',src==='synth');
+  document.getElementById('srcMic').classList.toggle('active',src==='mic');
+  document.getElementById('synthControls').classList.toggle('dimmed',src==='mic');
+  document.getElementById('synthControls2').classList.toggle('dimmed',src==='mic');
+  document.getElementById('micHint').classList.toggle('visible',src==='mic');
+  document.getElementById('exploreDesc').style.display=src==='mic'?'none':'block';
+  document.getElementById('waveformLabel').textContent=src==='mic'?'Live waveform — microphone input':'Live waveform — synthesizer output';
+  const btn=document.getElementById('explorePlayBtn');
+  btn.textContent=src==='mic'?'🎤 Start listening':'▶ Play';
+  btn.classList.remove('playing');btn.disabled=false;
+  document.getElementById('exploreStatus').textContent=src==='mic'?'Press start to activate the microphone':'Press play to hear the sound';
+  if(src==='mic'){
+    await checkMicPermission();
+    updatePermBanner();
+  } else {
+    document.getElementById('permBanner').className='perm-banner';
+    drawStaticWave();
+  }
+}
+
+let demoOsc=null,demoTimeout=null;
+function playDemo(type,btn){
+  if(demoOsc){try{demoOsc.stop();}catch(e){}demoOsc=null;}clearTimeout(demoTimeout);
+  document.querySelectorAll('.play-btn').forEach(b=>{b.textContent=b.id==='sineDemoBtn'?'▶ Hear a pure sine wave':'▶ Hear it';b.classList.remove('playing');});
+  const ctx=getCtx();demoOsc=ctx.createOscillator();demoOsc.type=type;demoOsc.frequency.value=220;
+  const g=ctx.createGain();g.gain.value=0.18;demoOsc.connect(g);g.connect(ctx.destination);demoOsc.start();
+  btn.textContent='■ Playing';btn.classList.add('playing');
+  demoTimeout=setTimeout(()=>{try{demoOsc.stop();}catch(e){}btn.textContent=type==='sine'?'▶ Hear a pure sine wave':'▶ Hear it';btn.classList.remove('playing');demoOsc=null;},2500);
+}
+
+function setExploreWave(type){
+  currentWaveType=type;
+  document.querySelectorAll('.wave-sel-btn').forEach(b=>b.classList.toggle('active',b.dataset.wave===type));
+  const wave=WAVES.find(w=>w.type===type);
+  document.getElementById('exploreDesc').textContent=wave?wave.desc:'';
+  if(explorePlaying&&currentSource==='synth'&&harmonicOscs[0])harmonicOscs.forEach(o=>{if(o)o.type=type;});
+  if(!explorePlaying)drawStaticWave();
+}
+
+function drawStackCanvas(){
+  const canvas=document.getElementById('stackCanvas');if(!canvas)return;
+  const dpr=window.devicePixelRatio||1;canvas.width=canvas.offsetWidth*dpr||600;canvas.height=160*dpr;
+  const ctx2=canvas.getContext('2d');ctx2.setTransform(dpr,0,0,dpr,0,0);
+  const w=canvas.offsetWidth||600,h=160;ctx2.clearRect(0,0,w,h);
+  const rowH=38,rows=[{freq:1,amp:0.45,color:'#4A90D9',opacity:0.7},{freq:2,amp:0.22,color:'#E8834A',opacity:0.7},{freq:3,amp:0.14,color:'#9B59B6',opacity:0.7}];
+  const combined=new Array(w).fill(0);
+  rows.forEach((r,ri)=>{
+    ctx2.strokeStyle=r.color;ctx2.lineWidth=1.5;ctx2.globalAlpha=r.opacity;ctx2.beginPath();
+    for(let x=0;x<w;x++){const t=x/w*Math.PI*2*4*r.freq;const y=rowH*(ri+0.5)-Math.sin(t)*rowH*r.amp;combined[x]+=Math.sin(t)*r.amp;x===0?ctx2.moveTo(x,y):ctx2.lineTo(x,y);}
+    ctx2.stroke();
+  });
+  ctx2.strokeStyle='#1D9E75';ctx2.lineWidth=2;ctx2.globalAlpha=1;ctx2.beginPath();
+  const baseline=rowH*3.5;
+  for(let x=0;x<w;x++){const y=baseline-combined[x]*rowH*0.6;x===0?ctx2.moveTo(x,y):ctx2.lineTo(x,y);}
+  ctx2.stroke();
+}
+
+function renderWaveCards(){
+  document.getElementById('waveCards').innerHTML=WAVES.map(w=>`
+    <div class="wave-card">
+      <div class="wave-card-header"><div><div class="wave-card-title" style="color:${w.color};">${w.label}</div><div class="wave-card-sub">${w.sub}</div></div><button class="play-btn" onclick="playDemo('${w.type}',this)">▶ Hear it</button></div>
+      <div class="wave-canvas-wrap"><canvas class="wave" id="canvas-${w.type}"></canvas></div>
+      <div class="wave-body"><p class="wave-desc">${w.desc}</p><div class="harmonic-pills">${w.harmonics.map(h=>`<span class="h-pill">${h}</span>`).join('')}</div></div>
+    </div>`).join('');
+  requestAnimationFrame(()=>{
+    WAVES.forEach(w=>{
+      const canvas=document.getElementById('canvas-'+w.type);if(!canvas)return;
+      const dpr=window.devicePixelRatio||1;canvas.width=canvas.offsetWidth*dpr;canvas.height=canvas.offsetHeight*dpr;
+      const ctx2=canvas.getContext('2d');ctx2.setTransform(dpr,0,0,dpr,0,0);
+      ctx2.strokeStyle=w.color;ctx2.lineWidth=2;ctx2.beginPath();drawWaveShape(ctx2,w.type,canvas.offsetWidth,canvas.offsetHeight);ctx2.stroke();
+    });
+    drawSineDemoCanvas();drawStackCanvas();
+  });
+}
+
+function drawSineDemoCanvas(){
+  const canvas=document.getElementById('sineDemo');if(!canvas)return;
+  const dpr=window.devicePixelRatio||1;canvas.width=canvas.offsetWidth*dpr;canvas.height=canvas.offsetHeight*dpr;
+  const ctx2=canvas.getContext('2d');ctx2.setTransform(dpr,0,0,dpr,0,0);
+  ctx2.strokeStyle='#4A90D9';ctx2.lineWidth=2;ctx2.beginPath();drawWaveShape(ctx2,'sine',canvas.offsetWidth,canvas.offsetHeight,3);ctx2.stroke();
+}
+
+function renderWordBank(){
+  document.getElementById('wordBankPills').innerHTML=WB.map(w=>`<span class="wb-pill">${w}</span>`).join('');
+  document.getElementById('wbRef').innerHTML=WB.map(w=>`<span class="wb-ref-pill">${w}</span>`).join('');
+}
+
+function renderSongCards(){
+  document.getElementById('songCards').innerHTML=SONGS.map(s=>`
+    <div class="song-card">
+      <div class="song-card-header"><h3>${s.title}</h3><div class="artist">${s.artist} &nbsp;·&nbsp; ${s.year}</div></div>
+      <div class="song-video"><iframe src="https://www.youtube.com/embed/${s.videoId}?rel=0&modestbranding=1" allowfullscreen></iframe></div>
+      <div class="song-prompts"><div class="prompt-label">Discussion prompts</div>${s.prompts.map(p=>`<div class="prompt-item">${p}</div>`).join('')}</div>
+    </div>`).join('');
+}
+
+function showTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.getAttribute('onclick').includes("'"+id+"'")));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  if(id==='explore')setTimeout(()=>{drawStaticWave();setExploreWave(currentWaveType);},100);
+  if(id!=='explore'&&explorePlaying)stopPlaying();
+}
+
+const sliderConfig={
+  freqSlider:{outId:'freqVal',fmt:v=>v+' Hz'},
+  h1Slider:{outId:'h1Val',fmt:v=>v+'%'},h2Slider:{outId:'h2Val',fmt:v=>v+'%'},
+  h3Slider:{outId:'h3Val',fmt:v=>v+'%'},h4Slider:{outId:'h4Val',fmt:v=>v+'%'},
+  bassSlider:{outId:'bassVal',fmt:v=>(v>=0?'+':'')+v+' dB'},
+  lowmidSlider:{outId:'lowmidVal',fmt:v=>(v>=0?'+':'')+v+' dB'},
+  highmidSlider:{outId:'highmidVal',fmt:v=>(v>=0?'+':'')+v+' dB'},
+  trebleSlider:{outId:'trebleVal',fmt:v=>(v>=0?'+':'')+v+' dB'},
+};
+Object.entries(sliderConfig).forEach(([sid,cfg])=>{
+  const el=document.getElementById(sid);if(!el)return;
+  el.addEventListener('input',()=>{
+    const out=document.getElementById(cfg.outId);if(out)out.textContent=cfg.fmt(el.value);
+    if(explorePlaying&&currentSource==='synth')updateEQ();
+  });
+});
+document.querySelectorAll('.wave-sel-btn').forEach(b=>{b.addEventListener('click',()=>setExploreWave(b.dataset.wave));});
+
+renderWaveCards();renderWordBank();renderSongCards();setExploreWave('sine');
+</script>
