@@ -475,10 +475,20 @@ function chordChip(symbol, small) {
 
 // ── TAB LOGIC ─────────────────────────────────────────────────────────────────
 function showTab(id) {
+  // Destroy ear training player when leaving that tab to stop any audio
+  if (id !== 'activity' && etPlayer) {
+    try { etPlayer.destroy(); } catch(e) {}
+    etPlayer = null;
+    document.getElementById('clipPlayer').innerHTML = '';
+  }
+
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelector(`[onclick="showTab('${id}')"]`).classList.add('active');
   document.getElementById(`panel-${id}`).classList.add('active');
+
+  // Lazy-init: only render the ear training question when the tab is opened
+  if (id === 'activity') renderQuestion();
 }
 
 // ── CONCEPTS ─────────────────────────────────────────────────────────────────
@@ -702,7 +712,6 @@ function fmtTime(s) { return `${Math.floor(s / 60)}:${(s % 60).toString().padSta
 // ── INIT ──────────────────────────────────────────────────────────────────────
 renderConcepts();
 renderProgGrid();
-renderQuestion();
 </script>
 </body>
 </html>
