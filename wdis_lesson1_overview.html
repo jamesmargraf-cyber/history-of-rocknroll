@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Does It Say? Day 1 — History of Rock 'n' Roll</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 15px; color: #1a1a1a; line-height: 1.6; background: #f5f4f0; }
+.page-header { background: #1a1a1a; color: #fff; padding: 1.5rem 2rem; }
+.page-header h1 { font-size: 20px; font-weight: 500; letter-spacing: 0.02em; }
+.page-header p { font-size: 13px; color: #999; margin-top: 3px; }
+.lesson-intro { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 0; }
+.lesson-intro h2 { font-size: 17px; font-weight: 600; margin-bottom: 0.75rem; }
+.lesson-intro p { font-size: 14px; color: #555; line-height: 1.75; margin-bottom: 0.75rem; }
+.essential-question { background: #1a1a1a; color: #fff; border-radius: 10px; padding: 1rem 1.25rem; margin: 1.25rem 0 0; }
+.essential-question span { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #888; display: block; margin-bottom: 4px; }
+.essential-question p { color: #fff; font-style: italic; font-size: 15px; margin: 0; }
+.lesson { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+.tabs { display: flex; gap: 2px; margin-bottom: 1.5rem; border-bottom: 1px solid #ddd; flex-wrap: wrap; }
+.tab { padding: 8px 18px; font-size: 14px; font-weight: 500; border: none; background: none; cursor: pointer; color: #666; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tab.active { color: #1a1a1a; border-bottom-color: #1a1a1a; }
+.tab:hover:not(.active) { color: #1a1a1a; }
+.panel { display: none; }
+.panel.active { display: block; }
+.concepts-list { display: flex; flex-direction: column; gap: 16px; }
+.concept-card { border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; background: #fff; }
+.concept-header { padding: 1rem 1.25rem 0.85rem; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 12px; }
+.concept-badge { font-size: 11px; font-weight: 600; text-transform: uppercase; color: #fff; background: #1a1a1a; border-radius: 4px; padding: 2px 8px; white-space: nowrap; }
+.concept-title { font-size: 15px; font-weight: 600; }
+.concept-subtitle { font-size: 12px; color: #888; margin-top: 1px; }
+.concept-body { padding: 1rem 1.25rem; }
+.concept-body p { font-size: 14px; color: #444; line-height: 1.75; margin-bottom: 0.75rem; }
+.concept-body p:last-child { margin-bottom: 0; }
+.key-idea { background: #f0f0eb; border-left: 3px solid #1a1a1a; border-radius: 0 8px 8px 0; padding: 0.85rem 1rem; margin: 0.75rem 0; }
+.key-idea strong { font-size: 11px; text-transform: uppercase; color: #888; display: block; margin-bottom: 3px; }
+.key-idea p { font-size: 13.5px; color: #333; margin: 0; font-style: italic; line-height: 1.6; }
+.channels-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin: 0.75rem 0; }
+.channel-card { border: 2px solid #e8e8e8; border-radius: 8px; padding: 0.85rem 1rem; background: #fafafa; }
+.channel-card.highlight { border-color: #1a1a1a; background: #f0f0eb; }
+.channel-icon { font-size: 22px; margin-bottom: 6px; }
+.channel-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.channel-desc { font-size: 12px; color: #666; line-height: 1.5; }
+.channel-unit { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 6px; }
+.channel-card.highlight .channel-unit { color: #1a1a1a; }
+.channel-card .channel-unit { color: #aaa; }
+@media (max-width: 580px) { .channels-grid { grid-template-columns: 1fr; } }
+.listen-box { background: #f8f7f3; border: 1px solid #e0ddd5; border-radius: 10px; padding: 1rem 1.25rem; margin: 0.75rem 0; }
+.listen-box h4 { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #888; margin-bottom: 0.5rem; }
+.listen-box p { font-size: 13px; color: #555; line-height: 1.65; margin-bottom: 0.75rem; }
+.video-wrap { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 8px; overflow: hidden; margin: 0.5rem 0 0.25rem; }
+.video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+.video-caption { font-size: 12px; color: #999; margin-bottom: 0.5rem; }
+.tradition-list { display: flex; flex-direction: column; gap: 14px; margin-top: 1rem; }
+.tradition-card { border-radius: 10px; overflow: hidden; border: 1px solid #e0e0e0; background: #fff; }
+.tradition-top { display: grid; grid-template-columns: 130px 1fr; }
+.tradition-label { padding: 1rem; color: #fff; display: flex; flex-direction: column; justify-content: center; }
+.tradition-name { font-size: 14px; font-weight: 700; }
+.tradition-tagline { font-size: 11px; opacity: 0.8; margin-top: 2px; font-style: italic; }
+.tradition-info { padding: 0.85rem 1rem; }
+.tradition-desc { font-size: 13px; color: #444; line-height: 1.65; margin-bottom: 6px; }
+.tradition-example { font-size: 12px; color: #888; }
+.tradition-example strong { color: #555; }
+.tradition-video { padding: 0 1rem 0.85rem; border-top: 1px solid #f0f0f0; }
+.tradition-video .video-wrap { margin-top: 0.85rem; }
+.t-ballad   .tradition-label { background: #4a5fa8; }
+.t-love     .tradition-label { background: #c44f6a; }
+.t-murder   .tradition-label { background: #3a3a3a; }
+.t-protest  .tradition-label { background: #c06a28; }
+.t-ceremony .tradition-label { background: #2e7d54; }
+@media (max-width: 560px) { .tradition-top { grid-template-columns: 1fr; } }
+.activity-intro { font-size: 14px; color: #555; line-height: 1.75; margin-bottom: 1.25rem; }
+.activity-instructions { background: #1a1a1a; color: #fff; border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
+.activity-instructions h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #888; margin-bottom: 0.6rem; }
+.activity-instructions ol { padding-left: 1.3rem; }
+.activity-instructions li { font-size: 13.5px; color: #ddd; line-height: 1.7; margin-bottom: 4px; }
+.song-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-bottom: 1.5rem; }
+@media (max-width: 580px) { .song-grid { grid-template-columns: 1fr; } }
+.song-card { border: 2px solid #e0e0e0; border-radius: 10px; background: #fff; padding: 1rem; cursor: pointer; transition: box-shadow 0.15s, border-color 0.15s; }
+.song-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.09); border-color: #bbb; }
+.song-card.selected { border-color: #1a1a1a; box-shadow: 0 0 0 1px #1a1a1a; }
+.song-title  { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+.song-artist { font-size: 12px; color: #999; margin-bottom: 8px; }
+.song-lyric  { font-size: 12.5px; color: #666; font-style: italic; line-height: 1.55; border-top: 1px solid #eee; padding-top: 8px; }
+.song-selectors { display: none; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+.song-card.selected .song-selectors { display: grid; }
+.song-selectors label { font-size: 11px; font-weight: 600; text-transform: uppercase; color: #888; display: block; margin-bottom: 3px; }
+.song-selectors select { width: 100%; padding: 5px 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 12.5px; background: #fff; }
+.justification-area label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #888; display: block; margin-bottom: 6px; }
+.justification-area textarea { width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 10px 12px; font-size: 13.5px; font-family: inherit; line-height: 1.6; resize: vertical; min-height: 90px; }
+.justification-area textarea:focus { outline: none; border-color: #1a1a1a; }
+.submit-btn { display: inline-block; margin-top: 1rem; padding: 9px 22px; background: #1a1a1a; color: #fff; border: none; border-radius: 7px; font-size: 13.5px; font-weight: 500; cursor: pointer; }
+.submit-btn:hover { background: #333; }
+.reflection-box { background: #f8f7f3; border: 1px solid #e0ddd5; border-radius: 10px; padding: 1.25rem; margin-top: 1.75rem; }
+.reflection-box h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #888; margin-bottom: 0.5rem; }
+.reflection-box p { font-size: 14px; color: #444; font-style: italic; line-height: 1.7; margin-bottom: 0.75rem; }
+.reflection-box textarea { width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 10px 12px; font-size: 13.5px; font-family: inherit; line-height: 1.6; resize: vertical; min-height: 80px; background: #fff; }
+.sources { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 3rem; border-top: 1px solid #e0e0e0; margin-top: 1rem; }
+.sources h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #aaa; margin: 1.25rem 0 0.5rem; }
+.sources ul { padding-left: 1.25rem; }
+.sources li { font-size: 12px; color: #888; line-height: 1.7; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <h1>What Does It Say? — Lesson 1: Overview</h1>
+  <p>History of Rock 'n' Roll · Unit 2</p>
+</div>
+<div class="lesson-intro">
+  <h2>Music as Message</h2>
+  <p>Popular music is one of the most powerful vehicles humans have ever invented for communicating ideas, emotions, and demands. But why? What was it that made Chuck Berry's songs — sung by a 30-something Black man in segregated America — teenage anthems? What made Dylan's protest songs protest anthems? What makes Kendrick Lamar's social commentary or Taylor Swift's confessional storytelling compelling to millions?</p>
+  <p>In this unit we move from <em>how music sounds</em> to <em>what music means</em>. We'll explore how musicians use songs to say things that are difficult — or impossible — to say any other way.</p>
+  <div class="essential-question">
+    <span>Essential Question</span>
+    <p>Why do humans use music to say things they can't just say?</p>
+  </div>
+</div>
+<div class="lesson">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('concepts')">Concepts</button>
+    <button class="tab" onclick="switchTab('traditions')">Traditions</button>
+    <button class="tab" onclick="switchTab('activity')">Activity</button>
+  </div>
+  <!-- TAB 1: CONCEPTS -->
+  <div class="panel active" id="panel-concepts">
+    <div class="concepts-list">
+
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-badge">Concept 1</div>
+          <div>
+            <div class="concept-title">Three Channels of Communication</div>
+            <div class="concept-subtitle">Every song sends its message through three channels at once</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <p>A song doesn't communicate through words alone. Three channels work together — and sometimes against each other — to shape what a song actually says. You already know the first one well.</p>
+          <div class="channels-grid">
+            <div class="channel-card highlight">
+              <div class="channel-icon">&#x1F3B8;</div>
+              <div class="channel-name">Music</div>
+              <div class="channel-desc">Tone, mood, tempo, dynamics, instrumentation — the emotional atmosphere that surrounds and shapes everything else.</div>
+              <div class="channel-unit">Unit 1 — What Does It Sound Like?</div>
+            </div>
+            <div class="channel-card highlight">
+              <div class="channel-icon">&#x1F4DD;</div>
+              <div class="channel-name">Lyrics</div>
+              <div class="channel-desc">The explicit message — what the song literally says. Characters, images, arguments, stories, demands.</div>
+              <div class="channel-unit">Unit 2 — What Does It Say?</div>
+            </div>
+            <div class="channel-card">
+              <div class="channel-icon">&#x1F30D;</div>
+              <div class="channel-name">Context</div>
+              <div class="channel-desc">Who made it, when, for whom, under what conditions. The same song can mean different things in different moments.</div>
+              <div class="channel-unit">Unit 3 — Why Was It Said?</div>
+            </div>
+          </div>
+          <div class="key-idea">
+            <strong>Key Idea</strong>
+            <p>These three channels work together — and sometimes against each other. A love song played at a funeral means something different than the same song played at a wedding. The music, the words, and the moment are all part of the message.</p>
+          </div>
+          <div class="listen-box">
+            <h4>&#x1F3A7; Listen &amp; Compare — Same Lyrics, Different Message</h4>
+            <p>Bob Dylan wrote "All Along the Watchtower" in 1967 as a sparse acoustic folk song. Jimi Hendrix released his version the same year — same lyrics, but the music transforms the message entirely. Dylan was so taken with Hendrix's version that he has played it that way ever since. In his own words: <em>"I liked Jimi Hendrix's record of this and ever since he died I've been doing it that way. Strange how when I sing it, I always feel it's a tribute to him."</em></p>
+            <div class="video-wrap">
+              <iframe src="https://www.youtube.com/embed/TLV4_xaYynY" title="Bob Dylan - All Along the Watchtower" allowfullscreen></iframe>
+            </div>
+            <p class="video-caption">Bob Dylan — "All Along the Watchtower" (1967) · Sparse, acoustic, elliptical</p>
+            <div class="video-wrap">
+              <iframe src="https://www.youtube.com/embed/pHS0A0SXISE" title="Jimi Hendrix - All Along the Watchtower" allowfullscreen></iframe>
+            </div>
+            <p class="video-caption">Jimi Hendrix — "All Along the Watchtower" (1968) · Urgent, electric, apocalyptic</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-badge">Concept 2</div>
+          <div>
+            <div class="concept-title">Songs Are Arguments</div>
+            <div class="concept-subtitle">Music isn't just entertainment — it makes claims about the world</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <p>Every song takes a position. It might argue that love is worth the pain, that the government has failed its people, that this moment deserves to be celebrated, or that someone's death needs to be remembered. Even a song that seems "just fun" is making an argument — that joy matters, that dancing is enough, that right now is worth inhabiting.</p>
+          <p>When you start listening for what a song is <em>arguing</em>, you hear it differently. The music stops being wallpaper and starts being a voice.</p>
+          <div class="key-idea">
+            <strong>Think About It</strong>
+            <p>Think of a song that said something you needed to hear. What was it arguing? Why couldn't a conversation have done the same thing?</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- TAB 2: TRADITIONS -->
+  <div class="panel" id="panel-traditions">
+    <div class="concepts-list">
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-badge">Background</div>
+          <div>
+            <div class="concept-title">A Long Tradition</div>
+            <div class="concept-subtitle">Rock inherited centuries of song-as-message — here are the main bloodlines</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <p>Before rock, before pop radio, before recording technology — humans were already using song to tell stories, demand justice, and mark the moments that mattered. Rock didn't invent any of these traditions. It absorbed them, electrified them, and sent them to a mass audience.</p>
+          <p>This is a map of that territory. We'll come back to each of these traditions in depth as the unit unfolds — for now, the goal is to recognize them when you hear them.</p>
+        </div>
+      </div>
+    </div>
+    <div class="tradition-list">
+
+      <div class="tradition-card t-ballad">
+        <div class="tradition-top">
+          <div class="tradition-label">
+            <div class="tradition-name">Ballad</div>
+            <div class="tradition-tagline">Story in song</div>
+          </div>
+          <div class="tradition-info">
+            <div class="tradition-desc">A ballad tells a story — usually with characters, a sequence of events, and an emotional payoff. The tradition stretches back to medieval oral poetry; wandering performers carried news and history from town to town through song. Ballads are often slow, verse-driven, and emotionally intense. Tragedy is a favorite subject.</div>
+            <div class="tradition-example"><strong>Classic:</strong> "House of the Rising Sun" — The Animals (1964) &nbsp;·&nbsp; <strong>Modern:</strong> "Fast Car" — Tracy Chapman (1988)</div>
+          </div>
+        </div>
+        <div class="tradition-video">
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/bwAOLyS3uvk" title="House of the Rising Sun - The Animals" allowfullscreen></iframe>
+          </div>
+          <p class="video-caption">"House of the Rising Sun" — The Animals (1964) · A first-person story of ruin — the speaker warns others away from the life that destroyed them</p>
+        </div>
+      </div>
+
+      <div class="tradition-card t-love">
+        <div class="tradition-top">
+          <div class="tradition-label">
+            <div class="tradition-name">Love Song</div>
+            <div class="tradition-tagline">Connection &amp; longing</div>
+          </div>
+          <div class="tradition-info">
+            <div class="tradition-desc">The most universal tradition in human music. Love songs express connection, desire, heartbreak, jealousy, devotion, and loss. They give voice to feelings that resist direct speech — and let listeners project their own experiences onto someone else's words. The love song is endlessly adaptable: the same tradition produces "I Want to Hold Your Hand" and "Someone Like You."</div>
+            <div class="tradition-example"><strong>Classic:</strong> "I Will Always Love You" — Dolly Parton (1974) &nbsp;·&nbsp; <strong>Modern:</strong> "Someone Like You" — Adele (2011)</div>
+          </div>
+        </div>
+        <div class="tradition-video">
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/WhoIBk-QKPY" title="Dolly Parton - I Will Always Love You" allowfullscreen></iframe>
+          </div>
+          <p class="video-caption">"I Will Always Love You" — Dolly Parton (1974) · Written as a professional farewell to her mentor Porter Wagoner — not a romantic partner. Parton: "It was kind of my goodbye song to Porter."</p>
+        </div>
+      </div>
+
+      <div class="tradition-card t-murder">
+        <div class="tradition-top">
+          <div class="tradition-label">
+            <div class="tradition-name">Murder Ballad</div>
+            <div class="tradition-tagline">Dark storytelling</div>
+          </div>
+          <div class="tradition-info">
+            <div class="tradition-desc">A specific — and surprisingly old — branch of the ballad tradition. Murder ballads tell stories of crime, violence, and consequence, often from the killer's, victim's, or witness's perspective. They function as moral warnings and a way of processing real violence through narrative. The genre spans folk, rock, country, and hip-hop.</div>
+            <div class="tradition-example"><strong>Classic:</strong> "Hey Joe" — Jimi Hendrix (1966) &nbsp;·&nbsp; <strong>Modern:</strong> "Goodbye Earl" — Dixie Chicks (1999)</div>
+          </div>
+        </div>
+        <div class="tradition-video">
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/yXMFEjjhJyc" title="Hey Joe - Jimi Hendrix" allowfullscreen></iframe>
+          </div>
+          <p class="video-caption">"Hey Joe" — Jimi Hendrix (1966) · A man on the run after shooting his partner — told without judgment, which makes it more unsettling</p>
+        </div>
+      </div>
+
+      <div class="tradition-card t-protest">
+        <div class="tradition-top">
+          <div class="tradition-label">
+            <div class="tradition-name">Protest Song</div>
+            <div class="tradition-tagline">Speak truth to power</div>
+          </div>
+          <div class="tradition-info">
+            <div class="tradition-desc">Protest songs challenge authority, bear witness to injustice, and demand change. Their roots run deep in American history — from spirituals to labor anthems to the Civil Rights movement. Rock absorbed this tradition through folk, soul, punk, and hip-hop. A protest song can make you feel history in ways that journalism cannot.</div>
+            <div class="tradition-example"><strong>Classic:</strong> "A Change Is Gonna Come" — Sam Cooke (1964) &nbsp;·&nbsp; <strong>Modern:</strong> "Alright" — Kendrick Lamar (2015)</div>
+          </div>
+        </div>
+        <div class="tradition-video">
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/5SPSaYjBuSA" title="A Change Is Gonna Come - Sam Cooke" allowfullscreen></iframe>
+          </div>
+          <p class="video-caption">"A Change Is Gonna Come" — Sam Cooke (1964) · Inspired by multiple events including being turned away from a whites-only Holiday Inn in Shreveport, Louisiana (Oct. 1963) and hearing Dylan's "Blowin' in the Wind." Cooke was killed two weeks before the single was released.</p>
+        </div>
+      </div>
+
+      <div class="tradition-card t-ceremony">
+        <div class="tradition-top">
+          <div class="tradition-label">
+            <div class="tradition-name">Ceremony Song</div>
+            <div class="tradition-tagline">Mark the moment</div>
+          </div>
+          <div class="tradition-info">
+            <div class="tradition-desc">Some songs exist to mark moments — weddings, victories, graduations, locker rooms. The ceremony song transforms an ordinary moment into a significant one. It tells a group: we are here, together, and this counts. The tradition is as old as ritual itself.</div>
+            <div class="tradition-example"><strong>Classic:</strong> "We Are the Champions" — Queen (1977) &nbsp;·&nbsp; <strong>Modern:</strong> "All I Do Is Win" — DJ Khaled ft. T-Pain (2010)</div>
+          </div>
+        </div>
+        <div class="tradition-video">
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/04854XqcfCY" title="We Are the Champions - Queen" allowfullscreen></iframe>
+          </div>
+          <p class="video-caption">"We Are the Champions" — Queen (1977) · Freddie Mercury: "I was thinking about football when I wrote it. I wanted a participation song, something that the fans could latch on to."</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="key-idea" style="margin-top:1.25rem;">
+      <strong>The Big Picture</strong>
+      <p>These traditions predate rock by centuries. Rock didn't invent them — it inherited them, plugged them in, and turned up the volume. As we move through this unit, we'll look closely at how different traditions and formats work better for different kinds of messages.</p>
+    </div>
+  </div>
+  <!-- TAB 3: ACTIVITY -->
+  <div class="panel" id="panel-activity">
+    <p class="activity-intro">You've seen how songs communicate through three channels and explored five traditions that rock inherited. Now apply those lenses. Below are 8 songs. Select a card, classify it by tradition and message type, then pick one to justify in writing.</p>
+    <div class="activity-instructions">
+      <h3>Instructions</h3>
+      <ol>
+        <li>Click a song card to select it and reveal the classification dropdowns.</li>
+        <li>Classify each song by <strong>tradition</strong>: Ballad, Love Song, Murder Ballad, Protest Song, Ceremony Song, or Other/Multiple.</li>
+        <li>Classify each song by <strong>message</strong>: Personal/Emotional, Political/Social, Narrative, Celebratory, or Spiritual/Philosophical.</li>
+        <li>Pick <strong>one song</strong> and write 2–3 sentences below justifying your classification.</li>
+        <li>Be ready to share — there are no wrong answers, only unsupported ones.</li>
+      </ol>
+    </div>
+    <div class="song-grid" id="songGrid"></div>
+    <div class="justification-area">
+      <label>Written Justification — choose one song and explain your classification (2–3 sentences)</label>
+      <textarea id="justification" placeholder="Which song did you choose, and why did you classify it the way you did? What in the lyrics, music, or context supports your reading?"></textarea>
+    </div>
+    <button class="submit-btn" onclick="submitActivity()">Submit</button>
+    <div class="reflection-box">
+      <h3>Return to the Essential Question</h3>
+      <p>Why do humans use music to say things they can't just say? What does music make possible that a conversation or a speech doesn't?</p>
+      <textarea placeholder="Write your response here..."></textarea>
+    </div>
+  </div>
+
+</div>
+
+<div class="sources">
+  <h3>Sources &amp; Notes</h3>
+  <ul>
+    <li><strong>Dylan / Hendrix — "All Along the Watchtower":</strong> Dylan's quotes from the 1985 <em>Biograph</em> liner notes and a 1995 interview, as cited in Wikipedia, <em>Far Out Magazine</em>, and <em>American Songwriter</em>.</li>
+    <li><strong>Dolly Parton — "I Will Always Love You":</strong> Written in 1973 as a farewell to mentor and business partner Porter Wagoner; released as a single in 1974. Parton's quote from her 2007 Grand Ole Opry performance, as reported by <em>American Songwriter</em> and <em>Billboard</em>. See also Wikipedia, "I Will Always Love You."</li>
+    <li><strong>Sam Cooke — "A Change Is Gonna Come":</strong> Song had multiple inspirations including the Shreveport Holiday Inn incident (October 1963) and hearing Dylan's "Blowin' in the Wind." Primary source: Peter Guralnick, <em>Dream Boogie: The Triumph of Sam Cooke</em> (2005). See also Wikipedia; 64parishes.org; TeachRock.org.</li>
+    <li><strong>Freddie Mercury — "We Are the Champions":</strong> Mercury's football inspiration confirmed in a 1978 <em>Circus</em> magazine interview, as cited in <em>Far Out Magazine</em>, <em>American Songwriter</em>, <em>Gold Radio</em>, and Songfacts.</li>
+    <li><strong>Chuck Berry:</strong> Born October 18, 1926, St. Louis, Missouri. "Johnny B. Goode" recorded January 6, 1958 at Chess Studios; released March 31, 1958. Sources: <em>Best Classic Bands</em>; Discogs.</li>
+  </ul>
+</div>
+
+<script>
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelector('[onclick="switchTab(\'' + name + '\')"]').classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+}
+
+const TRADITIONS = ['Ballad','Love Song','Murder Ballad','Protest Song','Ceremony Song','Other/Multiple'];
+const MSG_TYPES  = ['Personal/Emotional','Political/Social','Narrative','Celebratory','Spiritual/Philosophical'];
+
+const SONGS = [
+  { title: "Johnny B. Goode", artist: "Chuck Berry · 1958",
+    lyric: "Go go, Johnny go go / Way down in Louisiana close to New Orleans / Back among the evergreens / There stood a log cabin made of earth and wood" },
+  { title: "The Times They Are A-Changin'", artist: "Bob Dylan · 1964",
+    lyric: "Come senators, congressmen / Please heed the call / Don't stand in the doorway / Don't block up the hall" },
+  { title: "Fast Car", artist: "Tracy Chapman · 1988",
+    lyric: "You got a fast car / I want a ticket to anywhere / Maybe we make a deal / Maybe together we can get somewhere" },
+  { title: "Hey Joe", artist: "Jimi Hendrix · 1966",
+    lyric: "Hey Joe, where you going with that gun in your hand? / Going down to shoot my old lady / Caught her messin' round with another man" },
+  { title: "We Are the Champions", artist: "Queen · 1977",
+    lyric: "I've paid my dues, time after time / I've done my sentence but committed no crime / And bad mistakes, I've made a few" },
+  { title: "I Will Always Love You", artist: "Dolly Parton · 1974",
+    lyric: "If I should stay / I would only be in your way / So I'll go, but I know / I'll think of you each step of the way" },
+  { title: "A Change Is Gonna Come", artist: "Sam Cooke · 1964",
+    lyric: "I was born by the river in a little tent / Just like the river I've been running ever since / It's been a long time coming / But I know a change is gonna come" },
+  { title: "Goodbye Earl", artist: "Dixie Chicks · 1999",
+    lyric: "Well it wasn't two weeks after she got married / That Wanda started gettin' abused / She put on dark glasses and long-sleeved blouses / And makeup to cover a bruise" }
+];
+
+function buildGrid() {
+  const grid = document.getElementById('songGrid');
+  grid.innerHTML = SONGS.map((s, i) => {
+    const tOpts = TRADITIONS.map(t => '<option>' + t + '</option>').join('');
+    const mOpts = MSG_TYPES.map(t => '<option>' + t + '</option>').join('');
+    return '<div class="song-card" id="card-' + i + '" onclick="selectCard(' + i + ')">' +
+      '<div class="song-title">' + s.title + '</div>' +
+      '<div class="song-artist">' + s.artist + '</div>' +
+      '<div class="song-lyric">' + s.lyric + '</div>' +
+      '<div class="song-selectors">' +
+        '<div><label>Tradition</label><select id="trad-' + i + '"><option value="">-- choose --</option>' + tOpts + '</select></div>' +
+        '<div><label>Message Type</label><select id="msg-' + i + '"><option value="">-- choose --</option>' + mOpts + '</select></div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function selectCard(i) {
+  document.querySelectorAll('.song-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('card-' + i).classList.add('selected');
+}
+
+function submitActivity() {
+  const text = document.getElementById('justification').value.trim();
+  if (!text) { alert('Please write a justification before submitting.'); return; }
+  const btn = document.querySelector('.submit-btn');
+  btn.textContent = 'Submitted';
+  btn.style.background = '#2e7d54';
+  btn.disabled = true;
+}
+
+buildGrid();
+</script>
+</body>
+</html>
