@@ -123,16 +123,17 @@ footer span { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #
 <script>
 const STORAGE_KEY = 'rock_lesson_toggles';
 
-// Fixed lesson order — visibility and active state controlled by teacher toggles
-// _visible: whether the lesson card shows at all (default: first 3 visible, 4+5 hidden)
-// active (no suffix): whether the link is clickable (default: on)
 const LESSONS = [
-  { id:'stereo-maps',    name:'Lesson 1 — Stereo Maps',          type:'Lesson', url:'stereo_maps.html',             defaultVisible:true  },
-  { id:'timbre',         name:'Lesson 2 — Timbre',               type:'Lesson', url:'timbre_lesson.html',            defaultVisible:true  },
-  { id:'song-structure', name:'Lesson 3 — Song Structure',       type:'Lesson', url:'song_structure_lesson.html',   defaultVisible:true  },
-  { id:'dynamics',       name:'Lesson 4 — Dynamics & Intensity', type:'Lesson', url:'dynamics_lesson.html',         defaultVisible:false },
-  { id:'tempo',          name:'Lesson 5 — Beat, Rhythm & Tempo', type:'Lesson', url:'beat_rhythm_tempo_lesson.html', defaultVisible:false },
-  { id:'chords',         name:'Lesson 6 — Chord Progressions & Harmony', type:'Lesson', url:'chord_progressions_lesson.html', defaultVisible:false },
+  { id:'stereo-maps',    name:'Lesson 1 — Stereo Maps',                    type:'Lesson', url:'stereo_maps.html',                defaultVisible:true  },
+  { id:'timbre',         name:'Lesson 2 — Timbre',                         type:'Lesson', url:'timbre_lesson.html',               defaultVisible:true  },
+  { id:'song-structure', name:'Lesson 3 — Song Structure',                 type:'Lesson', url:'song_structure_lesson.html',       defaultVisible:true  },
+  { id:'dynamics',       name:'Lesson 4 — Dynamics & Intensity',           type:'Lesson', url:'dynamics_lesson.html',             defaultVisible:false },
+  { id:'tempo',          name:'Lesson 5 — Beat, Rhythm & Tempo',           type:'Lesson', url:'beat_rhythm_tempo_lesson.html',    defaultVisible:false },
+  { id:'chords',         name:'Lesson 6 — Chord Progressions & Harmony',   type:'Lesson', url:'chord_progressions_lesson.html',   defaultVisible:false },
+];
+
+const UNIT2_LESSONS = [
+  { id:'wdis-overview', name:'Lesson 1 — Overview', type:'Lesson', url:'wdis_lesson1_overview.html', defaultVisible:true },
 ];
 
 const TOOLS = [
@@ -147,78 +148,20 @@ function loadToggles() {
 let currentSlide = 0;
 const TOTAL_SLIDES = 3;
 
-function render() {
+function buildUnitHTML(lessons, unitNum, unitCls, unitTag, unitTitle, unitDesc, showTools) {
   const t = loadToggles();
-
-  const unit1HTML = (() => {
-    const visible = LESSONS.filter(l => {
-      const visKey = l.id + '_visible';
-      return visKey in t ? !!t[visKey] : l.defaultVisible;
-    });
-    const active = visible.filter(l => l.id in t ? !!t[l.id] : true).reverse();
-    const inactive = visible.filter(l => l.id in t ? !t[l.id] : false).reverse();
-    const ordered = [...active, ...inactive];
-
-    const lessonsHTML = ordered.map((l, i) => {
-      const isActive = l.id in t ? !!t[l.id] : true;
-      const isPast = isActive && i > 0;
-      const pastStyle = isPast ? 'style="color:#8a8070;"' : '';
-      const pastArrowStyle = isPast ? 'style="color:#4a4540;"' : '';
-      return `<a href="${isActive && l.url ? l.url : '#'}"
-        class="tool-link ${isActive ? '' : 'inactive'}"
-        ${isActive && l.url ? 'target="_blank"' : ''}
-        ${pastStyle}>
-        <span class="tool-name" ${pastStyle}>${l.name}</span>
-        <span class="tool-type">${l.type}</span>
-        <span class="arrow" ${pastArrowStyle}>→</span>
-      </a>`;
-    }).join('');
-
-    const toolsHTML = TOOLS.map(l =>
-      `<a href="${l.url}" class="tool-link" target="_blank">
-        <span class="tool-name">${l.name}</span>
-        <span class="tool-type">${l.type}</span>
-        <span class="arrow">→</span>
-      </a>`
-    ).join('');
-
-    return `<div class="unit unit-1">
-      <div class="unit-number">01</div>
-      <span class="unit-tag">Unit 1</span>
-      <h2>What Does It Sound Like?</h2>
-      <p class="unit-desc">Developing critical listening skills — timbre, stereo field, song structure, and sonic analysis.</p>
-      <div class="section-label" style="margin-top:0;padding-top:0;border-top:none;">Lessons</div>
-      <div class="tools">${lessonsHTML}</div>
-      <div class="section-label">Tools</div>
-      <div class="tools">${toolsHTML}</div>
-    </div>`;
-  })();
-
-  const lockedUnit = (num, cls, tag, title) =>
-    `<div class="unit ${cls} unit-locked">
-      <div class="unit-number">${num}</div>
-      <span class="unit-tag">${tag}</span>
-      <h2>${title}</h2>
-      <p class="unit-locked-msg">Not yet unlocked</p>
-    </div>`;
-
-const UNIT2_LESSONS = [
-  { id:'wdis-overview', name:'Lesson 1 — Overview', type:'Lesson', url:'wdis_lesson1_overview.html', defaultVisible:true },
-];
-
-const unit2HTML = (() => {
-  const visible = UNIT2_LESSONS.filter(l => {
+  const visible = lessons.filter(l => {
     const visKey = l.id + '_visible';
     return visKey in t ? !!t[visKey] : l.defaultVisible;
   });
-  const active  = visible.filter(l => l.id in t ? !!t[l.id] : true).reverse();
+  const active   = visible.filter(l => l.id in t ? !!t[l.id] : true).reverse();
   const inactive = visible.filter(l => l.id in t ? !t[l.id] : false).reverse();
-  const ordered = [...active, ...inactive];
+  const ordered  = [...active, ...inactive];
 
   const lessonsHTML = ordered.map((l, i) => {
     const isActive = l.id in t ? !!t[l.id] : true;
     const isPast = isActive && i > 0;
-    const pastStyle = isPast ? 'style="color:#8a8070;"' : '';
+    const pastStyle      = isPast ? 'style="color:#8a8070;"' : '';
     const pastArrowStyle = isPast ? 'style="color:#4a4540;"' : '';
     return `<a href="${isActive && l.url ? l.url : '#'}"
       class="tool-link ${isActive ? '' : 'inactive'}"
@@ -230,23 +173,44 @@ const unit2HTML = (() => {
     </a>`;
   }).join('');
 
-  return `<div class="unit unit-2">
-    <div class="unit-number">02</div>
-    <span class="unit-tag">Unit 2</span>
-    <h2>What Does It Say?</h2>
-    <p class="unit-desc">Lyrical analysis, song traditions, and how musicians use music to say things they can't just say.</p>
+  const toolsHTML = showTools ? TOOLS.map(l =>
+    `<a href="${l.url}" class="tool-link" target="_blank">
+      <span class="tool-name">${l.name}</span>
+      <span class="tool-type">${l.type}</span>
+      <span class="arrow">→</span>
+    </a>`
+  ).join('') : '';
+
+  return `<div class="unit ${unitCls}">
+    <div class="unit-number">${unitNum}</div>
+    <span class="unit-tag">${unitTag}</span>
+    <h2>${unitTitle}</h2>
+    <p class="unit-desc">${unitDesc}</p>
     <div class="section-label" style="margin-top:0;padding-top:0;border-top:none;">Lessons</div>
     <div class="tools">${lessonsHTML}</div>
+    ${showTools ? '<div class="section-label">Tools</div><div class="tools">' + toolsHTML + '</div>' : ''}
   </div>`;
-})();
+}
+
+function lockedUnit(num, cls, tag, title) {
+  return `<div class="unit ${cls} unit-locked">
+    <div class="unit-number">${num}</div>
+    <span class="unit-tag">${tag}</span>
+    <h2>${title}</h2>
+    <p class="unit-locked-msg">Not yet unlocked</p>
+  </div>`;
+}
+
+function render() {
+  const unit1HTML = buildUnitHTML(LESSONS,       '01', 'unit-1', 'Unit 1', 'What Does It Sound Like?', 'Developing critical listening skills — timbre, stereo field, song structure, and sonic analysis.', true);
+  const unit2HTML = buildUnitHTML(UNIT2_LESSONS, '02', 'unit-2', 'Unit 2', 'What Does It Say?',        'Lyrical analysis, song traditions, and how musicians use music to say things they can\'t just say.', false);
 
   const slides = [
-    { html: unit1HTML, locked: false },
-    { html: unit2HTML, locked: false },
-    { html: lockedUnit('03', 'unit-3', 'Unit 3', "Why Was It Made?"), locked: true },
+    { html: unit1HTML,                                                    locked: false },
+    { html: unit2HTML,                                                    locked: false },
+    { html: lockedUnit('03', 'unit-3', 'Unit 3', 'Why Was It Made?'),    locked: true  },
   ];
 
-  // Render track
   document.getElementById('carouselTrack').innerHTML = slides.map((s, i) => {
     let cls = 'carousel-slide';
     if (i < currentSlide) cls += ' is-prev';
@@ -256,32 +220,27 @@ const unit2HTML = (() => {
     return `<div class="${cls}" ${click}>${s.html}</div>`;
   }).join('');
 
-  // Render dots
   document.getElementById('carouselDots').innerHTML = slides.map((_, i) =>
     `<div class="carousel-dot ${i === currentSlide ? 'active' : ''}" onclick="goToSlide(${i})"></div>`
   ).join('');
 
-  // Position track
   positionTrack();
-  updateButtons();
+  updateButtons(slides);
 }
 
 function positionTrack() {
   const track = document.getElementById('carouselTrack');
-  const wrap = document.querySelector('.carousel-wrap');
-  if (!track || !wrap) return;
-  const slideWidth = track.children[0] ? track.children[0].offsetWidth + 12 : 0;
+  if (!track || !track.children[0]) return;
+  const slideWidth = track.children[0].offsetWidth + 12;
   track.style.transform = `translateX(${-currentSlide * slideWidth}px)`;
 }
 
-function updateButtons() {
+function updateButtons(slides) {
   const prev = document.getElementById('btnPrev');
   const next = document.getElementById('btnNext');
   if (!prev || !next) return;
-  // Prev disabled on first slide
   prev.classList.toggle('disabled', currentSlide === 0);
-  // Next enabled only if next slide exists and is unlocked
-  const nextLocked = currentSlide + 1 < slides.length ? slides[currentSlide + 1].locked : true;
+  const nextLocked = (currentSlide + 1 < slides.length) ? slides[currentSlide + 1].locked : true;
   next.classList.toggle('disabled', currentSlide >= TOTAL_SLIDES - 1 || nextLocked);
 }
 
@@ -291,18 +250,18 @@ function carouselPrev() {
 
 function carouselNext() {
   const track = document.getElementById('carouselTrack');
-  const slides = track.querySelectorAll('.carousel-slide');
-  if (currentSlide < TOTAL_SLIDES - 1 && !slides[currentSlide + 1].classList.contains('is-locked')) {
+  const slideEls = track.querySelectorAll('.carousel-slide');
+  if (currentSlide < TOTAL_SLIDES - 1 && !slideEls[currentSlide + 1].classList.contains('is-locked')) {
     currentSlide++; render();
   }
 }
+
+function goToSlide(i) {
   if (i <= currentSlide) { currentSlide = i; render(); }
 }
 
-// Handle resize
 window.addEventListener('resize', positionTrack);
 
-// Touch/swipe support
 let touchStartX = 0;
 document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
 document.addEventListener('touchend', e => {
@@ -311,15 +270,14 @@ document.addEventListener('touchend', e => {
     if (dx > 0 && currentSlide > 0) { currentSlide--; render(); }
     if (dx < 0 && currentSlide < TOTAL_SLIDES - 1) {
       const track = document.getElementById('carouselTrack');
-      const slides = track.querySelectorAll('.carousel-slide');
-      if (!slides[currentSlide + 1].classList.contains('is-locked')) { currentSlide++; render(); }
+      const slideEls = track.querySelectorAll('.carousel-slide');
+      if (!slideEls[currentSlide + 1].classList.contains('is-locked')) { currentSlide++; render(); }
     }
   }
 }, { passive: true });
 
 render();
 window.addEventListener('storage', render);
-
 </script>
 </body>
 </html>
