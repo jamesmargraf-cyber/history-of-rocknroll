@@ -68,6 +68,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; f
 .t-murder   .tradition-label { background: #3a3a3a; }
 .t-protest  .tradition-label { background: #c06a28; }
 .t-ceremony .tradition-label { background: #2e7d54; }
+.t-social   .tradition-label { background: #7a5c9a; }
+.t-party    .tradition-label { background: #2a8aaa; }
 @media (max-width: 560px) { .tradition-top { grid-template-columns: 1fr; } }
 .activity-intro { font-size: 14px; color: #555; line-height: 1.75; margin-bottom: 1.25rem; }
 .activity-instructions { background: #1a1a1a; color: #fff; border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
@@ -309,7 +311,43 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; f
       </div>
 
     </div>
-    <div class="key-idea" style="margin-top:1.25rem;">
+      <div class="tradition-card t-social">
+        <div class="tradition-top">
+          <div class="tradition-label">
+            <div class="tradition-name">Social Commentary</div>
+            <div class="tradition-tagline">Observation & critique</div>
+          </div>
+          <div class="tradition-info">
+            <div class="tradition-desc">Not quite a protest song — social commentary songs observe, satirize, and critique everyday life without necessarily demanding change. They hold up a mirror to society: work, money, class, relationships, and the gap between how things are supposed to be and how they actually are. Often funny, often sharp, always grounded in something real.</div>
+            <div class="tradition-example"><strong>Classic:</strong> "Get a Job" — The Silhouettes (1957) &nbsp;·&nbsp; <strong>Modern:</strong> "Hard Out Here" — Lily Allen (2013)</div>
+          </div>
+        </div>
+        <div class="tradition-video">
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/nd_uvlhnvE4" title="Get a Job - The Silhouettes" allowfullscreen></iframe>
+          </div>
+          <p class="video-caption">"Get a Job" — The Silhouettes (1957) · A doo-wop era commentary on unemployment and domestic pressure — the narrator can't find work, his partner won't let him forget it. The "sha na na" hook later gave its name to the band Sha Na Na.</p>
+        </div>
+      </div>
+
+      <div class="tradition-card t-party">
+        <div class="tradition-top">
+          <div class="tradition-label">
+            <div class="tradition-name">Pop / Party Song</div>
+            <div class="tradition-tagline">Pure fun</div>
+          </div>
+          <div class="tradition-info">
+            <div class="tradition-desc">Some songs exist simply to make you feel good and move your body. The pop/party song is one of music's oldest and most honest traditions — joy for its own sake, rhythm as invitation, the dancefloor as the point. No metaphor required. These songs are easy to underestimate and hard to make well: a truly great party song is a precision instrument designed to produce one specific feeling.</div>
+            <div class="tradition-example"><strong>Classic:</strong> "Everybody Have Fun Tonight" — Wang Chung (1986) &nbsp;·&nbsp; <strong>Modern:</strong> "Uptown Funk" — Mark Ronson ft. Bruno Mars (2014)</div>
+          </div>
+        </div>
+        <div class="tradition-video">
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/BoXu6QmxpJE" title="Everybody Have Fun Tonight - Wang Chung" allowfullscreen></iframe>
+          </div>
+          <p class="video-caption">"Everybody Have Fun Tonight" — Wang Chung (1986) · A pure 80s pop/party anthem — and a useful reminder that band names are cultural artifacts too. "Wang Chung" was meant to evoke cool exoticism in 1980s Britain; today it reads very differently. The song outlasted the name's credibility.</p>
+        </div>
+      </div>
       <strong>The Big Picture</strong>
       <p>These traditions predate rock by centuries. Rock didn't invent them — it inherited them, plugged them in, and turned up the volume. As we move through this unit, we'll look closely at how different traditions and formats work better for different kinds of messages.</p>
     </div>
@@ -361,7 +399,7 @@ function switchTab(name) {
   document.getElementById('panel-' + name).classList.add('active');
 }
 
-const TRADITIONS = ['Ballad','Love Song','Murder Ballad','Protest Song','Ceremony Song','Other/Multiple'];
+const TRADITIONS = ['Ballad','Love Song','Murder Ballad','Protest Song','Ceremony Song','Social Commentary','Pop / Party Song','Other/Multiple'];
 const MSG_TYPES  = ['Personal/Emotional','Political/Social','Narrative','Celebratory','Spiritual/Philosophical'];
 
 const SONGS = [
