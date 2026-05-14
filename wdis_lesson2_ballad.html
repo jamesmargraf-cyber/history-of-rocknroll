@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Ballad — Lesson 2 · History of Rock 'n' Roll</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 15px; color: #1a1a1a; line-height: 1.6; background: #f5f4f0; }
+.page-header { background: #1a1a1a; color: #fff; padding: 1.5rem 2rem; }
+.page-header h1 { font-size: 20px; font-weight: 500; letter-spacing: 0.02em; }
+.page-header p { font-size: 13px; color: #999; margin-top: 3px; }
+.lesson-intro { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 0; }
+.lesson-intro h2 { font-size: 17px; font-weight: 600; margin-bottom: 0.75rem; }
+.lesson-intro p { font-size: 14px; color: #555; line-height: 1.75; margin-bottom: 0.75rem; }
+.essential-question { background: #1a1a1a; color: #fff; border-radius: 10px; padding: 1rem 1.25rem; margin: 1.25rem 0 0; }
+.essential-question span { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #888; display: block; margin-bottom: 4px; }
+.essential-question p { color: #fff; font-style: italic; font-size: 15px; margin: 0; line-height: 1.5; }
+.lesson { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+.tabs { display: flex; gap: 2px; margin-bottom: 1.5rem; border-bottom: 1px solid #ddd; flex-wrap: wrap; }
+.tab { padding: 8px 18px; font-size: 14px; font-weight: 500; border: none; background: none; cursor: pointer; color: #666; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s; }
+.tab.active { color: #1a1a1a; border-bottom-color: #1a1a1a; }
+.tab:hover:not(.active) { color: #1a1a1a; }
+.panel { display: none; }
+.panel.active { display: block; }
+.concepts-list { display: flex; flex-direction: column; gap: 16px; }
+.concept-card { border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; background: #fff; }
+.concept-header { padding: 1rem 1.25rem 0.85rem; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 12px; }
+.concept-badge { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #fff; background: #1a1a1a; border-radius: 4px; padding: 2px 8px; white-space: nowrap; }
+.concept-title { font-size: 15px; font-weight: 600; }
+.concept-subtitle { font-size: 12px; color: #888; margin-top: 1px; }
+.concept-body { padding: 1rem 1.25rem; }
+.concept-body p { font-size: 14px; color: #444; line-height: 1.75; margin-bottom: 0.75rem; }
+.concept-body p:last-child { margin-bottom: 0; }
+.key-idea { background: #f0f0eb; border-left: 3px solid #1a1a1a; border-radius: 0 8px 8px 0; padding: 0.85rem 1rem; margin: 0.75rem 0; }
+.key-idea strong { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #888; display: block; margin-bottom: 3px; }
+.key-idea p { font-size: 13.5px; color: #333; margin: 0; font-style: italic; line-height: 1.6; }
+.vocab-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin: 0.75rem 0; }
+.vocab-card { border: 1px solid #e8e8e8; border-radius: 8px; padding: 0.85rem 1rem; background: #fafafa; }
+.vocab-term { font-size: 14px; font-weight: 700; color: #1a1a1a; margin-bottom: 3px; }
+.vocab-def { font-size: 12.5px; color: #555; line-height: 1.5; margin-bottom: 5px; }
+.vocab-example { font-size: 12px; color: #888; font-style: italic; border-top: 1px solid #eee; padding-top: 5px; margin-top: 5px; }
+@media (max-width: 580px) { .vocab-grid { grid-template-columns: 1fr; } }
+.ballad-features { display: flex; flex-direction: column; gap: 10px; margin: 0.75rem 0; }
+.ballad-feature { border-radius: 8px; padding: 0.85rem 1rem; border: 1px solid #e0e0e0; background: #fff; display: flex; gap: 12px; }
+.ballad-feature-num { font-size: 20px; font-weight: 700; color: #e0e0e0; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+.ballad-feature-content .bf-title { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 3px; }
+.ballad-feature-content .bf-desc { font-size: 13px; color: #555; line-height: 1.6; }
+.history-timeline { display: flex; flex-direction: column; gap: 0; margin: 0.75rem 0; }
+.timeline-row { display: grid; grid-template-columns: 100px 16px 1fr; gap: 0 12px; align-items: start; }
+.timeline-era { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.05em; padding-top: 14px; text-align: right; }
+.timeline-dot { display: flex; flex-direction: column; align-items: center; padding-top: 14px; }
+.timeline-dot-inner { width: 10px; height: 10px; border-radius: 50%; background: #1a1a1a; flex-shrink: 0; }
+.timeline-line { width: 2px; background: #e0e0e0; flex: 1; margin-top: 4px; min-height: 30px; }
+.timeline-row:last-child .timeline-line { display: none; }
+.timeline-content { padding: 8px 0 20px; }
+.timeline-title { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 2px; }
+.timeline-desc { font-size: 12.5px; color: #666; line-height: 1.55; }
+.timeline-example { font-size: 12px; color: #999; font-style: italic; margin-top: 3px; }
+.listen-box { background: #f8f7f3; border: 1px solid #e0ddd5; border-radius: 10px; padding: 1rem 1.25rem; margin: 0.75rem 0; }
+.listen-box h4 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #888; margin-bottom: 0.5rem; }
+.listen-box p { font-size: 13px; color: #555; line-height: 1.65; margin-bottom: 0.75rem; }
+.video-wrap { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 8px; overflow: hidden; margin: 0.5rem 0 0.25rem; }
+.video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+.video-caption { font-size: 12px; color: #999; margin-bottom: 0.5rem; }
+.song-context { border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; background: #fff; margin-bottom: 1.25rem; }
+.song-context-header { background: #1a1a1a; padding: 1rem 1.25rem; }
+.song-context-header h3 { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 2px; }
+.song-context-header p { font-size: 12px; color: #888; }
+.song-context-body { padding: 1rem 1.25rem; }
+.song-context-body p { font-size: 14px; color: #444; line-height: 1.75; margin-bottom: 0.75rem; }
+.song-context-body p:last-child { margin-bottom: 0; }
+.fact-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; margin: 0.75rem 0; }
+.fact-card { background: #f8f7f3; border: 1px solid #e0ddd5; border-radius: 8px; padding: 0.75rem 1rem; }
+.fact-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #aaa; margin-bottom: 3px; }
+.fact-value { font-size: 13px; color: #333; line-height: 1.5; }
+@media (max-width: 560px) { .fact-grid { grid-template-columns: 1fr; } }
+.macguffin-box { background: #1a1a1a; border-radius: 10px; padding: 1.25rem; margin: 0.75rem 0; }
+.macguffin-box h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #c8372d; margin-bottom: 0.5rem; }
+.macguffin-box p { font-size: 13.5px; color: #ccc; line-height: 1.7; margin-bottom: 0.6rem; }
+.macguffin-box p:last-child { margin-bottom: 0; }
+.macguffin-box em { color: #fff; font-style: normal; font-weight: 500; }
+.quote-block { border-left: 3px solid #c8372d; padding: 0.85rem 1rem; background: #fff8f8; border-radius: 0 8px 8px 0; margin: 0.75rem 0; }
+.quote-block p { font-size: 14px; color: #333; font-style: italic; line-height: 1.7; margin-bottom: 0.4rem; }
+.quote-block cite { font-size: 12px; color: #888; font-style: normal; }
+.close-listen-intro { background: #1a1a1a; border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
+.close-listen-intro h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #888; margin-bottom: 0.4rem; }
+.close-listen-intro p { font-size: 13.5px; color: #ccc; line-height: 1.65; margin: 0; }
+.pass-grid { display: flex; flex-direction: column; gap: 8px; }
+.pass-card { border: 1px solid #e0e0e0; border-radius: 8px; background: #fff; overflow: hidden; }
+.pass-header { display: flex; align-items: center; gap: 10px; padding: 0.75rem 1rem; border-bottom: 1px solid #f0f0f0; }
+.pass-num { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #fff; background: #1a1a1a; border-radius: 4px; padding: 2px 7px; }
+.pass-title { font-size: 14px; font-weight: 600; color: #1a1a1a; }
+.pass-job { font-size: 12px; color: #888; font-style: italic; }
+.pass-body { padding: 0.75rem 1rem; }
+.pass-body p { font-size: 13.5px; color: #555; line-height: 1.65; margin-bottom: 0.5rem; }
+.pass-body p:last-child { margin-bottom: 0; }
+.track-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 0.5rem; }
+.track { border-radius: 6px; padding: 0.75rem; }
+.track-1 { background: #f0f4ff; border: 1px solid #c8d4f0; }
+.track-2 { background: #f8f7f3; border: 1px solid #e0ddd5; }
+.track-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
+.track-1 .track-label { color: #4a5fa8; }
+.track-2 .track-label { color: #888; }
+.track p { font-size: 12.5px; color: #444; line-height: 1.55; margin-bottom: 4px; }
+.track p:last-child { margin-bottom: 0; }
+@media (max-width: 560px) { .track-cols { grid-template-columns: 1fr; } }
+.compare-table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 13px; }
+.compare-table th { background: #1a1a1a; color: #fff; padding: 8px 12px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+.compare-table td { padding: 10px 12px; border-bottom: 1px solid #eee; color: #444; vertical-align: top; line-height: 1.55; }
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table tr:nth-child(even) td { background: #fafafa; }
+.compare-table td:first-child { font-weight: 600; color: #1a1a1a; white-space: nowrap; }
+.doc-download { display: flex; align-items: center; gap: 12px; background: #f0f4ff; border: 1px solid #c8d4f0; border-radius: 10px; padding: 1rem 1.25rem; margin: 1rem 0; text-decoration: none; color: #1a1a1a; transition: background 0.15s; }
+.doc-download:hover { background: #e4ecff; }
+.doc-download-icon { font-size: 28px; flex-shrink: 0; }
+.doc-download-title { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+.doc-download-desc { font-size: 12px; color: #666; }
+.doc-download-arrow { margin-left: auto; font-size: 18px; color: #4a5fa8; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <h1>The Ballad — Lesson 2</h1>
+  <p>History of Rock 'n' Roll · Unit 2 · What Does It Say?</p>
+</div>
+<div class="lesson-intro">
+  <h2>How does a story do what a statement can't?</h2>
+  <p>The ballad is one of the oldest storytelling traditions in human culture — and one of rock's most direct ancestors. Before newspapers, before novels, before film, wandering performers carried stories from town to town in song. In this lesson we look closely at what the ballad does, how it does it, and what two very different songs from two very different eras reveal about the form.</p>
+  <div class="essential-question">
+    <span>Lesson Essential Question</span>
+    <p>How does a ballad use story to say what it can't just state?</p>
+  </div>
+</div>
+<div class="lesson">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('concepts')">Concepts</button>
+    <button class="tab" onclick="switchTab('billie')">Ode to Billie Joe</button>
+    <button class="tab" onclick="switchTab('miller')">Take the Money &amp; Run</button>
+    <button class="tab" onclick="switchTab('compare')">Compare &amp; Discuss</button>
+    <button class="tab" onclick="switchTab('eq')">Essential Question</button>
+  </div>
+
+  <!-- TAB 1: CONCEPTS -->
+  <div class="panel active" id="panel-concepts">
+    <div class="concepts-list">
+
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-badge">ELA Review</div>
+          <div>
+            <div class="concept-title">Literary Vocabulary</div>
+            <div class="concept-subtitle">Tools for analyzing any narrative song — some of these will be familiar, some may be new</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <p>These terms come from literary analysis. We're borrowing them because ballads are literature — stories told in song. You'll use these as lenses during the Close Listen activity.</p>
+          <div class="vocab-grid">
+            <div class="vocab-card">
+              <div class="vocab-term">Narrator</div>
+              <div class="vocab-def">The voice telling the story. Not always the songwriter — the narrator is a character, with a limited perspective and their own reasons for telling this particular story this particular way.</div>
+              <div class="vocab-example">In "Ode to Billie Joe," the narrator is a young woman at the family dinner table. We only know what she knows — and what she chooses to tell us.</div>
+            </div>
+            <div class="vocab-card">
+              <div class="vocab-term">Point of View</div>
+              <div class="vocab-def">The perspective from which a story is told. First person (I/we) puts us inside a character's experience. Third person (he/she/they) gives distance. Each creates different effects.</div>
+              <div class="vocab-example">"Take the Money and Run" uses third person — we're watching Billy Joe and Bobbie Sue from the outside, like a news report or a movie.</div>
+            </div>
+            <div class="vocab-card">
+              <div class="vocab-term">Narrative Arc</div>
+              <div class="vocab-def">The shape of a story: exposition (setup), rising action (building tension), climax (turning point), falling action, resolution. Ballads often compress or skip sections deliberately.</div>
+              <div class="vocab-example">A ballad might jump straight from setup to consequence, skipping the middle — forcing the listener to fill in what happened.</div>
+            </div>
+            <div class="vocab-card">
+              <div class="vocab-term">Imagery</div>
+              <div class="vocab-def">Specific sensory details that create a picture in the listener's mind. Strong imagery is concrete and particular — not "a sad place" but "black-eyed peas" and "a Tallahatchie Bridge."</div>
+              <div class="vocab-example">The specific foods in "Ode to Billie Joe" — black-eyed peas, biscuits, apple pie — place us precisely in a time, place, and culture.</div>
+            </div>
+            <div class="vocab-card">
+              <div class="vocab-term">Implied Meaning</div>
+              <div class="vocab-def">What a song suggests without stating directly. The gap between what is said and what is meant. Skilled songwriters often put their most important content in what they leave out.</div>
+              <div class="vocab-example">Gentry never tells us what was thrown off the bridge or why Billie Joe died. The gap is the point.</div>
+            </div>
+            <div class="vocab-card">
+              <div class="vocab-term">Ambiguity</div>
+              <div class="vocab-def">When a detail, image, or event can be read in more than one way — and the songwriter leaves it open deliberately. Not a mistake or vagueness, but a choice that invites the listener in.</div>
+              <div class="vocab-example">The mystery at the heart of "Ode to Billie Joe" is not a flaw — Gentry deliberately constructed it to make the listener an active participant in the story.</div>
+            </div>
+            <div class="vocab-card">
+              <div class="vocab-term">MacGuffin</div>
+              <div class="vocab-def">A storytelling device: an object, event, or piece of information that drives the plot forward and captures the audience's attention — but whose actual content doesn't matter. The MacGuffin is bait.</div>
+              <div class="vocab-example">The briefcase in <em>Pulp Fiction</em>. The object thrown off the Tallahatchie Bridge. We never find out — and we were never supposed to.</div>
+            </div>
+            <div class="vocab-card">
+              <div class="vocab-term">Unreliable Narrator</div>
+              <div class="vocab-def">A narrator who may not be telling the full truth — not because they're lying, but because they have limited knowledge, emotional bias, or something to hide. The reader/listener has to read between the lines.</div>
+              <div class="vocab-example">The narrator in "Ode to Billie Joe" knows more than she's saying. Her loss of appetite, her grief a year later — what is she not telling us?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-badge">The Ballad</div>
+          <div>
+            <div class="concept-title">What Makes a Ballad</div>
+            <div class="concept-subtitle">Beyond the definition — four structural features that give the form its power</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <p>A ballad isn't just "a slow song" or "a sad story." It's a specific storytelling form with identifiable characteristics — characteristics that rock inherited directly from folk and country traditions centuries older than electric guitars.</p>
+          <div class="ballad-features">
+            <div class="ballad-feature">
+              <div class="ballad-feature-num">01</div>
+              <div class="ballad-feature-content">
+                <div class="bf-title">Verse Structure & Repetition</div>
+                <div class="bf-desc">Ballads are built in verses — repeated stanzas with a consistent structure. The repetition is functional: it makes the story memorable and creates a rhythm of expectation. When something breaks the pattern, that break carries meaning. Refrains (repeated lines at the end of verses) anchor the story to a fixed image — like Choctaw Ridge and Tallahatchie Bridge.</div>
+              </div>
+            </div>
+            <div class="ballad-feature">
+              <div class="ballad-feature-num">02</div>
+              <div class="ballad-feature-content">
+                <div class="bf-title">Leaping & Lingering</div>
+                <div class="bf-desc">Folk scholars describe ballad storytelling as "leaping and lingering" — the story jumps over key moments (leaping) and dwells in detail on others (lingering). The jump is never accidental. What gets skipped is often the most important thing. This forces the listener to participate — to fill in the gap with their own imagination.</div>
+              </div>
+            </div>
+            <div class="ballad-feature">
+              <div class="ballad-feature-num">03</div>
+              <div class="ballad-feature-content">
+                <div class="bf-title">The Limited Narrator</div>
+                <div class="bf-desc">Ballad narrators typically know only what they've witnessed or been told. They report — they don't explain. This creates dramatic irony: the listener may sense more than the narrator understands. The limited narrator isn't a weakness; it's a design choice that makes the story feel lived-in and real.</div>
+              </div>
+            </div>
+            <div class="ballad-feature">
+              <div class="ballad-feature-num">04</div>
+              <div class="ballad-feature-content">
+                <div class="bf-title">Music as Emotional Counterpoint</div>
+                <div class="bf-desc">In the best ballads, the music doesn't simply match the story's mood — it creates tension with it. A dark story over a lively melody, a devastating lyric delivered in a calm voice. This tension between what is said and how it sounds is one of the form's most powerful tools. It mirrors how people actually behave in crisis — carrying on while devastated.</div>
+              </div>
+            </div>
+          </div>
+          <div class="key-idea">
+            <strong>Connect to Unit 1</strong>
+            <p>The relationship between music and lyrics in a ballad is exactly what the Three Channels model describes — Lyrics and Music working together, and sometimes against each other, to create meaning that neither could produce alone.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-badge">History</div>
+          <div>
+            <div class="concept-title">Where Ballads Come From</div>
+            <div class="concept-subtitle">A brief lineage — rock didn't invent this tradition, it inherited it</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <p>Every rock ballad has ancestors. Tracing that lineage helps you hear what a modern song is doing with a very old form.</p>
+          <div class="history-timeline">
+            <div class="timeline-row">
+              <div class="timeline-era">Medieval</div>
+              <div class="timeline-dot"><div class="timeline-dot-inner"></div><div class="timeline-line"></div></div>
+              <div class="timeline-content">
+                <div class="timeline-title">Oral Folk Ballad</div>
+                <div class="timeline-desc">Wandering performers carried news, history, and tragedy from town to town in song. No printing presses, no recordings — the song was the only record. Stories of love, murder, and betrayal traveled this way for centuries.</div>
+                <div class="timeline-example">e.g. "Barbara Allen" — one of the most widely collected folk songs in the English language, existing in hundreds of regional variants</div>
+              </div>
+            </div>
+            <div class="timeline-row">
+              <div class="timeline-era">1800s</div>
+              <div class="timeline-dot"><div class="timeline-dot-inner"></div><div class="timeline-line"></div></div>
+              <div class="timeline-content">
+                <div class="timeline-title">Appalachian & Blues Ballad</div>
+                <div class="timeline-desc">British and Irish folk traditions crossed the Atlantic and took root in the American South and Appalachia, mixing with African American musical traditions. The blues ballad added emotional directness, improvisation, and a new relationship between singer and story.</div>
+                <div class="timeline-example">e.g. "Stagger Lee" — a murder ballad based on a real 1895 shooting in St. Louis, recorded hundreds of times across a century</div>
+              </div>
+            </div>
+            <div class="timeline-row">
+              <div class="timeline-era">1950s</div>
+              <div class="timeline-dot"><div class="timeline-dot-inner"></div><div class="timeline-line"></div></div>
+              <div class="timeline-content">
+                <div class="timeline-title">Country & Folk Revival</div>
+                <div class="timeline-desc">The folk revival brought ballad traditions into mainstream American music. Country music preserved and developed the narrative ballad form. The song-as-story became a commercial staple — and a vehicle for serious storytelling.</div>
+                <div class="timeline-example">e.g. "El Paso" — Marty Robbins (1959) · A five-minute Western murder ballad that became a #1 pop hit</div>
+              </div>
+            </div>
+            <div class="timeline-row">
+              <div class="timeline-era">1960s</div>
+              <div class="timeline-dot"><div class="timeline-dot-inner"></div><div class="timeline-line"></div></div>
+              <div class="timeline-content">
+                <div class="timeline-title">Rock & Pop Absorbs the Form</div>
+                <div class="timeline-desc">Rock and pop songwriters began using ballad structures to tell more complex stories — moving beyond the verse-chorus pop format into extended, cinematic narratives. The ballad gave rock a literary ambition it didn't have before.</div>
+                <div class="timeline-example">e.g. "House of the Rising Sun" — The Animals (1964) · "Ode to Billie Joe" — Bobbie Gentry (1967)</div>
+              </div>
+            </div>
+            <div class="timeline-row">
+              <div class="timeline-era">Today</div>
+              <div class="timeline-dot"><div class="timeline-dot-inner"></div><div class="timeline-line"></div></div>
+              <div class="timeline-content">
+                <div class="timeline-title">The Form Lives On</div>
+                <div class="timeline-desc">The narrative ballad is alive across every genre — country, hip-hop, indie, pop. The tools are the same: a story, a narrator, specific details, and something deliberately left unsaid.</div>
+                <div class="timeline-example">e.g. "Fast Car" — Tracy Chapman (1988) · "Stan" — Eminem (2000) · "The Night Will Always Win" — Manchester Orchestra (2014)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TAB 2: ODE TO BILLIE JOE -->
+  <div class="panel" id="panel-billie">
+    <div class="concepts-list">
+
+      <div class="song-context">
+        <div class="song-context-header">
+          <h3>Ode to Billie Joe</h3>
+          <p>Bobbie Gentry · Capitol Records · 1967</p>
+        </div>
+        <div class="song-context-body">
+          <div class="fact-grid">
+            <div class="fact-card">
+              <div class="fact-label">Released</div>
+              <div class="fact-value">July 10, 1967 · Originally the B-side — DJs flipped it</div>
+            </div>
+            <div class="fact-card">
+              <div class="fact-label">Chart Performance</div>
+              <div class="fact-value">4 weeks at #1 · Knocked "All You Need Is Love" off the top spot</div>
+            </div>
+            <div class="fact-card">
+              <div class="fact-label">Recording Story</div>
+              <div class="fact-value">Gentry sang it herself only because hiring a singer was too expensive. She had Lou Rawls in mind.</div>
+            </div>
+            <div class="fact-card">
+              <div class="fact-label">Original Length</div>
+              <div class="fact-value">Over 7 minutes, 11 verses. Edited to 4:13 for release. Arranger Jimmie Haskell added strings — producer said "no one will ever hear it anyway."</div>
+            </div>
+            <div class="fact-card">
+              <div class="fact-label">Legacy</div>
+              <div class="fact-value">3 Grammy Awards including Best New Artist · Library of Congress National Recording Registry (2023)</div>
+            </div>
+            <div class="fact-card">
+              <div class="fact-label">The Mystery</div>
+              <div class="fact-value">Gentry disappeared from public life around 1982. Her last known public appearance was April 30, 1982. She has never explained the song's mystery — and says she doesn't need to.</div>
+            </div>
+          </div>
+          <p>Bobbie Gentry grew up on a farm in rural Mississippi without electricity. Her grandparents traded a cow for a used piano when her musical talent became clear. She taught herself guitar, banjo, bass, and vibes, eventually studying composition at the LA Conservatory of Music. She brought the demo of "Ode to Billie Joe" to Capitol Records to sell — not to sing herself.</p>
+        </div>
+      </div>
+
+      <div class="macguffin-box">
+        <h4>Before You Listen — What is a MacGuffin?</h4>
+        <p>A <em>MacGuffin</em> is a storytelling device: something in the plot that drives the story forward and captures the audience's attention — but whose actual content is irrelevant. The term comes from screenwriter Angus MacPhail and was popularized by Alfred Hitchcock in the 1930s.</p>
+        <p>Classic MacGuffins: the briefcase in <em>Pulp Fiction</em> (we never see what's inside). The Maltese Falcon in <em>The Maltese Falcon</em>. The monolith in <em>2001: A Space Odyssey</em>. The point is not the object — the point is what the characters do because of it.</p>
+        <p>In "Ode to Billie Joe," the object thrown off the Tallahatchie Bridge is a MacGuffin. It drives public obsession with the song. But Gentry said repeatedly that it was beside the point. <em>The song is about something else entirely.</em></p>
+        <p>As you listen, notice how the MacGuffin works on you. Feel yourself wanting to know what was thrown. Then ask: what is the song actually about?</p>
+      </div>
+
+      <div class="quote-block">
+        <p>"The song is sort of a study in unconscious cruelty. But everybody seems more concerned with what was thrown off the bridge than they are with the thoughtlessness of the people expressed in the song."</p>
+        <cite>— Bobbie Gentry, as quoted in Fred Bronson's interview; cited in Tyler Mahan Coe, "CR004 — Bobbie Gentry: Exit Stage Left," Cocaine &amp; Rhinestones, 2017</cite>
+      </div>
+
+      <div class="listen-box">
+        <h4>&#127911; Listen</h4>
+        <p>Follow along with your analysis document. Your first listen is for gist only — get the general shape of the story. Don't try to analyze yet.</p>
+        <div class="video-wrap">
+          <iframe src="https://www.youtube.com/embed/PLACEHOLDER_BILLIE_JOE" title="Ode to Billie Joe - Bobbie Gentry" allowfullscreen></iframe>
+        </div>
+        <p class="video-caption">"Ode to Billie Joe" — Bobbie Gentry (1967) · 4:13</p>
+      </div>
+
+      <div class="close-listen-intro">
+        <h3>Close Listen — Six Passes</h3>
+        <p>Use your Song Analysis Document for this activity. Each pass has a specific focus. Your document has two tracks — use whichever works best for you. You will listen to the song multiple times, each time with a different lens.</p>
+      </div>
+
+      <div class="pass-grid">
+        <div class="pass-card">
+          <div class="pass-header"><div class="pass-num">Pass 1</div><div><div class="pass-title">Gist</div><div class="pass-job">What is this song about?</div></div></div>
+          <div class="pass-body"><p>Follow along with the lyrics. Write one sentence that captures the basic story. Don't overthink it — just get the shape of what happens.</p></div>
+        </div>
+        <div class="pass-card">
+          <div class="pass-header"><div class="pass-num">Pass 2</div><div><div class="pass-title">Characters &amp; Point of View</div><div class="pass-job">Who is in this song — and who is telling it?</div></div></div>
+          <div class="pass-body"><p>Identify every character: named, implied (mentioned but not present), and the narrator. What do we know about each one? Who is telling this story — and what might they be leaving out?</p></div>
+        </div>
+        <div class="pass-card">
+          <div class="pass-header"><div class="pass-num">Pass 3</div><div><div class="pass-title">Setting &amp; Imagery</div><div class="pass-job">Where are we, and what do we see?</div></div></div>
+          <div class="pass-body"><p>Mark the specific details Gentry chose — the foods, the places, the time of year. Ask: why these details? What do they tell us about the world of this song?</p></div>
+        </div>
+        <div class="pass-card">
+          <div class="pass-header"><div class="pass-num">Pass 4</div><div><div class="pass-title">Narrative Structure</div><div class="pass-job">What is the shape of this story?</div></div></div>
+          <div class="pass-body"><p>Map the plot arc: where is the exposition? Where is the conflict? What is the climax? What is resolved — and what is deliberately left open? Where does the song leap, and where does it linger?</p></div>
+        </div>
+        <div class="pass-card">
+          <div class="pass-header"><div class="pass-num">Pass 5</div><div><div class="pass-title">Craft &amp; Technique</div><div class="pass-job">How is the song built — and what does the music do?</div></div></div>
+          <div class="pass-body"><p>Identify the literary devices at work: the MacGuffin, ambiguity, implied meaning, the unreliable narrator. Then listen to the music: the tone is almost cheerful — a lively tempo, major harmonies. How does that tension between the music and the story create meaning?</p></div>
+        </div>
+        <div class="pass-card">
+          <div class="pass-header"><div class="pass-num">Pass 6</div><div><div class="pass-title">Synthesis</div><div class="pass-job">What is this song really about?</div></div></div>
+          <div class="pass-body"><p>Return to Gentry's own words: "a study in unconscious cruelty." Do you agree? Is indifference the real subject of this song? What is the songwriter's argument — and what is your evidence?</p></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TAB 3: TAKE THE MONEY & RUN -->
+  <div class="panel" id="panel-miller">
+    <div class="concepts-list">
+
+      <div class="song-context">
+        <div class="song-context-header">
+          <h3>Take the Money and Run</h3>
+          <p>The Steve Miller Band · Capitol Records · 1976</p>
+        </div>
+        <div class="song-context-body">
+          <div class="fact-grid">
+            <div class="fact-card">
+              <div class="fact-label">Released</div>
+              <div class="fact-value">1976 · From the album <em>Fly Like an Eagle</em></div>
+            </div>
+            <div class="fact-card">
+              <div class="fact-label">Chart Performance</div>
+              <div class="fact-value">Peaked at #11 on the Billboard Hot 100 · Launched one of the most improbable hit runs in 1970s rock</div>
+            </div>
+            <div class="fact-card">
+              <div class="fact-label">Length</div>
+              <div class="fact-value">2 minutes 50 seconds · Deliberately compact — Miller wanted a cinematic story in under 3 minutes</div>
+            </div>
+            <div class="fact-card">
+              <div class="fact-label">Inspiration</div>
+              <div class="fact-value">Miller wrote it as a tribute to the road trip songs he sang along to as a kid in the back seat of his parents' car</div>
+            </div>
+            <div class="fact-card">
+              <div class="fact-label">Legacy</div>
+              <div class="fact-value">First song Miller ever allowed to be sampled — he gave permission to Run-DMC in 2001 after personally hearing the track</div>
+            </div>
+            <div class="fact-card">
+              <div class="fact-label">The Names</div>
+              <div class="fact-value">Billy Joe and Bobbie Sue — almost certainly a nod to Bobbie Gentry's "Ode to Billie Joe" (1967). Unconfirmed, but worth asking.</div>
+            </div>
+          </div>
+          <p>Steve Miller had released eight albums between 1968 and 1973 with modest success. By 1976, he was considered a long shot. Then "Take the Money and Run" launched a six-song run that dominated radio for two years. The song's structure — a tight, cinematic ballad in under three minutes — was a deliberate artistic choice rooted in the AM radio songs of his childhood.</p>
+        </div>
+      </div>
+
+      <div class="listen-box">
+        <h4>&#127911; Listen</h4>
+        <p>First listen: get the gist of the story. Then use your analysis document for the six passes. As you listen, notice how this song tells a similar kind of story to "Ode to Billie Joe" — but with a very different feeling.</p>
+        <div class="video-wrap">
+          <iframe src="https://www.youtube.com/embed/PLACEHOLDER_MILLER" title="Take the Money and Run - Steve Miller Band" allowfullscreen></iframe>
+        </div>
+        <p class="video-caption">"Take the Money and Run" — The Steve Miller Band (1976) · 2:50</p>
+      </div>
+
+      <div class="close-listen-intro">
+        <h3>Close Listen — Six Passes</h3>
+        <p>Use your Song Analysis Document. Same framework as Song 1 — six passes, each with a different lens. Notice what's similar to "Ode to Billie Joe" and what's different. Pay particular attention to Pass 4 (Narrative Structure) — there's a deliberate gap in this story too.</p>
+      </div>
+
+      <div class="pass-grid">
+        <div class="pass-card">
+          <div class="pass-header"><div class="pass-num">Pass 1</div><div><div class="pass-title">Gist</div><div class="pass-job">What is this song about?</div></div></div>
+          <div class="pass-body"><p>One sentence. What happens in this story?</p></div>
+        </div>
+        <div class="pass-card">
+          <div class="pass-header"><div class="pass-num">Pass 2</div><div><div class="pass-title">Characters &amp; Point of View</div><div class="pass-job">Who is in this song — and who is telling it?</div></div></div>
+          <div class="pass-body"><p>Name every character. Unlike "Ode to Billie Joe," this song uses third person — we're watching from the outside. What does that distance do? How is it different from being inside a character's head?</p></div>
+        </div>
+        <div class="pass-card">
+          <div class="pass-header"><div class="pass-num">Pass 3</div><div><div class="pass-title">Setting &amp; Imagery</div><div class="pass-job">Where are we, and what do we see?</div></div></div>
+          <div class="pass-body"><p>Mark the specific place names and details. El Paso, Texas — what does that setting bring with it? What American mythology is Miller drawing on?</p></div>
+        </div>
+        <div class="pass-card">
+          <div class="pass-header"><div class="pass-num">Pass 4</div><div><div class="pass-title">Narrative Structure</div><div class="pass-job">What is the shape of this story — and what gets skipped?</div></div></div>
+          <div class="pass-body"><p>Map the plot. Then find the gap: the confrontation between Billy Mack and the fugitives is completely missing. The song jumps from the chase to "they got away." That skip is a deliberate storytelling choice. Why might Miller have made it? What does the gap do?</p></div>
+        </div>
+        <div class="pass-card">
+          <div class="pass-header"><div class="pass-num">Pass 5</div><div><div class="pass-title">Craft &amp; Technique</div><div class="pass-job">How is the song built — and what does the music do?</div></div></div>
+          <div class="pass-body"><p>Notice the rhyme scheme — or the deliberate lack of one. Texas/facts is/justice/taxes is widely considered one of the worst rhymes in rock history. Is it a failure or a choice? What does the driving, upbeat music do to the story of a robbery and a shooting?</p></div>
+        </div>
+        <div class="pass-card">
+          <div class="pass-header"><div class="pass-num">Pass 6</div><div><div class="pass-title">Synthesis</div><div class="pass-job">What is this song really about?</div></div></div>
+          <div class="pass-body"><p>Miller is clearly rooting for Billy Joe and Bobbie Sue. Why? What argument is this song making about outlaws, freedom, and authority? Is it a serious argument or is it just fun — and does that distinction matter?</p></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TAB 4: COMPARE & DISCUSS -->
+  <div class="panel" id="panel-compare">
+    <div class="concepts-list">
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-badge">Compare</div>
+          <div>
+            <div class="concept-title">Two Ballads, One Form</div>
+            <div class="concept-subtitle">What these songs share — and where they diverge</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <p>These two songs are separated by nine years, a shift in musical genre, and a completely different emotional register. But structurally they are doing remarkably similar things. Comparing them reveals what the ballad form can do — and the range of ways it can do it.</p>
+
+          <table class="compare-table">
+            <tr>
+              <th>Element</th>
+              <th>Ode to Billie Joe (1967)</th>
+              <th>Take the Money &amp; Run (1976)</th>
+            </tr>
+            <tr>
+              <td>Narrator / POV</td>
+              <td>First person · A young woman at the dinner table · Limited, possibly unreliable</td>
+              <td>Third person · An outside observer · Omniscient but selective</td>
+            </tr>
+            <tr>
+              <td>Tone</td>
+              <td>Deceptively light — the music is almost cheerful while the story is devastating</td>
+              <td>Celebratory — Miller is openly rooting for the criminals</td>
+            </tr>
+            <tr>
+              <td>Deliberate Gap</td>
+              <td>The MacGuffin: what was thrown off the bridge? Why did Billie Joe die?</td>
+              <td>The confrontation between Billy Mack and the fugitives — skipped entirely</td>
+            </tr>
+            <tr>
+              <td>Resolution</td>
+              <td>Unresolved — the narrator spends the following year at the bridge alone</td>
+              <td>Clean escape — "they're still running today"</td>
+            </tr>
+            <tr>
+              <td>Setting</td>
+              <td>Rural Mississippi · Specific, culturally rich · Gothic undertones</td>
+              <td>El Paso, Texas · American outlaw mythology · Road trip energy</td>
+            </tr>
+            <tr>
+              <td>Subject vs. Story</td>
+              <td>The story is about Billie Joe's death. The subject is indifference.</td>
+              <td>The story is about a robbery. The subject is... freedom? Fun? Both?</td>
+            </tr>
+            <tr>
+              <td>Length</td>
+              <td>4:13 · Still long for a pop single in 1967</td>
+              <td>2:50 · Deliberately compressed — a feature, not a limitation</td>
+            </tr>
+            <tr>
+              <td>Music vs. Lyrics tension</td>
+              <td>Major harmonies and lively tempo undercut the tragedy</td>
+              <td>Driving rock energy celebrates what should be condemnable</td>
+            </tr>
+          </table>
+
+          <div class="key-idea">
+            <strong>The Name Connection</strong>
+            <p>Steve Miller's characters are named Billy Joe and Bobbie Sue. Bobbie Gentry's song is about Billie Joe — and Gentry herself is Bobbie. This is almost certainly not a coincidence. Whether it's homage, parody, or something else is worth debating. What does it mean for a later song to borrow the names from an earlier one?</p>
+          </div>
+
+          <div class="key-idea">
+            <strong>Deliberate Omission as Technique</strong>
+            <p>Both songs use gaps strategically. Gentry's gap (the MacGuffin) pulls focus toward a mystery while hiding the real subject. Miller's gap (the skipped confrontation) keeps the story moving and denies us the moral reckoning that would complicate our sympathy for the criminals. Both writers understood that what you leave out is as powerful as what you put in.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-badge">Discuss</div>
+          <div>
+            <div class="concept-title">Discussion Questions</div>
+            <div class="concept-subtitle">There are no right answers — only supported and unsupported ones</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <div class="ballad-features">
+            <div class="ballad-feature">
+              <div class="ballad-feature-num">1</div>
+              <div class="ballad-feature-content">
+                <div class="bf-title">Gentry said the thrown object "isn't important." Do you agree?</div>
+                <div class="bf-desc">She said the song was about indifference — the casual way the family keeps eating while tragedy unfolds. But the mystery has driven public fascination for nearly 60 years. If the MacGuffin worked so well that it hijacked the song's real meaning, is that a success or a failure?</div>
+              </div>
+            </div>
+            <div class="ballad-feature">
+              <div class="ballad-feature-num">2</div>
+              <div class="ballad-feature-content">
+                <div class="bf-title">Should we root for Billy Joe and Bobbie Sue?</div>
+                <div class="bf-desc">They robbed someone and shot them. Miller cheers them on. The music makes you want to cheer too. What does it mean that a song can make you sympathize with people doing something wrong — and is that a problem, or is it exactly what good storytelling does?</div>
+              </div>
+            </div>
+            <div class="ballad-feature">
+              <div class="ballad-feature-num">3</div>
+              <div class="ballad-feature-content">
+                <div class="bf-title">Which song is a better ballad — and what does "better" mean here?</div>
+                <div class="bf-desc">One is darker, more ambiguous, more literary. One is lighter, more fun, less complex. Both use the ballad form deliberately. Is literary complexity what makes a ballad good — or is there another standard?</div>
+              </div>
+            </div>
+            <div class="ballad-feature">
+              <div class="ballad-feature-num">4</div>
+              <div class="ballad-feature-content">
+                <div class="bf-title">What does the ballad form make possible that a direct statement can't?</div>
+                <div class="bf-desc">Gentry could have written a song called "People Are Indifferent to Each Other's Pain." Miller could have written a song called "I Like Outlaws." Neither would have worked. What does the story give them that the statement doesn't?</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 5: ESSENTIAL QUESTION -->
+  <div class="panel" id="panel-eq">
+    <div class="concepts-list">
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-badge">Synthesis</div>
+          <div>
+            <div class="concept-title">Return to the Essential Question</div>
+            <div class="concept-subtitle">What have these two songs shown you about what the ballad form can do?</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <div class="essential-question" style="background:#1a1a1a;border-radius:8px;padding:1rem 1.25rem;margin-bottom:1rem;">
+            <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:#888;display:block;margin-bottom:4px;">Lesson Essential Question</span>
+            <p style="color:#fff;font-style:italic;font-size:15px;margin:0;">How does a ballad use story to say what it can't just state?</p>
+          </div>
+          <p>Gentry couldn't write a song called "People Are Indifferent to Suffering." It would be a lecture, not an experience. Instead she put us at a dinner table, handed us black-eyed peas, and let us feel the indifference from the inside. That's what story does that statement can't.</p>
+          <p>Miller couldn't make a convincing argument that outlaws represent freedom without story either. The argument only works because we've met Billy Joe and Bobbie Sue — we've watched them make a choice, run, and get away. We've been made to root for them before we've had a chance to think about whether we should.</p>
+          <p>The ballad works because it gives the listener an <em>experience</em> before it offers an argument. By the time the argument arrives, you've already felt it.</p>
+          <div class="key-idea">
+            <strong>Unit Essential Question</strong>
+            <p>Why do humans use music to say things they can't just say? These two songs are part of your answer. What would you add now that you've listened closely?</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelector('[onclick="switchTab(\'' + name + '\')"]').classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+}
+</script>
+</body>
+</html>
+lesson we go deep on two songs that show the ballad tradition at work across different eras, styles, and tones.</p>
+  <div class="essential-question">
+    <span>Essential Question</span>
+    <p>How does a ballad use story to say what it can't just state?</p>
+  </div>
+</div>
+<div class="lesson">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('concepts')">Concepts</button>
+    <button class="tab" onclick="switchTab('song1')">Ode to Billie Joe</button>
+    <button class="tab" onclick="switchTab('song2')">Take the Money &amp; Run</button>
+    <button class="tab" onclick="switchTab('compare')">Compare &amp; Discuss</button>
+    <button class="tab" onclick="switchTab('eq')">Essential Question</button>
+  </div>
+  <div class="panel active" id="panel-concepts">
+    <div class="concepts-list">
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-badge">ELA Review</div>
+          <div><div class="concept-title">Literary Vocabulary</div>
+          <div class="concept-subtitle">Tools for analyzing any narrative song</div></div>
+        </div>
+        <div class="concept-body">
+          <p>These are the analytical tools we will use in today's close listening. Some will be familiar from English class. Some may be new. Either way — we are applying them to songs.</p>
+          <div class="vocab-grid">
+            <div class="vocab-card"><div class="vocab-term">Narrator / Point of View</div><div class="vocab-def">Who is telling the story, and what do they know? First person ("I") puts us inside a character's head. An unreliable narrator tells us things that may not be true — or leaves things out.</div><div class="vocab-ex">In "Ode to Billie Joe," the narrator is a young woman at a family dinner. She tells us facts — but withholds others.</div></div>
+            <div class="vocab-card"><div class="vocab-term">Character</div><div class="vocab-def">The people in the story. Named characters are directly stated. Implied characters are referenced but never appear. The narrator may or may not be a character in the story they are telling.</div><div class="vocab-ex">"Take the Money and Run" has three named characters: Billy Joe, Bobbie Sue, and Billy Mack the detective.</div></div>
+            <div class="vocab-card"><div class="vocab-term">Setting</div><div class="vocab-def">Where and when the story takes place. In ballads, setting often carries emotional weight — a specific place can signal class, culture, danger, or freedom.</div><div class="vocab-ex">The Tallahatchie Bridge in Mississippi is not just a location — it carries the weight of the American South in 1967.</div></div>
+            <div class="vocab-card"><div class="vocab-term">Narrative Arc</div><div class="vocab-def">The shape of the story: exposition (setup), rising action (tension builds), climax (turning point), falling action, resolution. Ballads often compress or skip parts of this arc deliberately.</div><div class="vocab-ex">Many ballads end without resolution — the ambiguity is the point.</div></div>
+            <div class="vocab-card"><div class="vocab-term">Imagery</div><div class="vocab-def">Specific, concrete details that create a picture in the listener's mind. Strong imagery is selective — a songwriter chooses these details carefully. Ask: why this detail and not another?</div><div class="vocab-ex">"Pass the biscuits please" tells you something about a family that no abstract description could.</div></div>
+            <div class="vocab-card"><div class="vocab-term">Implied vs. Stated Meaning</div><div class="vocab-def">What a song says directly vs. what it suggests or leaves for the listener to infer. The gap between stated and implied meaning is where a song's real power often lives.</div><div class="vocab-ex">Gentry never tells us what was thrown off the bridge — but the question itself tells us something.</div></div>
+            <div class="vocab-card"><div class="vocab-term">Ambiguity</div><div class="vocab-def">When a text supports more than one interpretation — deliberately. Ambiguity is not a flaw. In strong writing it is a choice, designed to make the listener an active participant in meaning-making.</div><div class="vocab-ex">"Ode to Billie Joe" is one of the most deliberately ambiguous songs ever recorded.</div></div>
+            <div class="vocab-card"><div class="vocab-term">MacGuffin</div><div class="vocab-def">A plot device — an object, person, or goal that motivates characters and drives the story, but whose actual nature is unimportant. What matters is what it reveals about the characters around it.</div><div class="vocab-ex">The briefcase in Pulp Fiction. The object thrown off the Tallahatchie Bridge.</div></div>
+          </div>
+          <div class="key-idea"><strong>MacGuffin — Origin</strong><p>Coined by screenwriter Angus MacPhail and popularized by Alfred Hitchcock in the 1930s. Hitchcock: "the thing the spies are after — but the audience doesn't care." It doesn't matter what it is. It matters what it does to the story.</p></div>
+        </div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-badge">The Ballad</div>
+          <div><div class="concept-title">What Makes a Ballad</div><div class="concept-subtitle">Beyond the Lesson 1 definition — the deeper craft</div></div>
+        </div>
+        <div class="concept-body">
+          <p>In Lesson 1 we defined a ballad as a song that tells a story. That is true — but it is the beginning, not the end.</p>
+          <div class="key-idea"><strong>Verse Structure &amp; Repetition</strong><p>Ballads are built on repeating verse structures — the same melodic and rhythmic pattern carrying different story content each time. The repetition creates a sense of inevitability. You feel the story moving forward even before you know where it is going.</p></div>
+          <div class="key-idea"><strong>Leaping &amp; Lingering</strong><p>Folklorists use this phrase to describe how ballads tell their stories — jumping over some events entirely (leaping) while dwelling in detail on others (lingering). The choice of what to show and what to skip is one of the most powerful tools a ballad writer has.</p></div>
+          <div class="key-idea"><strong>The Limited or Unreliable Narrator</strong><p>Ballad narrators often know less than the full story — or know more than they are telling. The gap between what the narrator says and what the listener suspects is where the song lives.</p></div>
+          <div class="key-idea"><strong>How Music Reinforces or Complicates the Story</strong><p>A dark story told over a bright, lively melody creates irony. A sparse arrangement makes a listener lean in. The three channels work together in ballads in particularly complex ways.</p></div>
+        </div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-badge">History</div>
+          <div><div class="concept-title">A Brief History of the Ballad</div><div class="concept-subtitle">From medieval oral tradition to rock 'n' roll</div></div>
+        </div>
+        <div class="concept-body">
+          <p>Rock did not invent the ballad — it inherited one of humanity's oldest storytelling forms.</p>
+          <div class="timeline">
+            <div class="timeline-item"><div class="timeline-era"><div class="timeline-era-label">Medieval</div><div class="timeline-era-date">1000s–1500s</div></div><div class="timeline-content"><div class="timeline-song">"Barbara Allen" — Traditional</div><div class="timeline-desc">Oral folk ballads carried news and moral warnings across Europe before widespread literacy. "Barbara Allen" exists in over 100 regional variants collected across Britain and America.</div></div></div>
+            <div class="timeline-item"><div class="timeline-era"><div class="timeline-era-label">Appalachian</div><div class="timeline-era-date">1700s–1900s</div></div><div class="timeline-content"><div class="timeline-song">"Pretty Polly" — Traditional</div><div class="timeline-desc">European ballad traditions traveled to America, took root in Appalachian communities, and merged with African American musical forms. Dark subject matter, simple repetitive melody.</div></div></div>
+            <div class="timeline-item"><div class="timeline-era"><div class="timeline-era-label">Blues &amp; Country</div><div class="timeline-era-date">1920s–1950s</div></div><div class="timeline-content"><div class="timeline-song">"Stagger Lee" — Lloyd Price (1958)</div><div class="timeline-desc">Blues and country absorbed the ballad tradition and electrified it. The outlaw ballad became a staple of both genres. "Stagger Lee" was recorded over 400 times by different artists.</div></div></div>
+            <div class="timeline-item"><div class="timeline-era"><div class="timeline-era-label">Rock Era</div><div class="timeline-era-date">1960s–1970s</div></div><div class="timeline-content"><div class="timeline-song">"House of the Rising Sun" — The Animals (1964)</div><div class="timeline-desc">Rock gave the ballad tradition electric guitars and a mass audience. The Animals' version of a traditional American folk song became one of the first international rock hits.</div></div></div>
+            <div class="timeline-item"><div class="timeline-era"><div class="timeline-era-label">Modern</div><div class="timeline-era-date">1980s–present</div></div><div class="timeline-content"><div class="timeline-song">"Fast Car" — Tracy Chapman (1988)</div><div class="timeline-desc">A direct descendant of Appalachian folk balladry — first-person narrator, specific setting, story of escape and its limits, emotional ambiguity at the close.</div></div></div>
+          </div>
+          <div class="key-idea"><strong>The Through-Line</strong><p>Across a thousand years and a dozen genres, the ballad does the same thing: it puts a human being in a situation and follows them through it, leaving the listener to feel — and judge — what happened.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-song1">
+    <div class="song-context">
+      <div class="song-context-header">
+        <h3>Ode to Billie Joe</h3>
+        <p>Bobbie Gentry &nbsp;·&nbsp; Capitol Records, 1967 &nbsp;·&nbsp; Close Listen Song 1</p>
+      </div>
+      <div class="song-context-body">
+        <p>Bobbie Gentry wrote this song as a demo she never intended to sing herself — she had Lou Rawls in mind. She performed it only because hiring a singer was too expensive. The demo landed on a Capitol producer's desk as a B-side. DJs flipped it. It knocked "All You Need Is Love" by the Beatles off the number one spot in August 1967 and stayed there for four weeks.</p>
+        <div class="fact-row"><div class="fact-dot"></div><div class="fact-text">Released July 10, 1967 — originally the B-side of "Mississippi Delta"</div></div>
+        <div class="fact-row"><div class="fact-dot"></div><div class="fact-text">Original recording was over 7 minutes with 11 verses — edited to 4:13 for release</div></div>
+        <div class="fact-row"><div class="fact-dot"></div><div class="fact-text">Arranger Jimmie Haskell added strings (4 violins, 2 cellos). The producer said: "No one will ever hear it anyway."</div></div>
+        <div class="fact-row"><div class="fact-dot"></div><div class="fact-text">Won 3 Grammy Awards including Best New Artist — first country artist to win that category</div></div>
+        <div class="fact-row"><div class="fact-dot"></div><div class="fact-text">Selected by the Library of Congress for the National Recording Registry in 2023</div></div>
+        <div class="gentry-quote"><p>"The song is sort of a study in unconscious cruelty. Everybody seems more concerned with what was thrown off the bridge than with the thoughtlessness of the people expressed in the song. What was thrown off the bridge really isn't that important."</p><cite>— Bobbie Gentry, interview with Fred Bronson, as quoted in Cocaine &amp; Rhinestones, Episode 4</cite></div>
+        <div class="macguffin-box"><h4>Before You Listen — The MacGuffin</h4><p>The narrator and Billie Joe throw something off the Tallahatchie Bridge. We never find out what it is. Gentry refused to say throughout her career. As you listen, notice: what does the mystery object make you feel? Does it matter what it actually was?</p><p>Pay attention to what the strings do — and don't do — when that moment arrives in the song.</p></div>
+        <div class="video-wrap" style="margin-top:1rem;">
+          <iframe src="https://www.youtube.com/embed/qSqCPDnB-sM" title="Bobbie Gentry - Ode to Billie Joe" allowfullscreen></iframe>
+        </div>
+        <p class="video-caption">"Ode to Billie Joe" — Bobbie Gentry (1967) · Follow along with the lyric sheet in your analysis document</p>
+        <div class="listen-box" style="margin-top:0.75rem;"><h4>Close Listen — Analysis Document</h4><p>Use the song analysis document to guide your six listening passes. Available as a printable worksheet or fillable digital document.</p><p style="font-size:12px;color:#aaa;margin-bottom:0;">Document: wdis_lesson2_ode_to_billie_joe.docx</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-song2">
+    <div class="song-context">
+      <div class="song-context-header">
+        <h3>Take the Money and Run</h3>
+        <p>Steve Miller Band &nbsp;·&nbsp; Capitol Records, 1976 &nbsp;·&nbsp; Close Listen Song 2</p>
+      </div>
+      <div class="song-context-body">
+        <p>Steve Miller wrote this song as a tribute to the road trip songs he sang along to in the back seat of his parents' car. It opens with the words "This here's a story" — a direct signal that you are entering a ballad. At 2 minutes 50 seconds it is a masterclass in compression: two characters, one crime, one detective, one chase, one escape — all in under three minutes.</p>
+        <div class="fact-row"><div class="fact-dot"></div><div class="fact-text">Released 1976 on Fly Like an Eagle — peaked at #11 on the Billboard Hot 100</div></div>
+        <div class="fact-row"><div class="fact-dot"></div><div class="fact-text">Written as a tribute to road trip radio songs Miller heard as a child</div></div>
+        <div class="fact-row"><div class="fact-dot"></div><div class="fact-text">At 2:50, deliberately compact — a cinematic narrative in under three minutes</div></div>
+        <div class="fact-row"><div class="fact-dot"></div><div class="fact-text">Miller personally approved Run-DMC's 2001 sample — the first sample of his music he ever authorized</div></div>
+        <div class="macguffin-box"><h4>Before You Listen — The Deliberate Gap</h4><p>This song uses deliberate omission differently from "Ode to Billie Joe." Miller skips the confrontation between Billy Mack and the fugitives entirely — we jump straight to "they got away." Ask yourself: why does that work? What does omitting the most dramatic moment do to how you feel about the characters?</p><p>Also: the characters are named Billy Joe and Bobbie Sue. Gentry's characters are Billie Joe McAllister and narrator Bobbie Gentry. Almost certainly deliberate. What might that connection suggest?</p></div>
+        <div class="video-wrap" style="margin-top:1rem;">
+          <iframe src="https://www.youtube.com/embed/FkGBFOeSOBY" title="Steve Miller Band - Take the Money and Run" allowfullscreen></iframe>
+        </div>
+        <p class="video-caption">"Take the Money and Run" — Steve Miller Band (1976) · Follow along with the lyric sheet in your analysis document</p>
+        <div class="listen-box" style="margin-top:0.75rem;"><h4>Close Listen — Analysis Document</h4><p>Same six-pass framework as Song 1 — apply the same lenses to a very different song and see what changes.</p><p style="font-size:12px;color:#aaa;margin-bottom:0;">Document: wdis_lesson2_take_the_money_and_run.docx</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-compare">
+    <div class="concepts-list">
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-badge">Comparison</div>
+          <div><div class="concept-title">Side by Side</div><div class="concept-subtitle">Two ballads, same tradition, very different songs</div></div>
+        </div>
+        <div class="concept-body">
+          <table class="compare-table">
+            <tr><th>Element</th><th>Ode to Billie Joe (1967)</th><th>Take the Money &amp; Run (1976)</th></tr>
+            <tr><td>Narrator</td><td>First person — a young woman at the dinner table. Limited, emotionally implicated</td><td>Third person — an outside storyteller rooting for the criminals. Detached, ironic</td></tr>
+            <tr><td>Characters</td><td>Named: Billie Joe, narrator, mama, papa, brother. Implied: their relationship</td><td>Named: Billy Joe, Bobbie Sue, Billy Mack. Implied: the man who was shot</td></tr>
+            <tr><td>Setting</td><td>Rural Mississippi, Choctaw Ridge — specific, weighted with history</td><td>El Paso, Texas — cinematic shorthand for the American outlaw myth</td></tr>
+            <tr><td>Tone</td><td>Ominous, domestic, repressed — darkness lives under ordinary life</td><td>Playful, self-aware, tongue-in-cheek — roots for the criminals</td></tr>
+            <tr><td>Narrative gap</td><td>MacGuffin: what was thrown off the bridge — never revealed</td><td>The confrontation between detective and fugitives — simply omitted</td></tr>
+            <tr><td>Resolution</td><td>None — narrator returns to the bridge alone. Family moves on.</td><td>Clean escape — "they're still running today." The criminals win.</td></tr>
+            <tr><td>Music vs. lyrics</td><td>Lively melody in major key against a dark story — irony by contradiction</td><td>Driving rock groove reinforces chase momentum — music and story align</td></tr>
+            <tr><td>Real subject</td><td>"Unconscious cruelty" — indifference to tragedy (Gentry's own words)</td><td>The romance of the American outlaw myth — we root for murderers and thieves</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-badge">Discussion</div>
+          <div><div class="concept-title">Questions Worth Arguing About</div><div class="concept-subtitle">No wrong answers — only unsupported ones</div></div>
+        </div>
+        <div class="concept-body">
+          <div class="discussion-q"><p><strong>The name connection:</strong> If Miller's Billy Joe and Bobbie Sue are a deliberate nod to Gentry, what does that do to how you read his song? Does it change the meaning of the story? Does it matter whether Miller intended it?</p></div>
+          <div class="discussion-q"><p><strong>The same technique, opposite effects:</strong> Both songs use deliberate omission — but Gentry's MacGuffin creates dread while Miller's gap creates lightness. What does that tell you about how technique depends on context?</p></div>
+          <div class="discussion-q"><p><strong>Gentry's real subject:</strong> Gentry said the song is about indifference — not about what was thrown off the bridge. Do you agree? Is the song about the suicide, the object, or the people eating dinner? What evidence supports your reading?</p></div>
+          <div class="discussion-q"><p><strong>Who do we root for and why?</strong> Miller's song asks you to cheer for criminals who shot someone. Why does it work? What does it say about how storytelling — and music — can manipulate our sympathies?</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-eq">
+    <div class="concepts-list">
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-badge">Synthesis</div>
+          <div><div class="concept-title">Return to the Essential Question</div><div class="concept-subtitle">How does a ballad use story to say what it can't just state?</div></div>
+        </div>
+        <div class="concept-body">
+          <p>You have now listened closely to two ballads separated by nine years, a continent of geography, and a completely different emotional register. Both are built on the same ancient form. Both use deliberate omission. Both end without complete resolution.</p>
+          <div class="key-idea"><strong>Story creates distance</strong><p>Gentry doesn't say "people are cruel and indifferent to suffering." She puts you at a dinner table in Mississippi and lets you feel it. The story is the argument — and it lands harder than any direct claim could.</p></div>
+          <div class="key-idea"><strong>Ambiguity makes the listener active</strong><p>When Gentry refuses to say what was thrown off the bridge, she forces you to decide. You become a participant in the song's meaning. That investment is what makes it unforgettable.</p></div>
+          <div class="key-idea"><strong>Characters carry what abstractions can't</strong><p>Billy Joe McAllister isn't a symbol for teenage despair. He's a specific person in a specific place. The specificity is what gives the song its power. Abstractions explain. Stories make you feel.</p></div>
+          <div class="key-idea"><strong>The unit essential question</strong><p>Why do humans use music to say things they can't just say? The ballad gives one answer: because a story told in song can hold complexity, ambiguity, and emotional truth in ways that direct statement cannot. It gets past your defenses — and it stays.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sources">
+  <h3>Sources &amp; Notes</h3>
+  <ul>
+    <li>Coe, Tyler Mahan. "CR004 – Bobbie Gentry: Exit Stage Left." <em>Cocaine &amp; Rhinestones</em>, 14 Nov. 2017, cocaineandrhinestones.com/bobbie-gentry-exit-stage-left. Accessed 14 May 2026.</li>
+    <li>Deutsch, James. "Ballads and Bridges in the Muddy Waters of Bobbie Gentry's 'Ode to Billie Joe.'" <em>Smithsonian Center for Folklife and Cultural Heritage</em>, 13 Mar. 2022, folklife.si.edu/magazine/bobbie-gentry-ode-to-billie-joe. Accessed 14 May 2026.</li>
+    <li>Gentry, Bobbie. "Ode to Billie Joe." <em>Ode to Billie Joe</em>, Capitol Records, 1967.</li>
+    <li>Murtha, Tara. <em>Ode to Billie Joe</em>. Bloomsbury Academic, 2014. (33&#8531; series)</li>
+    <li>"Ode to Billie Joe." <em>Songfacts</em>, songfacts.com/facts/bobbie-gentry/ode-to-billie-joe. Accessed 14 May 2026.</li>
+    <li>"Ode to Billie Joe." <em>National Recording Registry</em>, Library of Congress, 2023. Accessed 14 May 2026.</li>
+    <li>"Take the Money and Run." <em>Wikipedia</em>, en.wikipedia.org/wiki/Take_the_Money_and_Run_(Steve_Miller_Band_song). Accessed 14 May 2026.</li>
+    <li>"Take the Money and Run." <em>Songfacts</em>, songfacts.com/facts/steve-miller-band/take-the-money-and-run. Accessed 14 May 2026.</li>
+    <li>Dansby, Andrew. "The Meaning Behind 'Take the Money and Run.'" <em>American Songwriter</em>, americansongwriter.com. Accessed 14 May 2026.</li>
+  </ul>
+</div>
+
+<script>
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelector('[onclick="switchTab(\'' + name + '\')"]').classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+}
+</script>
+</body>
+</html>
